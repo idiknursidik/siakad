@@ -5,7 +5,7 @@ echo $this->section('content');
 ?>
 <div class="card card-solid">
 	<div class="card-body">
-	Sistem Informasi Akademik
+	Sistem Informasi Akademik - FEEDER
 	</div>
 </div>
 <?php
