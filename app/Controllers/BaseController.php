@@ -19,6 +19,9 @@ use App\Models\Msiakad_setting;
 use App\Models\Msiakad_prodi;
 use App\Models\Msiakad_mahasiswa;
 use App\Models\Msiakad_matakuliah;
+use App\Models\Msiakad_kurikulum;
+use App\Models\Msiakad_kurikulummatakuliah;
+
 use App\Models\Msiakad_riwayatpendidikan;
 use App\Models\Mfeeder_akun;
 use App\Models\Mfungsi;
@@ -58,6 +61,8 @@ class BaseController extends Controller
 		$this->msiakad_prodi = new Msiakad_prodi();
 		$this->msiakad_mahasiswa = new Msiakad_mahasiswa();
 		$this->msiakad_matakuliah = new Msiakad_matakuliah();
+		$this->msiakad_kurikulum = new Msiakad_kurikulum();
+		$this->msiakad_kurikulummatakuliah = new Msiakad_kurikulummatakuliah();
 		$this->msiakad_riwayatpendidikan = new Msiakad_riwayatpendidikan();		
 		
 		$this->mfeeder_akun = new Mfeeder_akun();

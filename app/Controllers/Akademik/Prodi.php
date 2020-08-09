@@ -258,7 +258,7 @@ class Prodi extends BaseController
 			$jum=0;
 			foreach($data_prodi_feeder as $key=>$val){
 				//cek data dulu
-				$cekdata = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept);
+				$cekdata = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
 				if(!$cekdata){// jika data belum ada
 					$datain = array("id_prodi_ws"=>$val->id_prodi,
 									"kodept"=>$val->kode_perguruan_tinggi,

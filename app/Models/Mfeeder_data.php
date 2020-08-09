@@ -17,6 +17,7 @@ class Mfeeder_data extends Model
 	protected $matakuliah	= 'feeder_matakuliah';
 	protected $kelaskuliah	= 'feeder_kelas';
 	protected $kurikulum	= 'feeder_kurikulum';
+	protected $kurikulummatakuliah	= 'feeder_kurikulummatakuliah';
 	
     public function getprofilept($id_perguruan_tinggi=false,$kodept=false)
     {
@@ -342,6 +343,33 @@ class Mfeeder_data extends Model
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
 			if($id_kurikulum){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}		
+	}
+	public function getkurikulummatakuliah($id_kurikulum=false,$id_semester=false,$id_matkul=false,$id_perguruan_tinggi=false)
+    {
+		$builder = $this->db->table($this->kurikulummatakuliah);
+
+		if($id_perguruan_tinggi){
+			$builder->where("id_perguruan_tinggi",$id_perguruan_tinggi);
+		}
+		
+		if($id_semester){
+			$builder->where("id_semester",$id_semester);
+		}
+		if($id_kurikulum){
+			$builder->where("id_kurikulum",$id_kurikulum);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResultObject();
+			if($id_kurikulum && $id_semester && $id_matkul){
 				$ret = $data[0];
 			}else{
 				$ret = $data;

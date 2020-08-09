@@ -22,7 +22,7 @@ class Msiakad_kelas extends Model
 		if($id_kelas_kuliah_ws){
 			$builder->where("id_kelas_kuliah_ws",$id_kelas_kuliah_ws);
 		}
-		
+		$builder->orderBy('id_kelas', 'DESC');
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

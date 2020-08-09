@@ -5,7 +5,7 @@ echo $this->section('content');
 <div class="row no-print">
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah Mahasiswa" data-src="<?php echo base_url();?>/akademik/mahasiswa/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
+	  <a name="tambahdata" href="#modalku" data-toggle="modal" title="Tambah Mahasiswa" data-src="<?php echo base_url();?>/akademik/mahasiswa/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
 	  <a href="#" name="getmahasiswapddikti" data-src="<?php echo base_url();?>/akademik/mahasiswa/getmahasiswapddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dari PDDIKTI
 	  </a>
@@ -18,6 +18,7 @@ echo $this->section('content');
 <script>
 $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/listdata");
+	
 	$("a[name='getmahasiswapddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
 		$(this).html("loading....mohon tunggu!").addClass("disabled");
@@ -31,6 +32,10 @@ $(function(){
 			$("a[name='getmahasiswapddikti']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI").removeClass("disabled");
 		},'json')
 		return false;
+	})
+	$("a[name='tambahdata']").on("click",function(e){
+		e.preventDefault();
+		$(".modal-dialog").removeClass("modal-lg").addClass("modal-xl");
 	})
 	$("body").on("submit","#form_tambah,#form_ubah",function(){
 		var dString = $(this).serialize();

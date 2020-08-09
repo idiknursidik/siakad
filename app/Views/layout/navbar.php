@@ -443,6 +443,12 @@ if($profil_setting){
                   <p>Kurikulum</p>
                 </a>
               </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/feeder/kurikulummatakuliah" class="nav-link <?php echo isset($mn_kurikulum_matakuliah)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kurikulum Matakuliah</p>
+                </a>
+              </li>
             </ul>
           </li>
 		  

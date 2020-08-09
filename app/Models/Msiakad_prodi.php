@@ -8,22 +8,23 @@ class Msiakad_prodi extends Model
 	
 	protected $siakad_prodi = 'siakad_prodi';
 	protected $feeder_dataprodi = 'feeder_dataprodi';
-	
+	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
     public function getdata($id_prodi=false,$id_prodi_ws=false,$kodept=false,$status="A")
     {
-		$builder = $this->db->table($this->siakad_prodi);
-		$builder->select("*");
+		$builder = $this->db->table("{$this->siakad_prodi} a");
+		$builder->join("{$this->ref_getjenjangpendidikan} b", 'a.id_jenjang = b.id_jenjang_didik',"left");
+		$builder->select("a.*,b.nama_jenjang_didik");
 		if($kodept){
-			$builder->where("kodept",$kodept);
+			$builder->where("a.kodept",$kodept);
 		}
 		if($id_prodi){
-			$builder->where("id_prodi",$id_prodi);
+			$builder->where("a.id_prodi",$id_prodi);
 		}
 		if($id_prodi_ws){
-			$builder->where("id_prodi_ws",$id_prodi_ws);
+			$builder->where("a.id_prodi_ws",$id_prodi_ws);
 		}
 		if($status){
-			$builder->where("status",$status);
+			$builder->where("a.status",$status);
 		}
 		$query = $builder->get();
 		if($query->getRowArray() > 0){

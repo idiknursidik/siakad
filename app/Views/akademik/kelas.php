@@ -70,6 +70,27 @@ $(function(){
 			.removeClass('is-invalid').find('.invalid-feedback').remove();
 			element.after(value="");
 	})
+	$("body").on("click","a[name='hapuskelas']",function(e){
+		e.preventDefault();
+		var dString = "id_kelas="+$(this).attr("id_kelas");
+		var action = $(this).attr("data-src");
+		if(confirm("yakin data akan dihapus?")){
+			$.ajax({
+				type:'post',
+				dataType:'json',
+				url:action,
+				data:dString,
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listdata");
+					}else{
+						toastr.error(ret.messages);
+					}
+				}
+			})
+		}
+	})
 })
 </script>
 <?php
