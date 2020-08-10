@@ -366,6 +366,9 @@ class Mfeeder_data extends Model
 		if($id_kurikulum){
 			$builder->where("id_kurikulum",$id_kurikulum);
 		}
+		if($id_matkul){
+			$builder->where("id_matkul",$id_matkul);
+		}
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();

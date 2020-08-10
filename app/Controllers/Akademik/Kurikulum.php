@@ -401,8 +401,7 @@ class Kurikulum extends BaseController
 	public function getkurikulummatakuliahpddikti(){		
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata();
-		$data_kurikulummatakuliah_feeder = $this->msiakad_kurikulummatakuliah->getdatapddikti($profile->kodept);
-		
+		$data_kurikulummatakuliah_feeder = $this->msiakad_kurikulummatakuliah->getdatapddikti(false,false,false,false,false,$profile->kodept);
 		if(!$data_kurikulummatakuliah_feeder){
 			$ret["messages"] = "Tidak ada data PDDIKTI";
 		}else{
@@ -410,6 +409,7 @@ class Kurikulum extends BaseController
 			foreach($data_kurikulummatakuliah_feeder as $key=>$val){
 				//cek data dulu
 				$cekdata = $this->msiakad_kurikulummatakuliah->getdata(false,$val->id_kurikulum,$val->id_prodi,$val->id_matkul,$val->id_semester,$profile->kodept);
+				
 				if(!$cekdata){// jika data belum ada
 					$datain = array("kodept"=>$val->kode_perguruan_tinggi,
 									"id_perguruan_tinggi_ws"=>$val->id_perguruan_tinggi,
@@ -421,7 +421,7 @@ class Kurikulum extends BaseController
 									"semester"=>$val->semester
 									);
 					//tambah
-					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
+					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);				
 					if($prodi){
 						$datain["kode_prodi"] = $prodi->kode_prodi;
 					}

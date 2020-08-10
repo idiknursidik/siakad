@@ -90,7 +90,8 @@ class Kurikulummatakuliah extends BaseController
 			$feeder_akun = $session->get("feeder_akun");
 			$dataptws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetProfilPT','',false,'1','0');
 			
-			$datakurikulummatakuliahws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetMatkulKurikulum');			
+			$datakurikulummatakuliahws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetMatkulKurikulum');
+	
 			$dataptws = $this->mfungsi->object_to_array($dataptws->data[0]);
 			
 			foreach($datakurikulummatakuliahws->data as $key=>$val){
@@ -98,7 +99,7 @@ class Kurikulummatakuliah extends BaseController
 				$datain['id_perguruan_tinggi'] = $dataptws['id_perguruan_tinggi'];
 				$datain['kode_perguruan_tinggi'] = $dataptws['kode_perguruan_tinggi'];
 				
-				$cekdata = $this->mfeeder_data->getkurikulummatakuliah($val->id_kurikulum,$val->id_matkul,$val->id_semester);
+				$cekdata = $this->mfeeder_data->getkurikulummatakuliah($val->id_kurikulum,$val->id_semester,$val->id_matkul);
 				//dd($datain);
 				if(!$cekdata){
 					$query = $this->db->table('feeder_kurikulummatakuliah')->insert($datain);

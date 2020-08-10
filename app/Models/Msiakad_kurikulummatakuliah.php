@@ -44,14 +44,16 @@ class Msiakad_kurikulummatakuliah extends Model
 			return FALSE;
 		}		
 	}
-	public function getdatapddikti($kodept=false)
+	public function getdatapddikti($id_kurikulum=false,$kodept=false)
     {
 		$builder = $this->db->table($this->feeder_kurikulummatakuliah);
 		$builder->select("*");
 		if($kodept){
 			$builder->where("kode_perguruan_tinggi",$kodept);
 		}
-		
+		if($id_kurikulum){
+			$builder->where("id_kurikulum",$id_kurikulum);
+		}
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();			

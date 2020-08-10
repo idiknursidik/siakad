@@ -5,7 +5,7 @@ use App\Models\Msiakad_kurikulummatakuliah;
  
 class Kurikulummatakuliah extends BaseController
 {
-	protected $siakad_kurikulum = 'siakad_kurikulummatakuliah';
+	protected $siakad_kurikulummatakuliah = 'siakad_kurikulummatakuliah';
 	protected $feeder_kurikulummatakuliah = 'feeder_kurikulummatakuliah';
 	public function __construct()
     {
@@ -44,8 +44,9 @@ class Kurikulummatakuliah extends BaseController
 		<?php
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$data = $this->msiakad_kurikulummatakuliah->getdata(false,$id_kurikulum_ws);
+		//dd($data);
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>Kodematakuliah</th><th>Program Studi</th><th>Mulai Berlaku</th><th>SKS wajib</th><th>SKS pilihan</th><th>Aksi</th></tr></thead>";
+		echo "<thead><tr><th>No</th><th>Kodematakuliah</th><th>Program Studi</th><th>Semester</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='4'>no data</td></tr>";
@@ -53,15 +54,12 @@ class Kurikulummatakuliah extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi_ws);
-				$jenjang = $this->mreferensi->GetJenjangPendidikan($prodi->id_jenjang);
+				$prodi = $this->msiakad_prodi->getdata(false,false,false,false,$val->kode_prodi);
 				echo "<tr>";
 				echo "<td>{$no}</td>";
-				echo "<td>{$val->nama_kurikulummatakuliah}</td>";
-				echo "<td>{$prodi->nama_prodi} {$jenjang->nama_jenjang_didik}</td>";
+				echo "<td>{$val->kode_mata_kuliah}</td>";
+				echo "<td>{$prodi->nama_prodi} {$prodi->nama_jenjang_didik}</td>";
 				echo "<td>{$val->id_semester}</td>";
-				echo "<td>{$val->jumlah_sks_wajib}</td>";
-				echo "<td>{$val->jumlah_sks_pilihan}</td>";
 				echo "<td>";
 					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/kurikulummatakuliah/edit/{$val->id_kurikulummatakuliah}' title='Edit data'>edit</a>";
 					echo " - <a>hapus</a>";
@@ -358,10 +356,10 @@ class Kurikulummatakuliah extends BaseController
 		}	
 		echo json_encode($ret);
 	}
-	public function getkurikulummatakuliahpddikti(){		
+	public function getkurikulummatakuliahpddikti($id_kurikulum){		
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata();
-		$data_kurikulummatakuliah_feeder = $this->msiakad_kurikulummatakuliah->getdatapddikti($profile->kodept);
+		$data_kurikulummatakuliah_feeder = $this->msiakad_kurikulummatakuliah->getdatapddikti($id_kurikulum,$profile->kodept);
 		
 		if(!$data_kurikulummatakuliah_feeder){
 			$ret["messages"] = "Tidak ada data PDDIKTI";
@@ -369,7 +367,7 @@ class Kurikulummatakuliah extends BaseController
 			$jum=0;
 			foreach($data_kurikulummatakuliah_feeder as $key=>$val){
 				//cek data dulu
-				$cekdata = $this->msiakad_kurikulummatakuliah->getdata(false,$val->id_kurikulummatakuliah,false,$profile->kodept);
+				$cekdata = $this->msiakad_kurikulummatakuliah->getdata(false,$val->id_kurikulum,$val->id_prodi,$val->id_matkul,$val->id_semester,$profile->kodept);
 				if(!$cekdata){// jika data belum ada
 					$datain = array("kodept"=>$val->kode_perguruan_tinggi,
 									"id_perguruan_tinggi_ws"=>$val->id_perguruan_tinggi,
@@ -377,13 +375,15 @@ class Kurikulummatakuliah extends BaseController
 									"id_prodi_ws"=>$val->id_prodi,
 									"id_matkul_ws"=>$val->id_matkul,
 									"id_semester"=>$val->id_semester,
-									"kode_prodi"=>$val->kode_prodi,
-									"id_kurikulum"=>$val->id_kurikulum,
 									"kode_mata_kuliah"=>$val->kode_mata_kuliah,
-									"semester"=>$semester
+									"semester"=>$val->semester
 									);
 					//tambah
-					
+					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
+				
+					if($prodi){
+						$datain["kode_prodi"] = $prodi->kode_prodi;
+					}
 					$query = $this->db->table($this->siakad_kurikulummatakuliah)->insert($datain);
 					if($query){
 						$jum++;
