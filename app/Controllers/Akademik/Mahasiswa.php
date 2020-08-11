@@ -158,4 +158,7 @@ class Mahasiswa extends BaseController
 	public function getkrs($id_mahasiswa){
 		echo "H KRS {$id_mahasiswa}";
 	}
+	public function tambah(){
+		echo "test";
+	}
 }

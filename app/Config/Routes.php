@@ -30,7 +30,15 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Home::index', ['filter' => 'ceklogin']);
+
+$routes->add('admin/datauser', 'Admin\Datauser::index', ['filter' => 'ceklogin']);
+$routes->add('admin/profilpt', 'Admin\Profilpt::index', ['filter' => 'ceklogin']);
+
+$routes->add('akademik/prodi', 'Akademik\Prodi::index', ['filter' => 'ceklogin']);
+$routes->add('akademik/mahasiswadaftar', 'Akademik\Mahasiswadaftar::index', ['filter' => 'ceklogin']);
+
+$routes->add('akademik/mahasiswa', 'Akademik\Mahasiswa::index', ['filter' => 'ceklogin']);
 
 /**
  * --------------------------------------------------------------------

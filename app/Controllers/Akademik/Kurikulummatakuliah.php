@@ -18,7 +18,7 @@ class Kurikulummatakuliah extends BaseController
 			'judul' => 'Kurikulum Matakuliah',
 			'mn_akademik' => true,
 			'mn_akademik_perkuliahan' => true,
-			'mn_akademik_kurikulummatakuliah'=>true,
+			'mn_akademik_kurikulum'=>true,
 			'id_kurikulum' => $id_kurikulum,
 			'id_kurikulum_ws' => $id_kurikulum_ws
 			
@@ -43,8 +43,8 @@ class Kurikulummatakuliah extends BaseController
 		</script>
 		<?php
 		$profile 	= $this->msiakad_setting->getdata(); 
-		$data = $this->msiakad_kurikulummatakuliah->getdata(false,$id_kurikulum_ws);
-		//dd($data);
+		$data = $this->msiakad_kurikulummatakuliah->getdata(false,$id_kurikulum);
+		
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th>No</th><th>Kodematakuliah</th><th>Program Studi</th><th>Semester</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
@@ -379,10 +379,13 @@ class Kurikulummatakuliah extends BaseController
 									"semester"=>$val->semester
 									);
 					//tambah
-					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
-				
+					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);				
 					if($prodi){
 						$datain["kode_prodi"] = $prodi->kode_prodi;
+					}
+					$kurikulum = $this->msiakad_kurikulummatakuliah->getdata(false,$val->id_kurikulum);				
+					if($kurikulum){
+						$datain["id_kurikulum"] = $kurikulum->id_kurikulum;
 					}
 					$query = $this->db->table($this->siakad_kurikulummatakuliah)->insert($datain);
 					if($query){

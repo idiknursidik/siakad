@@ -1,4 +1,6 @@
 <?php
+$session = \Config\Services::session();
+
 use \App\Models\Msiakad_setting;
 $msiakad_setting = new Msiakad_setting();
 $profil_setting = $msiakad_setting->getprofile();

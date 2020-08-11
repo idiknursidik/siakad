@@ -10,6 +10,7 @@ class Filters extends BaseConfig
 		'csrf'     => \CodeIgniter\Filters\CSRF::class,
 		'toolbar'  => \CodeIgniter\Filters\DebugToolbar::class,
 		'honeypot' => \CodeIgniter\Filters\Honeypot::class,
+		'ceklogin' => \App\Filters\Ceklogin::class,
 	];
 
 	// Always applied before every request

@@ -9,7 +9,7 @@ class Msiakad_kurikulummatakuliah extends Model
 	protected $siakad_kurikulummatakuliah = 'siakad_kurikulummatakuliah';
 	protected $feeder_kurikulummatakuliah = 'feeder_kurikulummatakuliah';
 	
-    public function getdata($id_kurikulummatakuliah=false,$id_kurikulum_ws=false,$id_prodi_ws=false,$id_matkul_ws=false,$id_semester=false,$kodept=false)
+    public function getdata($id_kurikulummatakuliah=false,$id_kurikulum=false,$id_kurikulum_ws=false,$id_prodi_ws=false,$id_matkul_ws=false,$id_semester=false,$kodept=false)
     {
 		$builder = $this->db->table($this->siakad_kurikulummatakuliah);
 		$builder->select("*");
@@ -18,6 +18,9 @@ class Msiakad_kurikulummatakuliah extends Model
 		}
 		if($id_kurikulummatakuliah){
 			$builder->where("id_kurikulummatakuliah",$id_kurikulummatakuliah);
+		}
+		if($id_kurikulum){
+			$builder->where("id_kurikulum",$id_kurikulum);
 		}
 		if($id_kurikulum_ws){
 			$builder->where("id_kurikulum_ws",$id_kurikulum_ws);

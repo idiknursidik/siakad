@@ -1,4 +1,6 @@
 <?php
+$session = \Config\Services::session();
+
 use \App\Models\Msiakad_setting;
 $msiakad_setting = new Msiakad_setting();
 $profil_setting = $msiakad_setting->getprofile();
@@ -71,7 +73,7 @@ if($profil_setting){
               <img src="<?php echo base_url();?>/public/adminlte/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  Idik Nursidik
+                  <?php echo $session->nama_level;?>sss
                   <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
                 </h3>
                 <p class="text-sm">I got your message bro</p>
@@ -153,7 +155,7 @@ if($profil_setting){
           <img src="<?php echo base_url();?>/public/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Idik Nursidik</a>
+          <a href="#" class="d-block"><?php echo $session->get('nama');?></a>
         </div>
       </div>
 
@@ -493,7 +495,7 @@ if($profil_setting){
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?php echo site_url('login/logout');?>" class="nav-link">
               <i class="nav-icon far fa-circle text-warning"></i>
               <p>Keluar</p>
             </a>
