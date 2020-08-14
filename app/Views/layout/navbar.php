@@ -73,7 +73,7 @@ if($profil_setting){
               <img src="<?php echo base_url();?>/public/adminlte/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  <?php echo $session->nama_level;?>sss
+                  <?php echo $session->nama_level;?>
                   <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
                 </h3>
                 <p class="text-sm">I got your message bro</p>
@@ -161,8 +161,11 @@ if($profil_setting){
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
+		
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          
+		<?php
+		if($session->get("level") == 1){
+		?>
           <li class="nav-item has-treeview <?php echo isset($mn_setting)?'menu-open':'';?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
@@ -184,10 +187,12 @@ if($profil_setting){
                   <i class="fas fa-sign nav-icon"></i>
                   <p>Setting Profile</p>
                 </a>
-              </li>
-              
+              </li>              
             </ul>
           </li>
+		<?php
+		}
+		?>
 		  <li class="nav-header">DATA PT</li>
           <li class="nav-item has-treeview <?php echo isset($mn_akademik)?'menu-open':'';?>">
             <a href="#" class="nav-link <?php echo isset($mn_akademik)?'active':'';?>">

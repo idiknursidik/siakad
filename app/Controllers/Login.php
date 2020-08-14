@@ -46,7 +46,7 @@ class Login extends BaseController
 				];
 			}else{
 				//cek user di database
-				$qcekuser = $this->db->query("SELECT * FROM siakad_akun JOIN siakad_level ON userlevel = level WHERE username = '{$username}' ");
+				$qcekuser = $this->db->query("SELECT * FROM siakad_akun WHERE username = '{$username}' ");
 				$result = $qcekuser->getResult();
 				if(count($result) > 0){
 					$row = $qcekuser->getRow();
@@ -56,8 +56,9 @@ class Login extends BaseController
 							'login' => true,
 							'username' => $row->username,
 							'nama' => $row->nama,
-							'level' => $row->level,
-							'nama_level' => $row->nama_level
+							'level' => $row->userlevel,
+							'akses' => $row->akses,
+							'nama_level' => $this->msiakad_akun->leveluser($row->userlevel)
 						];
 						$this->session->set($simpan_session);
 						$msg = [

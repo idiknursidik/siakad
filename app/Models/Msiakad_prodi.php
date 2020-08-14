@@ -11,6 +11,7 @@ class Msiakad_prodi extends Model
 	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
     public function getdata($id_prodi=false,$id_prodi_ws=false,$kodept=false,$status="A",$kode_prodi=false)
     {
+		
 		$builder = $this->db->table("{$this->siakad_prodi} a");
 		$builder->join("{$this->ref_getjenjangpendidikan} b", 'a.id_jenjang = b.id_jenjang_didik',"left");
 		$builder->select("a.*,b.nama_jenjang_didik");
@@ -30,6 +31,7 @@ class Msiakad_prodi extends Model
 			$builder->where("a.kode_prodi",$kode_prodi);
 		}
 		$query = $builder->get();
+		
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();
 			if($id_prodi || $id_prodi_ws || $kode_prodi){

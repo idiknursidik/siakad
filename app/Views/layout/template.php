@@ -30,6 +30,8 @@ if($profil_setting){
    <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+   <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   
   <!-- Toastr -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/toastr/toastr.min.css">

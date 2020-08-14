@@ -74,6 +74,26 @@ $(function(){
 			.removeClass('is-invalid').find('.invalid-feedback').remove();
 			element.after(value="");
 	})
+	$("body").on("a[name='hapusdata']",function(e){
+		e.prevenDefault();
+		var dString = "id_kurikulum="+$(this).attr("id_kurikulum");
+		var action = $(this).attr("action");
+		$.ajax({
+			type:'post',
+			dataType:'json',
+			url:action,
+			data:dString,
+			success:function(ret){
+				if(ret.success == true){
+					toastr.success(ret.messages);
+					$("#resultcontent").load("<?php echo base_url();?>/akademik/kurikulum/listdata");
+				}else{
+					toastr.success(ret.messages);
+				}
+			}
+		})
+		return false;	
+	})
 })
 </script>
 <?php

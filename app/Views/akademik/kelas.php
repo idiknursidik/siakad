@@ -1,6 +1,7 @@
 <?php
 echo $this->extend('layout/template');
 echo $this->section('content');
+
 ?>
 <div class="row no-print">
 	<div class="col-12">

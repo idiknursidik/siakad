@@ -69,7 +69,7 @@ class Kurikulum extends BaseController
 				echo "<td>{$jumlahmk} Matakuliah</td>";
 				echo "<td>";
 					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/kurikulum/edit/{$val->id_kurikulum}' title='Edit data'>edit</a>";
-					echo " - <a name='hapusdata' data-src='".base_url()."/akademik/kurikulum/hapusdata' id_kurikulum='{$val->id_kurikulum}'>hapus</a>";
+					echo " - <a href='#' name='hapusdata' data-src='".base_url()."/akademik/kurikulum/hapusdata' id_kurikulum='{$val->id_kurikulum}'>hapus</a>";
 				echo "</td>";
 				echo "</tr>";
 			}
@@ -78,7 +78,10 @@ class Kurikulum extends BaseController
 		echo "</table>";
 	}
 	public function hapusdata(){
+		$ret=array("success"=>false,"messages"=>array());
 		$id_kurikulum = $this->request->getVar("id_kurikulum");
+		$this->db->table()->delete();
+		echo json_encode($ret);
 	}
 	public function tambah(){
 		$profile 	= $this->msiakad_setting->getdata(); 		

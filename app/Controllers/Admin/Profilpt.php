@@ -6,6 +6,13 @@ class Profilpt extends BaseController
 {
 	
 	protected $siakad_profil = 'siakad_profil';
+	public function __construct(){
+		$session = \Config\Services::session();
+		if($session->get("level") != 1){
+			echo "DONT ALLOW";
+			exit();			
+		}
+	}
 	public function index()
 	{
 
