@@ -11,6 +11,7 @@ if($profil_setting){
 }else{
 	$namapt = 'NO DATA';
 }
+$uri = current_url(true);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,8 +67,8 @@ to get the desired effect
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v3</li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Home</a></li>
+              <li class="breadcrumb-item active"><a href="<?php echo (string)$uri;?>"><?php echo isset($judul)?$judul:"Halaman depan";?></a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
