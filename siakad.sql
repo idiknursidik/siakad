@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-08-09 13:08:09
+Date: 2020-08-14 22:13:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -484,6 +484,8 @@ CREATE TABLE `siakad_akm` (
   `sks` varchar(10) DEFAULT NULL,
   `ipk` varchar(10) DEFAULT NULL,
   `sks_total` varchar(10) DEFAULT NULL,
+  `status_error` varchar(10) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
   PRIMARY KEY (`id_akm`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -492,13 +494,18 @@ CREATE TABLE `siakad_akm` (
 -- ----------------------------
 DROP TABLE IF EXISTS `siakad_akun`;
 CREATE TABLE `siakad_akun` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `kodept` varchar(10) DEFAULT NULL,
   `username` varchar(100) DEFAULT NULL,
-  `password` varchar(32) DEFAULT '',
+  `password` varchar(255) DEFAULT '',
   `email` varchar(200) DEFAULT NULL,
   `nama` varchar(200) DEFAULT NULL,
-  `level` varchar(5) DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `userlevel` varchar(5) DEFAULT '',
+  `akses` varchar(100) DEFAULT NULL,
+  `date_create` datetime DEFAULT NULL,
+  `date_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for siakad_kelas
@@ -552,17 +559,17 @@ DROP TABLE IF EXISTS `siakad_kurikulummatakuliah`;
 CREATE TABLE `siakad_kurikulummatakuliah` (
   `id_kurikulummatakuliah` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `kodept` varchar(10) DEFAULT NULL,
+  `id_kurikulum` int(11) DEFAULT NULL,
   `id_perguruan_tinggi_ws` varchar(50) DEFAULT '',
   `id_kurikulum_ws` varchar(50) DEFAULT '',
   `id_prodi_ws` varchar(50) DEFAULT '',
   `id_matkul_ws` varchar(50) DEFAULT '',
   `id_semester` varchar(50) DEFAULT '',
   `kode_prodi` varchar(200) DEFAULT '',
-  `id_kurikulum` varchar(200) DEFAULT '',
   `kode_mata_kuliah` varchar(50) DEFAULT NULL,
   `semester` varchar(50) DEFAULT '',
   PRIMARY KEY (`id_kurikulummatakuliah`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for siakad_mahasiswa
@@ -787,6 +794,7 @@ CREATE TABLE `siakad_profil` (
 DROP TABLE IF EXISTS `siakad_riwayatpendidikan`;
 CREATE TABLE `siakad_riwayatpendidikan` (
   `id_riwayatpendidikan` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_prodi` int(11) DEFAULT NULL,
   `id_mahasiswa` int(11) DEFAULT NULL,
   `kodept` varchar(10) DEFAULT '',
   `kode_prodi` varchar(10) DEFAULT '',
@@ -796,11 +804,11 @@ CREATE TABLE `siakad_riwayatpendidikan` (
   `id_jenis_daftar` varchar(5) DEFAULT '',
   `id_jenis_keluar` varchar(5) DEFAULT '',
   `id_mahasiswa_ws` varchar(50) DEFAULT '',
-  `id_pembiayaan` varchar(100) DEFAULT NULL,
-  `id_perguruan_tinggi` varchar(50) DEFAULT NULL,
-  `id_perguruan_tinggi_asal` varchar(100) DEFAULT NULL,
-  `id_periode_masuk` varchar(10) DEFAULT NULL,
-  `id_prodi` varchar(50) DEFAULT NULL,
+  `id_pembiayaan` varchar(100) DEFAULT '',
+  `id_perguruan_tinggi` varchar(50) DEFAULT '',
+  `id_perguruan_tinggi_asal` varchar(100) DEFAULT '',
+  `id_periode_masuk` varchar(10) DEFAULT '',
+  `id_prodi_ws` varchar(50) DEFAULT '',
   `id_prodi_asal` varchar(50) DEFAULT NULL,
   `id_registrasi_mahasiswa` varchar(50) DEFAULT NULL,
   `keterangan_keluar` varchar(100) DEFAULT NULL,
@@ -816,4 +824,4 @@ CREATE TABLE `siakad_riwayatpendidikan` (
   `sks_diakui` varchar(100) DEFAULT NULL,
   `tanggal_daftar` date DEFAULT NULL,
   PRIMARY KEY (`id_riwayatpendidikan`)
-) ENGINE=InnoDB AUTO_INCREMENT=2722 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3629 DEFAULT CHARSET=utf8mb4;
