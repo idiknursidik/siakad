@@ -52,7 +52,7 @@ class Riwayatpendidikan extends BaseController
 				$no++;
 				$mahasiswa = $this->msiakad_mahasiswa->getdata(false,$val->id_mahasiswa,false,false,$profile->kodept);
 				$jenis_pendaftaran = $this->mfungsi->jenis_pendaftaran($val->id_jenis_daftar);
-				//$dataprodi 		   = $this->mfeeder_data->getdataprodi(false,$val->id_prodi_ws);
+				$dataprodi 		   = $this->msiakad_prodi->getdata($val->id_prodi,false,false,false);
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nim}</td>";
@@ -60,7 +60,7 @@ class Riwayatpendidikan extends BaseController
 				echo "<td>{$jenis_pendaftaran}</td>";
 				echo "<td>{$val->id_periode_masuk}</td>";
 				echo "<td>{$val->tanggal_daftar}</td>";
-				//echo "<td>{$dataprodi->nama_prodi} - {$dataprodi->id_jenjang}</td>";
+				echo "<td>{$dataprodi->nama_prodi} - {$dataprodi->nama_jenjang_didik}</td>";
 				echo "<td><a href='".base_url()."/akademik/mahasiswa/detail/{$val->id_mahasiswa}'>detail</a></td>";
 				echo "</tr>";
 			}
@@ -103,7 +103,7 @@ class Riwayatpendidikan extends BaseController
 									"id_perguruan_tinggi"=>$val->id_perguruan_tinggi,
 									"id_perguruan_tinggi_asal"=>$val->id_perguruan_tinggi_asal,
 									"id_periode_masuk"=>$val->id_periode_masuk,
-									"id_prodi"=>$val->id_prodi,
+									"id_prodi_ws"=>$val->id_prodi,
 									"id_prodi_asal"=>$val->id_prodi_asal,
 									"id_registrasi_mahasiswa"=>$val->id_registrasi_mahasiswa,
 									"keterangan_keluar"=>$val->keterangan_keluar,
@@ -120,6 +120,7 @@ class Riwayatpendidikan extends BaseController
 									"tanggal_daftar"=>$val->tanggal_daftar);
 					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);				
 					$datain["kode_prodi"] = $prodi->kode_prodi;
+					$datain["id_prodi"] = $prodi->id_prodi;
 					$mahasiswa = $this->msiakad_mahasiswa->getdata(false,false,$val->id_mahasiswa,false,$profile->kodept);
 					$datain["id_mahasiswa"] = $mahasiswa->id_mahasiswa;
 					$query = $this->db->table($this->siakad_riwayatpendidikan)->insert($datain);

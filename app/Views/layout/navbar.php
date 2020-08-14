@@ -257,9 +257,27 @@ if($profil_setting){
                     </a>
                   </li>
 				  <li class="nav-item">
+                    <a href="<?php echo base_url();?>/akademik/krs" class="nav-link <?php echo isset($mn_akademik_krs)?'active':'';?>">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>KRS</p>
+                    </a>
+                  </li>
+				  <li class="nav-item">
                     <a href="<?php echo base_url();?>/akademik/nilai" class="nav-link <?php echo isset($mn_akademik_nilai)?'active':'';?>">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Nilai</p>
+                    </a>
+                  </li>
+				  <li class="nav-item">
+                    <a href="<?php echo base_url();?>/akademik/akm" class="nav-link <?php echo isset($mn_akademik_akm)?'active':'';?>">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>AKM</p>
+                    </a>
+                  </li>
+				  <li class="nav-item">
+                    <a href="<?php echo base_url();?>/akademik/kelulusan" class="nav-link <?php echo isset($mn_akademik_kelulusan)?'active':'';?>">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Kelulusan</p>
                     </a>
                   </li>
                 </ul>
@@ -269,6 +287,9 @@ if($profil_setting){
 			  
             </ul>
           </li>
+		<?php
+		if($session->get("level") == 1){
+		?>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users-cog"></i>
@@ -322,7 +343,9 @@ if($profil_setting){
               
             </ul>
           </li>
-          
+		<?php
+		}
+		?>
           <li class="nav-header">PDDIKTI - FEEDER</li>
           <li class="nav-item">
             <a href="<?php echo base_url();?>/feeder/akun" class="nav-link <?php echo isset($mn_akun)?'active':'';?>">
