@@ -77,54 +77,27 @@ class Kurikulummatakuliah extends BaseController
 		$semester = $this->mreferensi->GetSemester();
 		echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kurikulummatakuliah/create'>";
 		echo csrf_field(); 
-		
+		echo "BLOM";
 		echo "<div class='form-group'>";
-			echo "<label for='nama_kurikulummatakuliah'>Nama kurikulummatakuliah</label>";
-			echo "<input type='text' class='form-control' name='nama_kurikulummatakuliah' id='nama_kurikulummatakuliah'>";
+			echo "<label for='kode_mata_kuliah'>Matakuliah</label>";
+			echo "<input type='text' class='form-control' name='kode_mata_kuliah' id='kode_mata_kuliah'>";
 		echo "</div>";	
-		
+				
 		echo "<div class='row'>";
 			echo "<div class='col-sm-6'>";
 				echo "<div class='form-group'>";
-					echo "<label for='id_prodi'>Program Studi</label>";
-					echo "<select name='id_prodi' class='form-control' id='id_prodi'>";
-					if($prodi){
-						foreach($prodi as $key=>$val){
-							echo "<option value='{$val->id_prodi}'>{$val->nama_prodi}</option>";
-						}
-					}
-					echo "</select>";
+					echo "<label for='semester'>Semester</label>";
+					echo "<input type='text' class='form-control' name='semester' id='semester'>";
 				echo "</div>";
 			echo "</div>";
 			echo "<div class='col-sm-6'>";
 				echo "<div class='form-group'>";
-					echo "<label for='id_semester'>Mulai Berlaku</label>";
-					echo "<select name='id_semester' class='form-control' id='id_semester'>";
-					if($semester){
-						foreach($semester as $key=>$val){
-							echo "<option value='{$val->id_semester}'>{$val->nama_semester}</option>";
-						}
-					}
-					echo "</select>";
-				echo "</div>";
-			echo "</div>";
-		echo "</div>";
-		echo "<div class='row'>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='jumlah_sks_wajib'>Jumlah Bobot Matakuliah Wajib</label>";
-					echo "<input type='text' class='form-control' name='jumlah_sks_wajib' id='jumlah_sks_wajib'>";
-				echo "</div>";
-			echo "</div>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='jumlah_sks_pilihan'>Jumlah Bobot Matakuliah Pilihan </label>";
-					echo "<input type='text' class='form-control' name='jumlah_sks_pilihan' id='jumlah_sks_pilihan'>";
+					echo "<label for='semester'>Wajib</label>";
+					echo "<input type='text' class='form-control' name='semester' id='semester'>";
 				echo "</div>";
 			echo "</div>";
 		echo "</div>";
 		
-					
 		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
@@ -201,21 +174,21 @@ class Kurikulummatakuliah extends BaseController
 		echo json_encode($ret);
 	}
 	
-	public function edit($id=false){
+	public function edit($id_kurikulummatakuliah=false){
 		$profile 	= $this->msiakad_setting->getdata();
-		if(!$id){
+		if(!$id_kurikulummatakuliah){
 			echo "Error data.."; exit();
 		}
-		$data	= $this->msiakad_kurikulummatakuliah->getdata($id,false,false,$profile->kodept);
-		//dd($data);
-		
+		$data	= $this->msiakad_kurikulummatakuliah->getdata($id_kurikulummatakuliah,false,false,false,false,false,$profile->kodept);
+		print_r($data);
+		exit();
 		$profile 	= $this->msiakad_setting->getdata(); 		
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();		
 		$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$semester = $this->mreferensi->GetSemester();
 		
 		echo "<form method='post' id='form_ubah' action='".base_url()."/akademik/kurikulummatakuliah/update'>";
-		echo "<input type='hidden' name='id_kurikulummatakuliah' value='{$data->id_kurikulummatakuliah}'";
+		echo "<input type='hidden' name='id_kurikulummatakuliah' value='{$data->id_kurikulummatakuliah}'>";
 		echo csrf_field(); 
 		
 		echo "<div class='form-group'>";
@@ -230,9 +203,11 @@ class Kurikulummatakuliah extends BaseController
 					echo "<select name='id_prodi' class='form-control' id='id_prodi'>";
 					if($prodi){
 						foreach($prodi as $key=>$val){
-							echo "<option value='{$val->id_prodi}'";
-							if($data->id_prodi == $val->id_prodi) echo " selected='selected'";
-							echo ">{$val->nama_prodi}</option>";
+							if(in_array($val->id_prodi,explode(",",session()->akses))){
+								echo "<option value='{$val->id_prodi}'";
+								if($data->id_prodi == $val->id_prodi) echo " selected='selected'";
+								echo ">{$val->nama_prodi} {$val->nama_jenjang_didik}</option>";
+							}
 						}
 					}
 					echo "</select>";

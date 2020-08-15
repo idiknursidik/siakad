@@ -103,7 +103,9 @@ class Kurikulum extends BaseController
 					echo "<select name='id_prodi' class='form-control' id='id_prodi'>";
 					if($prodi){
 						foreach($prodi as $key=>$val){
-							echo "<option value='{$val->id_prodi}'>{$val->nama_prodi}</option>";
+							if(in_array($val->id_prodi,explode(",",session()->akses))){
+								echo "<option value='{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</option>";
+							}
 						}
 					}
 					echo "</select>";
@@ -243,9 +245,11 @@ class Kurikulum extends BaseController
 					echo "<select name='id_prodi' class='form-control' id='id_prodi'>";
 					if($prodi){
 						foreach($prodi as $key=>$val){
-							echo "<option value='{$val->id_prodi}'";
-							if($data->id_prodi == $val->id_prodi) echo " selected='selected'";
-							echo ">{$val->nama_prodi}</option>";
+							if(in_array($val->id_prodi,explode(",",session()->akses))){
+								echo "<option value='{$val->id_prodi}'";
+								if($data->id_prodi == $val->id_prodi) echo " selected='selected'";
+								echo ">{$val->nama_prodi} {$val->nama_jenjang_didik}</option>";
+							}
 						}
 					}
 					echo "</select>";
@@ -392,6 +396,12 @@ class Kurikulum extends BaseController
 									"nama_kurikulum"=>$val->nama_kurikulum,
 									"semester_mulai_berlaku"=>$val->semester_mulai_berlaku
 									);
+					//tambah
+					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);				
+					if($prodi){
+						$datain["kode_prodi"] = $prodi->kode_prodi;
+						$datain["id_prodi"] = $prodi->id_prodi;
+					}
 					$query = $this->db->table($this->siakad_kurikulum)->insert($datain);
 					if($query){
 						$jum++;
@@ -432,6 +442,7 @@ class Kurikulum extends BaseController
 					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);				
 					if($prodi){
 						$datain["kode_prodi"] = $prodi->kode_prodi;
+						$datain["id_prodi"] = $prodi->id_prodi;
 					}
 					$kurikulum = $this->msiakad_kurikulum->getdata(false,$val->id_kurikulum);				
 					if($kurikulum){

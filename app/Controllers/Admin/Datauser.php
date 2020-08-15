@@ -18,7 +18,7 @@ class Datauser extends BaseController
 
 		$data = [
 			'title' => 'Setting Data',
-			'judul' => 'Data User'.$this->session->get("level"),
+			'judul' => 'Data User',
 			'mn_setting'=>true,
 			'mn_setting_datauser'=>true
 			

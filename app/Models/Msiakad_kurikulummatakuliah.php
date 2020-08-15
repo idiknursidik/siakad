@@ -11,6 +11,7 @@ class Msiakad_kurikulummatakuliah extends Model
 	
     public function getdata($id_kurikulummatakuliah=false,$id_kurikulum=false,$id_kurikulum_ws=false,$id_prodi_ws=false,$id_matkul_ws=false,$id_semester=false,$kodept=false)
     {
+		$akses = explode(",",session()->akses);
 		$builder = $this->db->table($this->siakad_kurikulummatakuliah);
 		$builder->select("*");
 		if($kodept){
@@ -34,6 +35,8 @@ class Msiakad_kurikulummatakuliah extends Model
 		if($id_semester){
 			$builder->where("id_semester",$id_semester);
 		}
+		//akses only
+		$builder->whereIn("id_prodi",$akses);
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

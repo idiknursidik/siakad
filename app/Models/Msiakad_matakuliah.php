@@ -11,6 +11,7 @@ class Msiakad_matakuliah extends Model
 	
     public function getdata($id_matakuliah=false,$id_matakuliah_ws=false,$kode_matakuliah=false,$kodept=false)
     {
+		$akses = explode(",",session()->akses);
 		$builder = $this->db->table($this->siakad_matakuliah);
 		$builder->select("*");
 		if($kodept){
@@ -25,6 +26,9 @@ class Msiakad_matakuliah extends Model
 		if($kode_matakuliah){
 			$builder->where("kode_matakuliah",$kode_matakuliah);
 		}
+		//akses only
+		$builder->whereIn("id_prodi",$akses);
+		
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

@@ -12,7 +12,7 @@ class Matakuliah extends BaseController
 
 		$data = [
 			'title' => 'Data Akademik',
-			'judul' => 'Mahasiswa',
+			'judul' => 'Daftar matakuliah',
 			'mn_akademik' => true,
 			'mn_akademik_perkuliahan' => true,
 			'mn_akademik_matakuliah'=>true
@@ -92,7 +92,9 @@ class Matakuliah extends BaseController
 			echo "<select name='id_prodi' class='form-control' id='id_prodi'>";
 			if($prodi){
 				foreach($prodi as $key=>$val){
-					echo "<option value='{$val->id_prodi}'>{$val->nama_prodi}</option>";
+					if(in_array($val->id_prodi,explode(",",session()->akses))){
+						echo "<option value='{$val->id_prodi}'>{$val->nama_prodi}-{$val->nama_jenjang_didik}</option>";
+					}
 				}
 			}
 			echo "</select>";
@@ -251,9 +253,11 @@ class Matakuliah extends BaseController
 			echo "<select name='id_prodi' class='form-control' id='id_prodi'>";
 			if($prodi){
 				foreach($prodi as $key=>$val){
-					echo "<option value='{$val->id_prodi}'";
-					if($data->kode_prodi == $val->kode_prodi) echo " selected='selected'";
-					echo ">{$val->nama_prodi}</option>";
+					if(in_array($val->id_prodi,explode(",",session()->akses))){
+						echo "<option value='{$val->id_prodi}'";
+						if($data->kode_prodi == $val->kode_prodi) echo " selected='selected'";
+						echo ">{$val->nama_prodi} {$val->nama_jenjang_didik}</option>";
+					}
 				}
 			}
 			echo "</select>";
@@ -397,6 +401,7 @@ class Matakuliah extends BaseController
 									"kodept"=>$val->kode_perguruan_tinggi,
 									"id_prodi_ws"=>$val->id_prodi,
 									"kode_prodi"=>$dataprodi->kode_prodi,
+									"id_prodi"=>$dataprodi->id_prodi,
 									"ada_acara_praktek"=>$val->ada_acara_praktek,
 									"ada_bahan_ajar"=>$val->ada_bahan_ajar,
 									"ada_diktat"=>$val->ada_diktat,

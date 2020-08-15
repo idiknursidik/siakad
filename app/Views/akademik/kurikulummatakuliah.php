@@ -6,10 +6,20 @@ echo $this->section('content');
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
 	  <a href="#modalku" data-toggle="modal" title="Tambah Kurikulum Matakuliah" data-src="<?php echo base_url();?>/akademik/kurikulummatakuliah/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
+	  <?php
+		if(session()->level == 1){
+	  ?>
 	  <a href="#" name="getkurikulummatakuliahpddikti" data-src="<?php echo base_url();?>/akademik/kurikulummatakuliah/getkurikulummatakuliahpddikti/<?php echo $id_kurikulum_ws;?>" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil Kurikulum Matakuliah dari PDDIKTI
 	  </a>
+	  <?php
+		}
+		?>
 	</div>
+</div>
+<hr>
+<div class="card card-solid">
+<div class="card-body">Salin data Matakuliah Kurikulum dari  :</div>
 </div>
 <br>
 <div class="card card-solid">

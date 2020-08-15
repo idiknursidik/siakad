@@ -11,6 +11,7 @@ class Msiakad_kurikulum extends Model
 	
     public function getdata($id_kurikulum=false,$id_kurikulum_ws=false,$kodept=false)
     {
+		$akses = explode(",",session()->akses);
 		$builder = $this->db->table($this->siakad_kurikulum);
 		$builder->select("*");
 		if($kodept){
@@ -22,7 +23,8 @@ class Msiakad_kurikulum extends Model
 		if($id_kurikulum_ws){
 			$builder->where("id_kurikulum_ws",$id_kurikulum_ws);
 		}
-		
+		//akses only
+		$builder->whereIn("id_prodi",$akses);
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();
