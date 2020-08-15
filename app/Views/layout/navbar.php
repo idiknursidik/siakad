@@ -517,7 +517,7 @@ if($profil_setting){
           
           <li class="nav-header">AKUN</li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="<?php echo site_url('profile');?>" class="nav-link <?php echo isset($mn_profile)?'active':'';?>">
               <i class="nav-icon far fa-circle text-danger"></i>
               <p class="text">Profile</p>
             </a>

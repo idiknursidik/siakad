@@ -7,11 +7,14 @@ class Msiakad_akun extends Model
 	protected $siakad_akun = 'siakad_akun';
 	protected $siakad_level = 'siakad_level';
 	
-    public function getakun($id=false,$kodept = false)
+    public function getakun($id=false,$username=false,$kodept=false)
     {
 		$builder = $this->db->table("{$this->siakad_akun}");
 		if($id){
 			$builder->where("id",$id);
+		}
+		if($username){
+			$builder->where("username",$username);
 		}
 		if($kodept){
 			$builder->where("kodept",$kodept);
@@ -19,7 +22,7 @@ class Msiakad_akun extends Model
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
-			if($id){
+			if($id || $username){
 				$ret = $data[0];
 			}else{
 				$ret = $data;
