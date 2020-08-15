@@ -26,11 +26,11 @@ if($profil_setting){
         <a href="<?php echo base_url();?>" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link">- <b><?php echo session()->nama;?></b> Login As <b><?php echo session()->nama_level;?></b></a>
       </li>
     </ul>
 
-    <!-- SEARCH FORM -->
+    <!-- SEARCH FORM 
     <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
@@ -41,7 +41,8 @@ if($profil_setting){
         </div>
       </div>
     </form>
-
+	-->
+	
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
