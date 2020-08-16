@@ -42,18 +42,20 @@ class Matakuliah extends BaseController
 		$data 		= $this->msiakad_matakuliah->getdata(false,false,false,$profile->kodept);
 		
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>Kode Matakuliah</th><th>Nama Mata Kuliah</th><th>Aksi</th></tr></thead>";
+		echo "<thead><tr><th>No</th><th>Kode Matakuliah</th><th>Nama Mata Kuliah</th><th>Prodi</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
-			echo "<tr><td colspan='4'>no data</td></tr>";
+			echo "<tr><td colspan='5'>no data</td></tr>";
 		}else{
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
+				$prodi = $this->msiakad_prodi->getdata($val->id_prodi);
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->kode_matakuliah}</td>";
 				echo "<td>{$val->nama_matakuliah}</td>";
+				echo "<td>{$prodi->nama_prodi} {$prodi->nama_jenjang_didik}</td>";
 				echo "<td>";
 					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/matakuliah/edit/{$val->id_matakuliah}' title='Edit data'>edit</a>";
 					echo " - <a>hapus</a>";
@@ -173,13 +175,14 @@ class Matakuliah extends BaseController
 		$validation =  \Config\Services::validation();   
 		if (!$this->validate([
 			'kode_matakuliah' => [
-				'rules' => 'required',
+				'rules' => 'required|is_unique[siakad_matakuliah.kode_matakuliah]',
 				'errors' => [
-					'required' => 'kode matakuliah harus diisi.'
+					'required' => 'kode matakuliah harus diisi.',
+					'is_unique' => 'Kode Matakuliah sudah digunnakan'
 				]
 			],
 			'nama_matakuliah'=>[
-				'rules' => 'required',
+				'rules' => 'required', 
 				'errors' => [
 					'required' => 'nama matakuliah harus diisi.'
 				]
@@ -237,7 +240,7 @@ class Matakuliah extends BaseController
 			echo "<div class='col-sm-3'>";
 				echo "<div class='form-group'>";
 					echo "<label for='kode_matakuliah'>Kode matakuliah</label>";
-					echo "<input type='text' class='form-control' name='kode_matakuliah' id='kode_matakuliah' value='{$data->kode_matakuliah}'>";
+					echo "<input type='text' class='form-control' readonly name='kode_matakuliah' id='kode_matakuliah' value='{$data->kode_matakuliah}'>";
 				echo "</div>";
 			echo "</div>";
 			echo "<div class='col-sm-9'>";

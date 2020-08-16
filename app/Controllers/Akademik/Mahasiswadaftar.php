@@ -176,10 +176,11 @@ class Mahasiswadaftar extends BaseController
 		return view('akademik/mahasiswadaftar_tambah',$data);		
 	}
 	public function formtambah(){
+		$profile 			= $this->msiakad_setting->getdata(); 
 		$jenis_pendaftaran 	= $this->mfungsi->jenis_pendaftaran();
 		$jenis_semester		= $this->mfungsi->jenis_semester();
 		$jalur_pendaftaran	= $this->mfungsi->jalur_pendaftaran();
-		$dataprodi 			= $this->mfeeder_data->getdataprodi(false,false,false,$this->msiakad_setting->getdata()->kodept);
+		$dataprodi			= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$kelas_pendaftaran	= $this->mfungsi->kelas_pendaftaran();
 		$jenis_kelamin		= $this->mfungsi->jenis_kelamin();
 		$agama				= $this->mfungsi->agama();
@@ -187,8 +188,6 @@ class Mahasiswadaftar extends BaseController
 		$kewarganegaraan	= $this->mfungsi->kewarganegaraan();
 		$pend_terakhir		= $this->mfungsi->pend_terakhir();
 		
-		$profile			= $this->msiakad_setting->getdata();
-		//print_r($dataprodi);
 		echo "<form id='form_tambah' action='".base_url()."/akademik/mahasiswadaftar/simpan' method='post'>";
 		echo "<input type='hidden' name='kodept' value='{$profile->kodept}'>";
 		echo csrf_field();
@@ -251,12 +250,14 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-6'>";
 					echo "<div class='form-group'>";
 						echo "<label>Prodi</label>";
-						echo "<select class='custom-select'>";
+						echo "<select class='custom-select' name='id_prodi'>";
 							foreach($dataprodi as $key=>$val){
-								if($val->status == 'A'){
-									echo "<option value='{$val->id_prodi}'";
-									if($this->request->getVar('jenis_pendaftaran') == $val->id_prodi) echo " selected='selected'";
-									echo ">{$val->nama_program_studi} ({$val->nama_jenjang_pendidikan})</option>";
+								if(in_array($val->id_prodi,explode(",",session()->akses))){
+									if($val->status == 'A'){
+										echo "<option value='{$val->id_prodi}'";
+										if($this->request->getVar('jenis_pendaftaran') == $val->id_prodi) echo " selected='selected'";
+										echo ">{$val->nama_prodi} ({$val->nama_jenjang_didik})</option>";
+									}
 								}
 							}				  
 						echo "</select>";
@@ -830,10 +831,17 @@ class Mahasiswadaftar extends BaseController
 			$wali_ktp		= $this->request->getVar("wali_ktp");
 			$no_kip			= $this->request->getVar("no_kip");
 			*/
+			$id_prodi	= $this->request->getVar("id_prodi");
 			$datain=array();
 			foreach($this->request->getVar() as $key=>$val){
 				if($key != "csrf_test_name"){
 					$datain[$key] =  $this->request->getVar($key);
+				}
+			}
+			$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
+			if($prodi){
+				if(strlen($prodi->kode_prodi) > 0){
+					$datain["kode_prodi"] = $prodi->kode_prodi;
 				}
 			}
 			$query = $this->db->table($this->siakad_mahasiswa_mendaftar)->insert($datain);		
@@ -858,10 +866,11 @@ class Mahasiswadaftar extends BaseController
 		return view('akademik/mahasiswadaftar_ubah',$data);		
 	}
 	public function formubah($id){
+		$profile			= $this->msiakad_setting->getdata();
 		$jenis_pendaftaran 	= $this->mfungsi->jenis_pendaftaran();
 		$jenis_semester		= $this->mfungsi->jenis_semester();
 		$jalur_pendaftaran	= $this->mfungsi->jalur_pendaftaran();
-		$dataprodi 			= $this->mfeeder_data->getdataprodi(false,false,false,$this->msiakad_setting->getdata()->kodept);
+		$dataprodi			= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$kelas_pendaftaran	= $this->mfungsi->kelas_pendaftaran();
 		$jenis_kelamin		= $this->mfungsi->jenis_kelamin();
 		$agama				= $this->mfungsi->agama();
@@ -869,8 +878,8 @@ class Mahasiswadaftar extends BaseController
 		$kewarganegaraan	= $this->mfungsi->kewarganegaraan();
 		$pend_terakhir		= $this->mfungsi->pend_terakhir();
 		
-		$profile			= $this->msiakad_setting->getdata();
-		$data 		= $this->msiakad_mahasiswadaftar->getdata($id);
+		
+		$data 				= $this->msiakad_mahasiswadaftar->getdata($id);
 		
 		//print_r($dataprodi);
 		echo "<form id='form_ubah' action='".base_url()."/akademik/mahasiswadaftar/ubah' method='post'>";
@@ -936,12 +945,14 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-6'>";
 					echo "<div class='form-group'>";
 						echo "<label>Prodi</label>";
-						echo "<select class='custom-select'>";
+						echo "<select class='custom-select' name='id_prodi'>";
 							foreach($dataprodi as $key=>$val){
-								if($val->status == 'A'){
-									echo "<option value='{$val->id_prodi}'";
-									if($this->request->getVar('jenis_pendaftaran') == $val->id_prodi) echo " selected='selected'";
-									echo ">{$val->nama_program_studi} ({$val->nama_jenjang_pendidikan})</option>";
+								if(in_array($val->id_prodi,explode(",",session()->akses))){
+									if($val->status == 'A'){
+										echo "<option value='{$val->id_prodi}'";
+										if($data->id_prodi == $val->id_prodi) echo " selected='selected'";
+										echo ">{$val->nama_prodi} ({$val->nama_jenjang_didik})</option>";
+									}
 								}
 							}				  
 						echo "</select>";
@@ -1442,7 +1453,7 @@ class Mahasiswadaftar extends BaseController
 		echo "</form>";
 	}
 	public function ubah(){
-		
+		$profile 			= $this->msiakad_setting->getdata(); 
 		$ret=array("success"=>false,"messages"=>array());
 		
 		$validation =  \Config\Services::validation();
@@ -1534,10 +1545,17 @@ class Mahasiswadaftar extends BaseController
 			$wali_ktp		= $this->request->getVar("wali_ktp");
 			$no_kip			= $this->request->getVar("no_kip");
 			*/
+			$id_prodi	= $this->request->getVar("id_prodi");
 			$datain=array();
 			foreach($this->request->getVar() as $key=>$val){
 				if($key != "csrf_test_name"){
 					$datain[$key] =  $this->request->getVar($key);
+				}
+			}
+			$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
+			if($prodi){
+				if(strlen($prodi->kode_prodi) > 0){
+					$datain["kode_prodi"] = $prodi->kode_prodi;
 				}
 			}
 			$query = $this->db->table($this->siakad_mahasiswa_mendaftar)->update($datain,array('id' => $id));		

@@ -11,6 +11,7 @@ class Msiakad_riwayatpendidikan extends Model
 	
     public function getdata($id_riwayatpendidikan=false,$id_registrasi_mahasiswa=false,$kodept=false)
     {
+		$akses = explode(",",session()->akses);
 		$builder = $this->db->table($this->siakad_riwayatpendidikan);
 		$builder->select("*");
 		if($kodept){
@@ -23,7 +24,8 @@ class Msiakad_riwayatpendidikan extends Model
 		if($id_registrasi_mahasiswa){
 			$builder->where("id_registrasi_mahasiswa",$id_registrasi_mahasiswa);
 		}
-		
+		//akses only
+		$builder->whereIn("id_prodi",$akses);
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

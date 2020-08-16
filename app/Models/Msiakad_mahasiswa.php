@@ -28,6 +28,7 @@ class Msiakad_mahasiswa extends Model
 		if($id_pendaftaran){
 			$builder->where("id_pendaftaran",$id_pendaftaran);
 		}
+		
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

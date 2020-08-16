@@ -11,6 +11,7 @@ class Msiakad_kelas extends Model
 	
     public function getdata($id_kelas=false,$id_kelas_kuliah_ws=false,$kodept=false)
     {
+		$akses = explode(",",session()->akses);
 		$builder = $this->db->table($this->siakad_kelas);
 		$builder->select("*");
 		if($kodept){
@@ -22,6 +23,8 @@ class Msiakad_kelas extends Model
 		if($id_kelas_kuliah_ws){
 			$builder->where("id_kelas_kuliah_ws",$id_kelas_kuliah_ws);
 		}
+		//akses only
+		$builder->whereIn("id_prodi",$akses);
 		$builder->orderBy('id_kelas', 'DESC');
 		$query = $builder->get();
 		if($query->getRowArray() > 0){

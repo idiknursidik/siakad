@@ -1,10 +1,15 @@
 <?php
-$session = \Config\Services::session();
+namespace App\Models;
 
 use \App\Models\Msiakad_setting;
+use \App\Models\Msiakad_akun;
+
 $msiakad_setting = new Msiakad_setting();
+$msiakad_akun = new Msiakad_akun();
+
 $profil_setting = $msiakad_setting->getprofile();
 $profileinfo = $msiakad_setting->getdata();
+
 if($profil_setting){
 	$kodept	= $profil_setting->kode_perguruan_tinggi;
 	$namapt = $profil_setting->nama_perguruan_tinggi;
@@ -14,6 +19,9 @@ if($profil_setting){
 	$kodept = "NO DATA";
 	$logopt = "logo.png";
 }
+
+$dataakun = $msiakad_akun->getakun(false,session()->username);
+$userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
 ?>
 <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -71,10 +79,10 @@ if($profil_setting){
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="<?php echo base_url();?>/public/adminlte/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  <?php echo $session->nama_level;?>
+                  <?php echo session()->nama_level;?>
                   <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
                 </h3>
                 <p class="text-sm">I got your message bro</p>
@@ -153,10 +161,10 @@ if($profil_setting){
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo base_url();?>/public/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo $session->get('nama');?></a>
+          <a href="<?php echo site_url('profile');?>" class="d-block"><?php echo session()->get('nama');?></a>
         </div>
       </div>
 
@@ -165,7 +173,7 @@ if($profil_setting){
 		
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 		<?php
-		if($session->get("level") == 1){
+		if(session()->get("level") == 1){
 		?>
           <li class="nav-item has-treeview <?php echo isset($mn_setting)?'menu-open':'';?>">
             <a href="#" class="nav-link">
@@ -205,12 +213,18 @@ if($profil_setting){
               </p>
             </a>
             <ul class="nav nav-treeview">
+				<?php
+				if(session()->get("level") == 1){
+				?>
 			   <li class="nav-item">
                 <a href="<?php echo base_url();?>/akademik/prodi" class="nav-link <?php echo isset($mn_akademik_prodi)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data prodi</p>
                 </a>
                </li>
+				<?php
+				}
+				?>
                <li class="nav-item">
                 <a href="<?php echo base_url();?>/akademik/mahasiswadaftar" class="nav-link <?php echo isset($mn_akademik_mahasiswadaftar)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
@@ -289,7 +303,7 @@ if($profil_setting){
             </ul>
           </li>
 		<?php
-		if($session->get("level") == 1){
+		if(session()->get("level") == 1){
 		?>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

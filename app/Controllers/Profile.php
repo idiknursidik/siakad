@@ -19,6 +19,7 @@ class Profile extends BaseController
 		if($this->request->isAJAX()){
 			//print_r(session()->get());
 			$data = $this->msiakad_akun->getakun(false,session()->get('username'));
+			$userimage = ($data->user_image)?$data->user_image:"noimage.png";
 			echo "<h3>Ubah Biodata</h3>";
 			echo "<form class='form-horizontal' id='form_editprofile' method='post' action='".base_url()."/profile/updateprofile'>";
 			echo "<div class='form-group row'>";
@@ -65,6 +66,24 @@ class Profile extends BaseController
 			echo "</div>";
 			echo "<button class='btn btn-success' id='btnSubmit_form_editpassword' type='submit' name='kirim'>Proses update</button>";
 			echo "</form>";
+			echo "<hr>";
+			echo "<h3>Ubah Gambar Profile</h1>";
+			echo "<form method='post' id='form_profile_image' action='".base_url()."/profile/updateimage' enctype='multipart/form-data' class='d-inline'>";	
+			echo csrf_field();			 
+			  echo "<div class='form-group row'>";
+				echo "<div class='col-sm-2'>";
+					echo "<img src='".base_url()."/public/gambar/{$userimage}' class='profile-user-img img-fluid img-circle img-preview'>"; //img-thumbnail;
+				echo "</div>";
+				echo "<div class='col-sm-10'>";
+					echo "<label for='logoFile'>User Image</label>";
+					echo "<div class='custom-file'>";
+					  echo "<input name='fileupload' type='file' class='custom-file-input form-control' id='logoFile'>";
+					  echo "<label class='custom-file-label' for='logoFile'>Pilih gambar..</label>";
+					echo "</div>";
+				echo "</div>";
+			  echo "</div>";
+			echo "<hr><button type='submit' name='kirim' id='btnSubmit_form_profile_image' class='btn bg-primary'>Proses Update</button>";
+			echo "</form>";
 		}
 	}
 	public function updateprofile(){
@@ -99,7 +118,8 @@ class Profile extends BaseController
 				}
 			}else{
 				$datain = array("nama"=>$nama,
-								"email"=>$email);
+								"email"=>$email,
+								"date_update"=>date('Y-m-d H:i:s'));
 				$query = $this->db->table($this->siakad_akun)->update($datain,['username'=>session()->username]);		
 				if($query){	
 					$ret['messages'] = "Data berhasil diupdate";
@@ -156,7 +176,8 @@ class Profile extends BaseController
 				if(!password_verify($passwordlama,$datalama->password)){
 					$ret['messages']['passwordlama'] = "<div class='invalid-feedback'>Password lama salah</div>";
 				}else{					
-					$datain = array("password"=>$hashed_password);
+					$datain = array("password"=>$hashed_password,
+									"date_update"=>date('Y-m-d H:i:s'));
 									
 					$query = $this->db->table($this->siakad_akun)->update($datain,['username'=>session()->username]);		
 					if($query){	
@@ -169,5 +190,55 @@ class Profile extends BaseController
 			}
 			echo json_encode($ret);
 		}
+	}
+	public function updateimage(){
+		if($this->request->isAJAX()){
+			$ret=array("success"=>false,"messages"=>array());
+			$validation =  \Config\Services::validation();
+			
+			if (! $this->validate([
+				'fileupload' => [
+					'rules' => 'uploaded[fileupload]|max_size[fileupload,1024]|is_image[fileupload]|mime_in[fileupload,image/png,image/jpg,image/jpeg]',
+					'errors' => [
+						'uploaded' => 'File gambar harus dipilih.', //uploaded[fileupload]
+						'max_size' => 'Ukuran gambar terlalu besar.',
+						'is_image' => 'Yang anda pilih bukan gambar.',
+						'mime_in' => 'Yang anda pilih bukan gambar.'
+					] 
+				]
+			]))
+			{			
+				foreach($validation->getErrors() as $key=>$value){
+					$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
+				}
+			}else{				
+				$datalama = $this->msiakad_akun->getakun(false,session()->username);				
+				$fileupload = $this->request->getFile("fileupload");				
+				if($fileupload->getError() == 4){
+					$user_image = "noimage.png";
+				}else{
+					if($datalama->user_image != "noimage.png"){
+						if(file_exists("public/gambar/".$datalama->user_image)){
+							unlink("public/gambar/".$datalama->user_image);
+						}
+					}
+					$user_image = $fileupload->getRandomName();
+					$fileupload->move('public/gambar',$user_image);
+					
+				}			
+				
+				$datain = array("user_image"=>$user_image,
+								"date_update"=>date('Y-m-d H:i:s'));								
+				$query = $this->db->table("siakad_akun")->update($datain,['username'=>session()->username]);		
+				if($query){	
+					$ret['messages'] = "Data berhasil diupdate";
+					$ret['success'] = true;	
+				}else{
+					$ret['messages'] = "Data gagal diupdate";
+				}			
+				
+			}
+			echo json_encode($ret);
+		}		
 	}
 }

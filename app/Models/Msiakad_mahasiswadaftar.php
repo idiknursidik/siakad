@@ -10,7 +10,7 @@ class Msiakad_mahasiswadaftar extends Model
 	
     public function getdata($id=false,$kodept=false)
     {
-		
+		$akses = explode(",",session()->akses);
 		$builder = $this->db->table($this->siakad_mahasiswa_mendaftar);
 		$builder->select("*");
 		if($kodept){
@@ -19,6 +19,8 @@ class Msiakad_mahasiswadaftar extends Model
 		if($id){
 			$builder->where("id",$id);
 		}
+		//akses only
+		$builder->whereIn("id_prodi",$akses);
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();
