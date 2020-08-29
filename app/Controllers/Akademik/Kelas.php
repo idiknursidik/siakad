@@ -529,15 +529,31 @@ class Kelas extends BaseController
 		echo "Semester : {$datakelas->id_semester}<br>"; 
 		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah}";
 		echo "<hr>";
-		echo "<h3>Dosen Penganjar</h3>";
+		echo "<h4 class='text-primary'>Dosen Penganjar</h4>";
 		$datapengajar = $this->msiakad_dosenmengajar->getdata(false,false,$profile->kodept,$id_kelas);
+		echo "<table class='table'>";
+		echo "<thead><tr><th>No</th><th>NIDN</th><th>Nama</th><th>Bobot (sks)</th><th>Rencana Pertemuan</th><th>Realisasi Pertemuan</th><th>Jenis Evaluasi</th><th width='10%'>Aksi</th></tr></thead>";
+		echo "<tbody>";
 		if(!$datapengajar){
-			echo "Belum ada dosen pengajar";
+			echo "<tr><td colspan='7'>Belum ada dosen pengajar</td></tr>";
 		}else{
+			$no=0;
 			foreach($datapengajar as $key=>$val){
-				echo "No Registrasi: {$val->nidn} <br>";
+				$no++;
+				echo "<tr>";
+				echo "<td>{$no}</td>";
+				echo "<td>{$val->nidn}</td>";
+				echo "<td>{$val->nama_dosen}</td>";
+				echo "<td>{$val->sks_substansi_total}</td>";
+				echo "<td>{$val->rencana_tatap_muka}</td>";
+				echo "<td>{$val->realisasi_tatap_muka}</td>";
+				echo "<td>{$val->id_jenis_evaluasi}</td>";
+				echo "<td>#</td>";
+				echo "</tr>";
 			}
 		}
+		echo "</tbody>";
+		echo "</table>";
 		echo "<hr>";
 		$data = $this->msiakad_nilai->getdata(false,false,false,false,$id_kelas,$profile->kodept);
 		echo "<h4 class='text-primary'>Peserta kelas</h4>";
@@ -655,9 +671,82 @@ class Kelas extends BaseController
 	}
 	//tambah dosen mengajar
 	public function tambahdosen($id_kelas=false){
+		$profile 	= $this->msiakad_setting->getdata();
 		if(!$id_kelas){
 			echo "error ID kelas"; exit();
 		}
-		echo "Tambah dosen";
+		?>
+		<script>
+		$('.select2').select2({
+			dropdownParent: $("#modalku")
+			
+		})
+		</script>
+		<?php
+		$dosen = $this->msiakad_dosen->getdata(false,false,$profile->kodept);
+		$jenisevaluasi = $this->mreferensi->GetJenisEvaluasi();
+		echo "<form method='post' id='form_tambah_dosenmengajar' action='".base_url()."/akademik/kelas/prosestambahdosenmengajar'>";
+		echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'";
+		echo csrf_field(); 
+		
+		echo "<div class='form-group'>";
+			echo "<label for='nidn'>Dosen</label>";
+			echo "<select class='form-control select2' name='nidn' id='nidn'>";
+			if($dosen){
+				foreach($dosen as $key=>$val){
+					echo "<option value='{$val->nidn}'>{$val->nidn} - {$val->nama_dosen}</option>";
+				}
+			}
+			echo "</select>";
+		echo "</div>";
+		echo "<div class='row'>";
+			echo "<div class='col-sm-6'>";
+				echo "<div class='form-group'>";
+					echo "<label for='id_jenis_evaluasi'>Jenis Evaluasi</label>";
+					echo "<select class='form-control select2' name='id_jenis_evaluasi' id='id_jenis_evaluasi'>";
+					if($jenisevaluasi){
+						foreach($jenisevaluasi as $key=>$val){
+							echo "<option value='{$val->id_jenis_evaluasi}'>{$val->nama_jenis_evaluasi}</option>";
+						}
+					}
+					echo "</select>";
+				echo "</div>";
+			echo "</div>";
+			echo "<div class='col-sm-6'>";
+				echo "<div class='form-group'>";
+					echo "<label for='sks_substansi_total'>Bobot sks</label>";
+					echo "<input type='text' name='sks_substansi_total' class='form-control'>";
+				echo "</div>";
+			echo "</div>";
+		echo "</div>";
+		echo "<div class='row'>";
+			echo "<div class='col-sm-6'>";
+				echo "<div class='form-group'>";
+					echo "<label for='rencana_tatap_muka'>Jumlah Rencana Tatap Muka</label>";
+					echo "<input type='text' name='rencana_tatap_muka' class='form-control'>";
+				echo "</div>";
+			echo "</div>";
+			echo "<div class='col-sm-6'>";
+				echo "<div class='form-group'>";
+					echo "<label for='realisasi_tatap_muka'>Jumlah Realisasi Tatap Muka</label>";
+					echo "<input type='text' name='realisasi_tatap_muka' class='form-control'>";
+				echo "</div>";
+			echo "</div>";
+		echo "</div>";
+		
+		echo "<div><button type='submit' class='btn btn-success' id='btnSubmit' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+		echo "</form>";
+	}
+	public function prosestambahdosenmengajar(){
+		if ($this->request->isAJAX()){
+			$ret=array("success"=>false,"messages"=>array());
+			$id_kelas	= $this->request->getVar("id_kelas");
+			$datakelas	= $this->msiakad_kelas->getdata($id_kelas);
+			
+			
+			echo json_encode($ret);
+		}else{
+			echo "Tidak diizinkan..!!!!";
+		}
 	}
 }

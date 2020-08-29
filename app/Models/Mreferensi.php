@@ -13,6 +13,7 @@ class Mreferensi extends Model
 	protected $GetWilayah			= "ref_getwilayah";
 	protected $GetSemester			= "ref_getsemester";
 	protected $GetJenisKeluar		= "ref_getjeniskeluar";
+	protected $GetJenisEvaluasi		= "ref_getjenisevaluasi";
 	
 	public function getlistreferensi(){
 		$data =array("GetJenjangPendidikan",
@@ -23,7 +24,8 @@ class Mreferensi extends Model
 					 "GetNegara",
 					 "GetWilayah",
 					 "GetSemester",
-					 "GetJenisKeluar");
+					 "GetJenisKeluar",
+					 "GetJenisEvaluasi");
 		return $data;
 	}
 	public function GetJenjangPendidikan($id_jenjang_didik=false){
@@ -179,6 +181,24 @@ class Mreferensi extends Model
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
 			if($id_jenis_keluar){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}
+	}
+	public function GetJenisEvaluasi($id_jenis_evaluasi=false){
+		$builder = $this->db->table($this->GetJenisEvaluasi);
+		if($id_jenis_evaluasi){
+			$builder->where("id_jenis_evaluasi",$id_jenis_evaluasi);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResultObject();
+			if($id_jenis_evaluasi){
 				$ret = $data[0];
 			}else{
 				$ret = $data;
