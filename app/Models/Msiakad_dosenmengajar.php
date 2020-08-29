@@ -9,12 +9,14 @@ class Msiakad_dosenmengajar extends Model
 	protected $siakad_dosenmengajar = 'siakad_dosenmengajar';
 	protected $feeder_dosenmengajar = 'feeder_dosenmengajar';
 	protected $siakad_kelas = 'siakad_kelas';
-	
+	protected $siakad_dosen = 'siakad_dosen';
+
     public function getdata($id_aktivitas_mengajar=false,$id_aktivitas_mengajar_ws=false,$kodept=false,$id_kelas=false)
     {
 		$builder = $this->db->table("{$this->siakad_dosenmengajar} a");
 		$builder->join("{$this->siakad_kelas} b","a.id_kelas=b.id_kelas","left");
-		$builder->select("a.*,b.nama_kelas_kuliah,b.id_semester,b.kode_mata_kuliah");
+		$builder->join("{$this->siakad_dosen} c","a.nidn=c.nidn","left");
+		$builder->select("a.*,b.nama_kelas_kuliah,b.id_semester,b.kode_mata_kuliah,c.nama_dosen");
 		if($kodept){
 			$builder->where("a.kodept",$kodept);
 		}

@@ -9,8 +9,11 @@ echo $this->section('content');
 	  <?php
 		if(session()->level == 1){
 	  ?>
-	  <a href="#" name="getdosenmengajarpddikti" id="btnGetdata" data-src="<?php echo base_url();?>/akademik/dosenmengajar/getdosenmengajarpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#" name="getdosenmengajarpddikti" id="btnGetdatamengarar" data-src="<?php echo base_url();?>/akademik/dosenmengajar/getdosenmengajarpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dosen mengajar dari PDDIKTI
+	  </a>
+	  <a href="#" name="getdatadosenpddikti" id="btnGetdatadosen" data-src="<?php echo base_url();?>/akademik/dosenmengajar/getdatadosenpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+		<i class="fas fa-download"></i> Ambil Daftar Dosen dari PDDIKTI
 	  </a>
 		<?php
 		}
@@ -26,18 +29,20 @@ $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/akademik/dosenmengajar/listdata");	
 	
 	
-	$("a[name='getdosenmengajarpddikti']").on("click",function(){
+	$("a[name='getdosenmengajarpddikti'],a[name='getdatadosenpddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
+		var btnGet = $(this).attr("id");
+		var htmlbtn = $(this).html();
 		$.ajax({
 			dataType:'json',
 			url:action,
 			beforeSend:function(){
-				$("#btnGetdata").prop("disabled",true);
-				$("#btnGetdata").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				$("#"+btnGet).prop("disabled",true);
+				$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
 			},
 			complete:function(){
-				$("#btnGetdata").prop("disabled",false);
-				$("#btnGetdata").html("Ambil data");	
+				$("#"+btnGet).prop("disabled",false);
+				$("#"+btnGet).html(htmlbtn);	
 			},
 			success:function(ret){
 				if(ret.success == true){

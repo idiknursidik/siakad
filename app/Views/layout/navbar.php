@@ -482,6 +482,12 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                   <p>Kelas Kuliah</p>
                 </a>
               </li>
+			   <li class="nav-item">
+                <a href="<?php echo base_url();?>/feeder/datadosen" class="nav-link <?php echo isset($mn_datadosen)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Dosen</p>
+                </a>
+              </li>
 			  <li class="nav-item">
                 <a href="<?php echo base_url();?>/feeder/dosenmengajar" class="nav-link <?php echo isset($mn_dosenmengajar)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>

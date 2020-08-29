@@ -21,6 +21,7 @@ use App\Models\Msiakad_prodi;
 use App\Models\Msiakad_kelas;
 use App\Models\Msiakad_nilai;
 use App\Models\Msiakad_akm;
+use App\Models\Msiakad_dosen;
 use App\Models\Msiakad_dosenmengajar;
 use App\Models\Msiakad_mahasiswa;
 use App\Models\Msiakad_matakuliah;
@@ -69,6 +70,8 @@ class BaseController extends Controller
 		$this->msiakad_nilai = new Msiakad_nilai();
 		$this->msiakad_akm = new Msiakad_akm();
 		$this->msiakad_dosenmengajar = new Msiakad_dosenmengajar();
+		$this->msiakad_dosen = new Msiakad_dosen();
+		
 		
 		$this->msiakad_mahasiswa = new Msiakad_mahasiswa();
 		$this->msiakad_matakuliah = new Msiakad_matakuliah();
