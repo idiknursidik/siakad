@@ -1,28 +1,24 @@
 <?php 
 namespace App\Controllers\Akademik;
 use App\Controllers\BaseController;
-use App\Models\Msiakad_nilai;
  
-class Nilai extends BaseController
+class Akm extends BaseController
 {
-	protected $siakad_nilai = 'siakad_nilai';
-	protected $feeder_nilai = 'feeder_nilai';
-	public function __construct()
-    {
-        $this->msiakad_nilai = new Msiakad_nilai();
-    }
+	protected $siakad_akm = 'siakad_akm';
+	protected $feeder_akm = 'feeder_akm';
+	
 	public function index()
 	{
 		
 		$data = [
 			'title' => 'Data Akademik',
-			'judul' => 'nilai',
+			'judul' => 'Aktifitas Kuliah Mahasiswa',
 			'mn_akademik' => true,
 			'mn_akademik_perkuliahan' => true,
-			'mn_akademik_nilai'=>true
+			'mn_akademik_akm'=>true
 			
 		];
-		return view('akademik/nilai',$data);
+		return view('akademik/akm',$data);
 	}
 	public function listdata()
 	{
@@ -42,9 +38,9 @@ class Nilai extends BaseController
 		</script>
 		<?php
 		$profile 	= $this->msiakad_setting->getdata(); 
-		$data 		= $this->msiakad_nilai->getdata();
+		$data 		= $this->msiakad_akm->getdata();
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>Semester</th><th>NIM</th><th>Kode MK</th><th>Nama MK</th><th>Nilai Huruf</th><th>Nilai Indeks</th><th>Aksi</th></tr></thead>";
+		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th><th>Semester</th><th>Status</th><th>IPS</th><th>IPK</th><th>sks Semester</th><th>sks Total</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='7'>no data</td></tr>";
@@ -52,28 +48,20 @@ class Nilai extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi);
-				if($prodi){				
-					$jenjang = $this->mreferensi->GetJenjangPendidikan($prodi->id_jenjang);
-					if($jenjang){
-						$namaprodi = $prodi->nama_prodi."".$jenjang->nama_jenjang_didik;
-					}else{
-						$namaprodi = $prodi->nama_prodi;
-					}
-				}else{
-					$namaprodi = "-";
-				}
-				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
 				echo "<tr>";
 				echo "<td>{$no}</td>";
-				echo "<td>{$val->semester}</td>";
 				echo "<td>{$val->nim}</td>";
-				echo "<td>{$val->kode_matakuliah}</td>";
-				echo "<td>{$matakuliah->nama_matakuliah}</td>";
-				echo "<td>{$val->nilai_huruf}</td>";
-				echo "<td>{$val->nilai_indeks}</td>";
+				echo "<td>{$val->nama_mahasiswa}</td>";
+				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";
+				echo "<td>{$val->id_periode_masuk}</td>";
+				echo "<td>{$val->id_semester}</td>";
+				echo "<td>{$val->id_status_mahasiswa}</td>";
+				echo "<td>{$val->ips}</td>";
+				echo "<td>{$val->ipk}</td>";
+				echo "<td>{$val->sks_semester}</td>";
+				echo "<td>{$val->sks_total}</td>";
 				echo "<td>";
-					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/nilai/edit/{$val->id_nilai}' title='Edit data nilai'>edit</a>";
+					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/nilai/edit/{$val->id_akm}' title='Edit data nilai'>edit</a>";
 					echo " - <a>hapus</a>";
 				echo "</td>";
 				echo "</tr>";
@@ -175,55 +163,45 @@ class Nilai extends BaseController
 		echo json_encode($ret);
 	}
 	
-	public function getnilaipddikti(){		
+	public function getakmpddikti(){		
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata();
-		$data_nilai_feeder = $this->msiakad_nilai->getdatapddikti(false,false,false,false,$profile->kodept);
+		$data_akm_feeder = $this->msiakad_akm->getdatapddikti(false,false,$profile->kodept);
 		
-		if(!$data_nilai_feeder){
+		if(!$data_akm_feeder){
 			$ret["messages"] = "Tidak ada data PDDIKTI";
 		}else{
 			$jum=0;
-			foreach($data_nilai_feeder as $key=>$val){
+			foreach($data_akm_feeder as $key=>$val){
 				//cek data dulu
-				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
-				//cek data dulu
-				$arraywhere = ['nim' => $val->nim, 'id_matkul_ws' => $val->id_matkul, 'id_kelas_ws' => $val->id_kelas,'id_periode_ws'=>$val->id_periode];
-				$builder = $this->db->table($this->siakad_nilai);
+				$arraywhere = ['nim' => $val->nim, 'id_semester' => $val->id_semester];
+				$builder = $this->db->table($this->siakad_akm);
 				$builder->where($arraywhere);				
 				$cekdata = $builder->countAllResults();
 				
 				if($cekdata == 0){// jika data belum ada
 					$datain = array("nim"=>$val->nim,
 									"kodept"=>$val->kode_perguruan_tinggi,									
-									"semester"=>$val->id_periode,
-									"kelas"=>$val->nama_kelas_kuliah,
-									"id_prodi"=>$val->id_prodi,
-									"nilai_huruf"=>$val->nilai_huruf,
-									"nilai_indeks"=>$val->nilai_indeks,
-									"id_kelas_ws"=>$val->id_kelas,
-									"id_matkul_ws"=>$val->id_matkul,
-									"id_periode_ws"=>$val->id_periode,									
-									"id_registrasi_mahasiswa"=>$val->id_registrasi_mahasiswa,
+									"id_semester"=>$val->id_semester,
+									"id_status_mahasiswa"=>$val->id_status_mahasiswa,
+									"ips"=>$val->ips,
+									"sks_semester"=>$val->sks_semester,
+									"ipk"=>$val->ipk,
+									"sks_total"=>$val->sks_total,
+									"angkatan"=>$val->angkatan,
+									"id_prodi_ws"=>$val->id_prodi,
+									"biaya_kuliah_smt"=>$val->biaya_kuliah_smt,									
+									"id_mahasiswa_ws"=>$val->id_mahasiswa,
+									"id_status_mahasiswa_ws"=>$val->id_status_mahasiswa,
 									"date_created"=>date("Y-m-d H:i:s")
-									);
-					$datain["kode_matakuliah"]=$matakuliah->kode_matakuliah;
-					$kelas_kuliah = $this->msiakad_kelas->getdata(false,$val->id_kelas);
-					if($kelas_kuliah){
-						$datain["id_kelas"]=$kelas_kuliah->id_kelas;
-					}						
-					$mahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,$val->kode_perguruan_tinggi,false,$val->nim);
-					
-					if($mahasiswa){
-						$datain["id_riwayatpendidikan"]=$mahasiswa->id_riwayatpendidikan;
-					}						
+									);						
 					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
 					if($prodi){				
 						$datain["kode_prodi"]=$prodi->kode_prodi;
 						$datain["id_prodi"]=$prodi->id_prodi;
 					}
 					
-					$query = $this->db->table($this->siakad_nilai)->insert($datain);
+					$query = $this->db->table($this->siakad_akm)->insert($datain);
 					if($query){
 						$jum++;
 					}

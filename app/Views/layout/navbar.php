@@ -272,9 +272,9 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                     </a>
                   </li>
 				  <li class="nav-item">
-                    <a href="<?php echo base_url();?>/akademik/krs" class="nav-link <?php echo isset($mn_akademik_krs)?'active':'';?>">
+                    <a href="<?php echo base_url();?>/akademik/dosenmengajar" class="nav-link <?php echo isset($mn_akademik_dosenmengajar)?'active':'';?>">
                       <i class="far fa-dot-circle nav-icon"></i>
-                      <p>KRS</p>
+                      <p>Dosen Mengajar</p>
                     </a>
                   </li>
 				  <li class="nav-item">
@@ -483,6 +483,12 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                 </a>
               </li>
 			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/feeder/dosenmengajar" class="nav-link <?php echo isset($mn_dosenmengajar)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dosen Mengajar</p>
+                </a>
+              </li>
+			  <li class="nav-item">
                 <a href="<?php echo base_url();?>/feeder/kurikulum" class="nav-link <?php echo isset($mn_kurikulum)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kurikulum</p>
@@ -501,7 +507,7 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
             <a href="#" class="nav-link">
               <i class="nav-icon fab fa-telegram"></i>
               <p>
-                Impor Data ke PDDIKTI
+                Impor ke PDDIKTI
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>

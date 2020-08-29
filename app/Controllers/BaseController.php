@@ -18,6 +18,10 @@ use CodeIgniter\Controller;
 use App\Models\Msiakad_setting;
 use App\Models\Msiakad_akun;
 use App\Models\Msiakad_prodi;
+use App\Models\Msiakad_kelas;
+use App\Models\Msiakad_nilai;
+use App\Models\Msiakad_akm;
+use App\Models\Msiakad_dosenmengajar;
 use App\Models\Msiakad_mahasiswa;
 use App\Models\Msiakad_matakuliah;
 use App\Models\Msiakad_kurikulum;
@@ -61,6 +65,11 @@ class BaseController extends Controller
 		$this->msiakad_akun = new Msiakad_akun();
 		$this->msiakad_setting = new Msiakad_setting();
 		$this->msiakad_prodi = new Msiakad_prodi();
+		$this->msiakad_kelas = new Msiakad_kelas();
+		$this->msiakad_nilai = new Msiakad_nilai();
+		$this->msiakad_akm = new Msiakad_akm();
+		$this->msiakad_dosenmengajar = new Msiakad_dosenmengajar();
+		
 		$this->msiakad_mahasiswa = new Msiakad_mahasiswa();
 		$this->msiakad_matakuliah = new Msiakad_matakuliah();
 		$this->msiakad_kurikulum = new Msiakad_kurikulum();

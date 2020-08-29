@@ -30,7 +30,27 @@ class Kelas extends BaseController
 		?>
 		<script>
 		  $(function () {
-			$('#datatable').DataTable({
+			     // Setup - add a text input to each footer cell
+			$('#datatable thead tr').clone(true).appendTo( '#datatable thead' );
+			$('#datatable thead tr:eq(1) th').each( function (i) {
+				
+				var title = $(this).text();
+				if(i != 0 && i != 7){
+					$(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
+				}else{
+					$(this).html("");
+				}
+				$( 'input', this ).on( 'keyup change', function () {
+					if ( table.column(i).search() !== this.value ) {
+						table
+							.column(i)
+							.search( this.value )
+							.draw();
+					}
+				} );
+			} );
+			
+			var table = $('#datatable').DataTable({
 			  "paging": true,
 			  "lengthChange": true,
 			  "searching": true,
@@ -38,14 +58,16 @@ class Kelas extends BaseController
 			  "info": true,
 			  "autoWidth": false,
 			  "responsive": true,
+			   "orderCellsTop": true
 			});
+			
 		  });
 		</script>
 		<?php
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$data 		= $this->msiakad_kelas->getdata(false,false,$profile->kodept);
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>Kode MK</th><th>Nama MK</th><th>Kelas</th><th>Prodi</th><th>Semester</th><th>Aksi</th></tr></thead>";
+		echo "<thead><tr><th>No</th><th>Kode MK</th><th>Nama MK</th><th>Kelas</th><th>Prodi</th><th>Semester</th><th>Peserta</th><th width='10%'>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='7'>no data</td></tr>";
@@ -53,26 +75,18 @@ class Kelas extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi_ws);
-				if($prodi){				
-					$jenjang = $this->mreferensi->GetJenjangPendidikan($prodi->id_jenjang);
-					if($jenjang){
-						$namaprodi = $prodi->nama_prodi."".$jenjang->nama_jenjang_didik;
-					}else{
-						$namaprodi = $prodi->nama_prodi;
-					}
-				}else{
-					$namaprodi = "-";
-				}
+				$prodi = $this->msiakad_prodi->getdata($val->id_prodi);				
 				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
-				
+				$pesertakuliah = $this->msiakad_nilai->getdata(false,false,false,false,$val->id_kelas);
+				$jumlahpeserta = ($pesertakuliah)?count($pesertakuliah):0;
 				echo "<tr>";
 				echo "<td>{$no}</td>";
-				echo "<td>{$val->kode_mata_kuliah}</td>";
+				echo "<td><a href='".base_url()."/akademik/kelas/peserta/{$val->id_kelas}'>{$val->kode_mata_kuliah}</a></td>";
 				echo "<td>{$matakuliah->nama_matakuliah}</td>";
 				echo "<td>{$val->nama_kelas_kuliah}</td>";
-				echo "<td>{$namaprodi}</td>";
+				echo "<td>{$prodi->nama_prodi}-{$prodi->nama_jenjang_didik}</td>";
 				echo "<td>{$val->id_semester}</td>";
+				echo "<td>{$jumlahpeserta}</td>";				
 				echo "<td>";
 					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/kelas/edit/{$val->id_kelas}' title='Edit data'>edit</a>";
 					echo " - <a href='#' name='hapuskelas' data-src='".base_url()."/akademik/kelas/hapuskelas' id_kelas='{$val->id_kelas}'>hapus</a>";
@@ -121,7 +135,8 @@ class Kelas extends BaseController
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();		
 		$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$semester = $this->mreferensi->GetSemester();
-		$matakuliah = $this->msiakad_matakuliah->getdata(false,false,false,$profile->kodept);
+		$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata(false,false,false,false,false,false,$profile->kodept);
+		
 		echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kelas/create'>";
 		echo csrf_field(); 
 		
@@ -133,11 +148,10 @@ class Kelas extends BaseController
 		
 		echo "<div class='form-group'>";
 		  echo "<label>Matakuliah</label>";
-		  echo "<select name='id_matakuliah' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
-			echo "<option selected='selected'>Pilih</option>";
-			if($matakuliah){
-				foreach($matakuliah as $key=>$val){
-					echo "<option value='{$val->id_matakuliah}'>{$val->kode_matakuliah} {$val->nama_matakuliah}</option>";
+		  echo "<select name='id_kurikulummatakuliah' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
+			if($kurikulummatakuliah){
+				foreach($kurikulummatakuliah as $key=>$val){
+					echo "<option value='{$val->id_kurikulummatakuliah}'>{$val->kode_mata_kuliah} {$val->nama_matakuliah} {$val->nama_kurikulum}</option>";
 				}
 			}
 		  echo "</select>";
@@ -161,7 +175,7 @@ class Kelas extends BaseController
 			echo "</div>";
 			echo "<div class='col-sm-6'>";
 				echo "<div class='form-group'>";
-					echo "<label for='id_semester'>Mulai Berlaku</label>";
+					echo "<label for='id_semester'>Semester</label>";
 					echo "<select name='id_semester' class='form-control' id='id_semester'>";
 					if($semester){
 						foreach($semester as $key=>$val){
@@ -196,13 +210,16 @@ class Kelas extends BaseController
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$id_prodi 	= $this->request->getVar("id_prodi");
 		$nama_kelas_kuliah	= $this->request->getVar("nama_kelas_kuliahnama_kelas_kuliah");
-		$id_semester 	= 	$this->request->getVar("id_semester");
-		$id_matakuliah 	= 	$this->request->getVar("id_matakuliah");
+		$id_semester 		= $this->request->getVar("id_semester");
+		$id_kurikulummatakuliah	= $this->request->getVar("id_kurikulummatakuliah");
+		$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata($id_kurikulummatakuliah,false,false,false,false,false,$profile->kodept);
+		
+		$id_matakuliah 	= 	$kurikulummatakuliah->id_matakuliah;
 		
 		$validation =  \Config\Services::validation();   
 		if (!$this->validate([
 			'nama_kelas_kuliah'=>[
-				'rules' => 'required|is_unique[siakad_kelas.nama_kelas_kuliah,id_prodi_ws]',
+				'rules' => 'required|is_unique[siakad_kelas.nama_kelas_kuliah,id_kurikulummatakuliah]',
 				'errors' => [
 					'required' => 'nama kelas harus diisi.',
 					'is_unique' => 'Data sudah ada.'
@@ -218,15 +235,18 @@ class Kelas extends BaseController
 			
 			$datain=array();
 			foreach($this->request->getVar() as $key=>$val){
-				if(!in_array($key,array("csrf_test_name","id_prodi","id_matakuliah"))){
+				if(!in_array($key,array("csrf_test_name","id_prodi"))){
 					$datain[$key] =  $this->request->getVar($key);
 				}
 			}
+			
+			$datain["date_create"] = date('Y-m-d H:i:s');
 			$datain["kodept"] = $profile->kodept;
 			$datain["id_prodi"] = $id_prodi;
 			if($matakuliah){
 				$datain["id_matkul_ws"] = (strlen($matakuliah->id_matkul_ws) > 0)?$matakuliah->id_matkul_ws:"";
 				$datain["kode_mata_kuliah"] = $matakuliah->kode_matakuliah;
+				$datain["id_matakuliah"] = $matakuliah->id_matakuliah;
 			}
 			
 			$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
@@ -270,7 +290,8 @@ class Kelas extends BaseController
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();		
 		$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$semester = $this->mreferensi->GetSemester();
-		$matakuliah = $this->msiakad_matakuliah->getdata(false,false,false,$profile->kodept);
+		$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata(false,false,false,false,false,false,$profile->kodept);
+		
 		echo "<form method='post' id='form_ubah' action='".base_url()."/akademik/kelas/update'>";
 		echo "<input type='hidden' name='id_kelas' value='{$data->id_kelas}'";
 		echo csrf_field(); 
@@ -282,13 +303,13 @@ class Kelas extends BaseController
 		
 		echo "<div class='form-group'>";
 		  echo "<label>Matakuliah</label>";
-		  echo "<select name='id_matakuliah' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
+		  echo "<select name='id_kurikulummatakuliah' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
 			echo "<option selected='selected'>Pilih</option>";
-			if($matakuliah){
-				foreach($matakuliah as $key=>$val){
-					echo "<option value='{$val->id_matakuliah}'";
-					if($data->kode_mata_kuliah == $val->kode_matakuliah) echo " selected='selected'";
-					echo ">{$val->kode_matakuliah} {$val->nama_matakuliah}</option>";
+			if($kurikulummatakuliah){
+				foreach($kurikulummatakuliah as $key=>$val){
+					echo "<option value='{$val->id_kurikulummatakuliah}'";
+					if($data->id_kurikulummatakuliah == $val->id_kurikulummatakuliah) echo " selected='selected'";
+					echo ">{$val->kode_mata_kuliah} {$val->nama_matakuliah} {$val->nama_kurikulum}</option>";
 				}
 			}
 		  echo "</select>";
@@ -352,7 +373,10 @@ class Kelas extends BaseController
 		$id_kelas 		= $this->request->getVar("id_kelas");
 		$nama_kelas_kuliah = $this->request->getVar("nama_kelas_kuliah");
 		$id_semester 	= $this->request->getVar("id_semester");
-		$id_matakuliah	= $this->request->getVar("id_matakuliah");
+		$id_kurikulummatakuliah	= $this->request->getVar("id_kurikulummatakuliah");
+		$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata($id_kurikulummatakuliah,false,false,false,false,false,$profile->kodept);
+		
+		$id_matakuliah 	= 	$kurikulummatakuliah->id_matakuliah;
 			//cek dulu apakah sudah ada
 		$cekdata = $this->db->table($this->siakad_kelas)->getWhere(['id_kelas' => $id_kelas]);
 		if($cekdata->getRowArray() > 0){
@@ -382,17 +406,20 @@ class Kelas extends BaseController
 			}
 		}else{
 			$matakuliah = $this->msiakad_matakuliah->getdata($id_matakuliah,false,false,$profile->kodept);
+			
 			$datain=array();
 			foreach($this->request->getVar() as $key=>$val){
-				if(!in_array($key,array("csrf_test_name","id_prodi","id_matakuliah"))){
+				if(!in_array($key,array("csrf_test_name","id_prodi"))){
 					$datain[$key] =  $this->request->getVar($key);
 				}
 			}
+			$datain["date_update"] = date('Y-m-d H:i:s');
 			$datain["kodept"] = $profile->kodept;
 			$datain["id_prodi"] = $id_prodi;
 			if($matakuliah){
 				$datain["id_matkul_ws"] = (strlen($matakuliah->id_matkul_ws) > 0)?$matakuliah->id_matkul_ws:"";
 				$datain["kode_mata_kuliah"] = $matakuliah->kode_matakuliah;
+				$datain["id_matakuliah"] = $matakuliah->id_matakuliah;
 			}
 			$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
 			if($prodi){
@@ -423,40 +450,214 @@ class Kelas extends BaseController
 			$ret["messages"] = "Tidak ada data PDDIKTI";
 		}else{
 			$jum=0;
+			$jumupdate=0;
+			$juminsert=0;
 			foreach($data_kelas_feeder as $key=>$val){
+				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
+				$datain = array("id_kelas_kuliah_ws"=>$val->id_kelas_kuliah,
+								"kodept"=>$val->kode_perguruan_tinggi,
+								"kode_prodi"=>$prodi->kode_prodi,
+								"id_prodi"=>$prodi->id_prodi,
+								"bahasan"=>$val->bahasan,
+								"id_matkul_ws"=>$val->id_matkul,
+								"id_prodi_ws"=>$val->id_prodi,
+								"id_semester"=>$val->id_semester,
+								"kode_mata_kuliah"=>$val->kode_mata_kuliah,
+								"nama_kelas_kuliah"=>$val->nama_kelas_kuliah,
+								"nama_program_studi"=>$val->nama_program_studi,
+								"nama_semester"=>$val->nama_semester,
+								"tanggal_akhir_efektif"=>$val->tanggal_akhir_efektif,
+								"tanggal_mulai_efektif"=>$val->tanggal_mulai_efektif									
+								);
+				
+				$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata(false,false,false,$val->id_prodi,$val->id_matkul,$val->id_semester);
+				if($kurikulummatakuliah){
+					$datain['id_kurikulummatakuliah'] = $kurikulummatakuliah->id_kurikulummatakuliah;
+				}
+				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
+				if($matakuliah){
+					$datain['id_matakuliah'] = $matakuliah->id_matakuliah;
+				}
 				//cek data dulu
-				$cekdata = $this->msiakad_kelas->getdata(false,$val->id_kelas_kuliah,$profile->kodept);
-				 
-				if(!$cekdata){// jika data belum ada
-					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
-					$datain = array("id_kelas_kuliah_ws"=>$val->id_kelas_kuliah,
-									"kodept"=>$val->kode_perguruan_tinggi,
-									"kode_prodi"=>$prodi->kode_prodi,
-									"id_prodi"=>$prodi->id_prodi,
-									"bahasan"=>$val->bahasan,
-									"id_matkul_ws"=>$val->id_matkul,
-									"id_prodi_ws"=>$val->id_prodi,
-									"id_semester"=>$val->id_semester,
-									"kode_mata_kuliah"=>$val->kode_mata_kuliah,
-									"nama_kelas_kuliah"=>$val->nama_kelas_kuliah,
-									"nama_program_studi"=>$val->nama_program_studi,
-									"nama_semester"=>$val->nama_semester,
-									"tanggal_akhir_efektif"=>$val->tanggal_akhir_efektif,
-									"tanggal_mulai_efektif"=>$val->tanggal_mulai_efektif									
-									);
+				$cekdata = $this->msiakad_kelas->getdata(false,$val->id_kelas_kuliah,$profile->kodept);			 
+				if($cekdata){// jika data belum ada				
+					$query = $this->db->table($this->siakad_kelas)->update($datain,array('id_kelas_kuliah_ws'=>$val->id_kelas_kuliah));
+					if($query){
+						$jumupdate++;
+					}					
+				}else{
 					$query = $this->db->table($this->siakad_kelas)->insert($datain);
 					if($query){
-						$jum++;
+						$juminsert++;
 					}
 				}
 			}
+			$jum = $jumupdate+$juminsert;
+			$info = $jumupdate.' data berhasil diupdate & '.$juminsert.' data berhasil dimasukan';
 			if($jum > 0){
-				$ret["messages"] = "{$jum} data berhasil dimasukan";
+				$ret["messages"] = "{$info}";
 				$ret["success"] = true;
 			}else{
 				$ret["messages"] = "tidak ada data yang dimasukan";
 			}
 		}		
 		echo json_encode($ret);		
+	}
+	public function peserta($id_kelas=false){
+		$profile 	= $this->msiakad_setting->getdata(); 
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		$data = [
+			'title' => 'Data Akademik',
+			'judul' => 'kelas',
+			'mn_akademik' => true,
+			'mn_akademik_perkuliahan' => true,
+			'mn_akademik_kelas'=>true,
+			'id_kelas'=>$id_kelas
+			
+		];
+		return view('akademik/kelas_peserta',$data);
+	}
+	public function listpeserta($id_kelas=false){
+		$profile 	= $this->msiakad_setting->getdata(); 
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
+		echo "Prodi : {$datakelas->nama_prodi} - {$datakelas->nama_jenjang_didik}<br>"; 
+		echo "Semester : {$datakelas->id_semester}<br>"; 
+		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah}";
+		echo "<hr>";
+		echo "<h3>Dosen Penganjar</h3>";
+		$datapengajar = $this->msiakad_dosenmengajar->getdata(false,false,$profile->kodept,$id_kelas);
+		if(!$datapengajar){
+			echo "Belum ada dosen pengajar";
+		}else{
+			foreach($datapengajar as $key=>$val){
+				echo "No Registrasi: {$val->nidn} <br>";
+			}
+		}
+		echo "<hr>";
+		$data = $this->msiakad_nilai->getdata(false,false,false,false,$id_kelas,$profile->kodept);
+		echo "<h4 class='text-primary'>Peserta kelas</h4>";
+		echo "<table class='table' id='datatable'>";
+		echo "<thead><tr><th>No</th><th>Nim</th><th>Nama</th><th>Jurusan</th><th>Angkatan</th><th width='10%'>Aksi</th></tr></thead>";
+		echo "<tbody>";
+		if(!$data){
+			echo "<tr><td colspan='7'>no data</td></tr>";
+		}else{
+			$no=0;
+			foreach($data as $key=>$val){
+				$no++;
+				$prodi = $this->msiakad_prodi->getdata($val->id_prodi);				
+				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
+				
+				echo "<tr>";
+				echo "<td>{$no}</td>";
+				echo "<td>{$val->nim}</td>";
+				echo "<td>{$val->nama_mahasiswa}</td>";
+				echo "<td>{$prodi->nama_prodi} {$prodi->nama_jenjang_didik}</td>";
+				echo "<td>{$val->id_periode_masuk}</td>";
+				echo "<td>";
+					echo "<a href='#' name='hapuspeserta' data-src='".base_url()."/akademik/kelas/hapuspeserta' id_nilai='{$val->id_nilai}'>hapus</a>";
+				echo "</td>";
+				echo "</tr>";
+			}
+		}
+		echo "</tbody>";
+		echo "</table>";
+	}
+	public function hapuspeserta(){
+		$ret=array("success"=>false,"messages"=>array());
+		$profile 	= $this->msiakad_setting->getdata();
+		$id_nilai = $this->request->getVar("id_nilai");
+		$query = $this->db->table($this->siakad_nilai)->delete(['id_nilai'=>$id_nilai]);
+		if($query){
+			$ret['messages'] = "Data berhasil dihapus";
+			$ret['success'] = true;
+		}else{
+			$ret['messages']="Data gagal dihapus";
+		}
+		echo json_encode($ret);
+	}
+	public function tambahpeserta($id_kelas=false){
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		?>
+		<script>
+		$('.select2').select2({
+			dropdownParent: $("#modalku")
+			
+		})
+		</script>
+		<?php
+		$mahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,false,array(" "));
+		echo "<form method='post' id='form_tambah_peserta' action='".base_url()."/akademik/kelas/prosestambahpeserta'>";
+		echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'";
+		echo csrf_field(); 
+		
+		echo "<div class='form-group'>";
+			echo "<label for='id_riwayatpendidikan'>Mahasiswa</label>";
+			echo "<select class='form-control select2' name='id_riwayatpendidikan' id='id_riwayatpendidikan'>";
+			if($mahasiswa){
+				foreach($mahasiswa as $key=>$val){
+					echo "<option value='{$val->id_riwayatpendidikan}'>{$val->nim} - {$val->nama_mahasiswa} - {$val->id_periode_masuk}</option>";
+				}
+			}
+			echo "</select>";
+		echo "</div>";
+		echo "<div><button type='submit' class='btn btn-success' id='btnSubmit' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+		echo "</form>";
+	}
+	public function prosestambahpeserta(){
+		$ret=array("success"=>false,"messages"=>array());
+		$profile 	= $this->msiakad_setting->getdata();
+		$id_kelas	= $this->request->getVar("id_kelas");
+		$id_riwayatpendidikan	= $this->request->getVar("id_riwayatpendidikan");
+		$mahasiswa	= $this->msiakad_riwayatpendidikan->getdata($id_riwayatpendidikan);
+		
+		$datakelas	= $this->msiakad_kelas->getdata($id_kelas);
+		
+		$datain = array("kodept"=>$profile->kodept,
+						"nim"=>$mahasiswa->nim,
+						"kode_matakuliah"=>$datakelas->kode_mata_kuliah,
+						"semester"=>$datakelas->id_semester,
+						"kelas"=>$datakelas->nama_kelas_kuliah,
+						"id_kelas"=>$datakelas->id_kelas,
+						"kode_prodi"=>$mahasiswa->kode_prodi,
+						"id_prodi"=>$mahasiswa->id_prodi,
+						"id_kelas_ws"=>$datakelas->id_kelas_kuliah_ws,
+						"id_matkul_ws"=>$datakelas->id_matkul_ws,
+						"id_periode_ws"=>$datakelas->id_semester,
+						"id_registrasi_mahasiswa"=>$mahasiswa->id_registrasi_mahasiswa,
+						"date_created"=>date("Y-m-d H:i:s"));
+		$builder = $this->db->table($this->siakad_nilai);
+		$builder->where("nim",$mahasiswa->nim);
+		$builder->where("kode_matakuliah",$datakelas->kode_mata_kuliah);
+		$builder->where("id_kelas",$datakelas->id_kelas);
+		$builder->where("kelas",$datakelas->nama_kelas_kuliah);
+		$builder->where("semester",$datakelas->id_semester);
+		$cekdata = $builder->get();
+		if($cekdata->getRowArray() > 0){
+			$ret['messages']['id_riwayatpendidikan']="<div class='invalid-feedback'>Data sudah ada</div>";
+		}else{
+			$query = $this->db->table($this->siakad_nilai)->insert($datain);
+			if($query){
+				$ret['messages'] = "Data berhasil dimasukan";
+				$ret['success'] = true;
+			}else{
+				$ret['messages']['id_riwayatpendidikan']="<div class='invalid-feedback'>Data tidak dapat dimasukan</div>";
+			}				
+		}
+		echo json_encode($ret);
+	}
+	//tambah dosen mengajar
+	public function tambahdosen($id_kelas=false){
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		echo "Tambah dosen";
 	}
 }

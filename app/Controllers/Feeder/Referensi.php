@@ -60,7 +60,7 @@ class Referensi extends BaseController
 			$datareferensiws = $this->mfeeder_ws->getrecordset($feeder_akun->token,$act);
 			//echo "<pre>";
 			//print_r($datareferensiws);
-			////echo "</pre>";
+			//echo "</pre>";
 			//exit();			
 			//hapus data dulu
 			$this->db->table('ref_'.strtolower($act))->emptyTable();

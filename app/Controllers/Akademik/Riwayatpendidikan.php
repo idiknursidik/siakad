@@ -25,7 +25,27 @@ class Riwayatpendidikan extends BaseController
 		?>
 		<script>
 		  $(function () {
-			$('#datatable').DataTable({
+			   // Setup - add a text input to each footer cell
+			$('#datatable thead tr').clone(true).appendTo( '#datatable thead' );
+			$('#datatable thead tr:eq(1) th').each( function (i) {
+				
+				var title = $(this).text();
+				if(i !=0 ){
+					$(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
+				}else{
+					$(this).html("");
+				}
+				$( 'input', this ).on( 'keyup change', function () {
+					if ( table.column(i).search() !== this.value ) {
+						table
+							.column(i)
+							.search( this.value )
+							.draw();
+					}
+				} );
+			} );
+			
+			var table = $('#datatable').DataTable({
 			  "paging": true,
 			  "lengthChange": true,
 			  "searching": true,
@@ -33,6 +53,8 @@ class Riwayatpendidikan extends BaseController
 			  "info": true,
 			  "autoWidth": false,
 			  "responsive": true,
+			   "orderCellsTop": true,
+				"fixedHeader": true
 			});
 		  });
 		</script>
@@ -41,8 +63,8 @@ class Riwayatpendidikan extends BaseController
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$data 		= $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,$profile->kodept);
 		
-		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Jenis Pendaftaran</th><th>Periode</th><th>Tanggal Masuk</th><th>Prodi</th><th>Aksi</th></tr></thead>";
+		echo "<table class='table display' id='datatable'>";
+		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Jenis Pendaftaran</th><th>Periode</th><th>Tanggal Masuk</th><th>Prodi</th><th>Status</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='2'>no data</td></tr>";
@@ -52,7 +74,13 @@ class Riwayatpendidikan extends BaseController
 				$no++;
 				$mahasiswa = $this->msiakad_mahasiswa->getdata(false,$val->id_mahasiswa,false,false,$profile->kodept);
 				$jenis_pendaftaran = $this->mfungsi->jenis_pendaftaran($val->id_jenis_daftar);
-				$dataprodi 		   = $this->msiakad_prodi->getdata($val->id_prodi,false,false,false);
+				$dataprodi	= $this->msiakad_prodi->getdata($val->id_prodi,false,false,false);
+				$referensi 	= $this->mreferensi->GetJenisKeluar($val->id_jenis_keluar);
+				if(strlen($val->id_jenis_keluar) > 0){
+					$jeniskeluar = ($referensi)?$referensi->jenis_keluar:$val->id_jenis_keluar;
+				}else{
+					$jeniskeluar = "Aktif";
+				}
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nim}</td>";
@@ -61,6 +89,7 @@ class Riwayatpendidikan extends BaseController
 				echo "<td>{$val->id_periode_masuk}</td>";
 				echo "<td>{$val->tanggal_daftar}</td>";
 				echo "<td>{$dataprodi->nama_prodi} - {$dataprodi->nama_jenjang_didik}</td>";
+				echo "<td>{$jeniskeluar}</td>";
 				echo "<td><a href='".base_url()."/akademik/mahasiswa/detail/{$val->id_mahasiswa}'>detail</a></td>";
 				echo "</tr>";
 			}

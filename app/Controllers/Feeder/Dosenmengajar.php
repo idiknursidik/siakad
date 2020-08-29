@@ -2,19 +2,19 @@
 namespace App\Controllers\Feeder;
 use App\Controllers\BaseController;
 
-class Kelas extends BaseController
+class Dosenmengajar extends BaseController
 {
 	
 	public function index()
 	{
 		
 		$data = [
-			'title' => 'Kelas Kuliah PDDIKTI',
-			'judul' => 'Kelas Kuliah PDDIKTI',
+			'title' => 'Aktivitas Mengajar Dosen',
+			'judul' => 'Aktivitas Mengajar Dosen',
 			'mn_feeder_a'=>true,
-			'mn_kelas'=>true
+			'mn_dosenmengajar'=>true
 		];
-		return view('feeder/kelas',$data);
+		return view('feeder/dosenmengajar',$data);
 	}
 	public function show()
 	{
@@ -47,28 +47,24 @@ class Kelas extends BaseController
 			exit();
 		}
 		
-		//$datakelaskuliahws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetListKelasKuliah',false,false,5);
-		//dd($datakelaskuliahws);
-		
-		$data = $this->mfeeder_data->getkelaskuliah(false,false,$dataptws->data[0]->id_perguruan_tinggi);
+		$data = $this->mfeeder_data->getdosenmengajar(false,false,false,$dataptws->data[0]->id_perguruan_tinggi);
 		if(!$data){
-			echo "<a class='btn btn-primary' href='#' id='ambildata' data-src='".base_url()."/feeder/kelas/inputdata'>Ambil data</a>";
+			echo "<a class='btn btn-primary' href='#' id='ambildata' data-src='".base_url()."/feeder/dosenmengajar/inputdata'>Ambil data</a>";
 		}else{
-			echo "<a class='btn btn-primary' id='ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/kelas/inputdata'>Update data</a>";
+			echo "<a class='btn btn-primary' id='ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/dosenmengajar/inputdata'>Update data</a>";
 			echo "<div class='clearfix'></div><hr>";
 			echo "<table class='table' id='datatable'>";
-			echo "<thead><tr><th width='1'>No</th><th>Program Studi</th><th>KodeMK</th><th>Matakuliah</th><th>Semester</th><th>Kelas Kuliah</th></tr></thead>";
+			echo "<thead><tr><th width='1'>No</th><th>Nama Dosen</th><th>Kelas</th><th>Rencana</th><th>Realiasi</th></tr></thead>";
 			echo "<tbody>";
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
 				echo "<tr>";
 				echo "<td>{$no}</td>";
-				echo "<td>{$val->nama_program_studi}</td>";
-				echo "<td>{$val->kode_mata_kuliah}</td>";
-				echo "<td>{$val->nama_mata_kuliah}</td>";
-				echo "<td>{$val->id_semester}</td>";
-				echo "<td>{$val->nama_kelas_kuliah}</td>";
+				echo "<td>{$val->nama_dosen}</td>";
+				echo "<td>{$val->id_kelas_kuliah}</td>";
+				echo "<td>{$val->rencana_tatap_muka}</td>";
+				echo "<td>{$val->realisasi_tatap_muka}</td>";
 				echo "</tr>";
 			}
 			echo "</tbody>";
@@ -92,23 +88,22 @@ class Kelas extends BaseController
 			$feeder_akun = $session->get("feeder_akun");
 			$dataptws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetProfilPT','',false,'1','0');
 			
-			$datakelaskuliahws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetDetailKelasKuliah');	
-		
+			$datakurikulumws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetDosenPengajarKelasKuliah');			
 			$dataptws = $this->mfungsi->object_to_array($dataptws->data[0]);
 		
-			foreach($datakelaskuliahws->data as $key=>$val){
+			foreach($datakurikulumws->data as $key=>$val){
 				$datain = $this->mfungsi->object_to_array($val);		
 				$datain['id_perguruan_tinggi'] = $dataptws['id_perguruan_tinggi'];
 				$datain['kode_perguruan_tinggi'] = $dataptws['kode_perguruan_tinggi'];
 				
-				$cekdata = $this->mfeeder_data->getkelaskuliah($val->id_kelas_kuliah);
+				$cekdata = $this->mfeeder_data->getdosenmengajar($val->id_aktivitas_mengajar);
 				if(!$cekdata){
-					$query = $this->db->table('feeder_kelas')->insert($datain);
+					$query = $this->db->table('feeder_dosenmengajar')->insert($datain);
 					$ret['messages'] = "Data berhasil dimasukan";
 					$ret['success'] = true;
 				}else{
 					//update
-					$query = $this->db->table('feeder_kelas')->update($datain, array("id_kelas_kuliah"=>$val->id_kelas_kuliah));
+					$query = $this->db->table('feeder_dosenmengajar')->update($datain, array("id_aktivitas_mengajar"=>$val->id_aktivitas_mengajar));
 					$ret['messages'] = "Data berhasil diupdate";
 					$ret['success'] = true;
 				}

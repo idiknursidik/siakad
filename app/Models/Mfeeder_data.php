@@ -18,6 +18,7 @@ class Mfeeder_data extends Model
 	protected $kelaskuliah	= 'feeder_kelas';
 	protected $kurikulum	= 'feeder_kurikulum';
 	protected $kurikulummatakuliah	= 'feeder_kurikulummatakuliah';
+	protected $dosenmengajar	= 'feeder_dosenmengajar';
 	
     public function getprofilept($id_perguruan_tinggi=false,$kodept=false)
     {
@@ -314,6 +315,35 @@ class Mfeeder_data extends Model
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
 			if($id_kelas_kuliah){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}		
+	}
+	public function getdosenmengajar($id_aktivitas_mengajar=false,$id_dosen=false,$id_kelas_kuliah=false,$id_perguruan_tinggi=false)
+    {
+		$builder = $this->db->table($this->dosenmengajar);
+
+		if($id_perguruan_tinggi){
+			$builder->where("id_perguruan_tinggi",$id_perguruan_tinggi);
+		}
+		if($id_dosen){
+			$builder->where("id_dosen",$id_dosen);
+		}
+		if($id_kelas_kuliah){
+			$builder->where("id_kelas_kuliah",$id_kelas_kuliah);
+		}
+		if($id_aktivitas_mengajar){
+			$builder->where("id_aktivitas_mengajar",$id_aktivitas_mengajar);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResultObject();
+			if($id_aktivitas_mengajar || ($id_dosen && $id_kelas_kuliah)){
 				$ret = $data[0];
 			}else{
 				$ret = $data;

@@ -28,7 +28,7 @@ class Msiakad_matakuliah extends Model
 		}
 		//akses only
 		$builder->whereIn("id_prodi",$akses);
-		
+		$builder->orderBy('kode_matakuliah', 'DESC');
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

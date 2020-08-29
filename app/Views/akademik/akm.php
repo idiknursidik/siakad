@@ -5,8 +5,8 @@ echo $this->section('content');
 <div class="row no-print">
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah Data Excel" data-src="<?php echo base_url();?>/akademik/nilai/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
-	  <a href="#" name="getnilaipddikti" data-src="<?php echo base_url();?>/akademik/nilai/getnilaipddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#modalku" data-toggle="modal" title="Tambah Data Excel" data-src="<?php echo base_url();?>/akademik/akm/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
+	  <a href="#" name="getakmpddikti" data-src="<?php echo base_url();?>/akademik/akm/getakmpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dari PDDIKTI
 	  </a>
 	</div>
@@ -17,25 +17,25 @@ echo $this->section('content');
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/akademik/nilai/listdata");
+	$("#resultcontent").load("<?php echo base_url();?>/akademik/akm/listdata");
 	
-	$("a[name='getnilaipddikti']").on("click",function(){
+	$("a[name='getakmpddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
 		$.ajax({
 			dataType:'json',
 			url:action,
 			beforeSend:function(){
-				$("a[name='getnilaipddikti']").prop("disabled",true);
-				$("a[name='getnilaipddikti']").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				$("a[name='getakmpddikti']").prop("disabled",true);
+				$("a[name='getakmpddikti']").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
 			},
 			complete:function(){
-				$("a[name='getnilaipddikti']").prop("disabled",false);
-				$("a[name='getnilaipddikti']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI");	
+				$("a[name='getakmpddikti']").prop("disabled",false);
+				$("a[name='getakmpddikti']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI");	
 			},
 			success:function(ret){
 				if(ret.success == true){
 					toastr.success(ret.messages);	
-					$("#resultcontent").load("<?php echo base_url();?>/akademik/nilai/listdata");
+					$("#resultcontent").load("<?php echo base_url();?>/akademik/akm/listdata");
 
 				}else{
 					toastr.error(ret.messages);
@@ -61,7 +61,7 @@ $(function(){
 				if(ret.success == true){
 					toastr.success(ret.messages);
 					$("#modalku").modal("hide");
-					$("#resultcontent").load("<?php echo base_url();?>/akademik/nilai/listdata");
+					$("#resultcontent").load("<?php echo base_url();?>/akademik/akm/listdata");
 				}else{
 					if(ret.error_feeder==true){
 						toastr.error(ret.messages);
