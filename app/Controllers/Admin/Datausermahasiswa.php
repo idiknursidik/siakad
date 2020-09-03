@@ -6,6 +6,10 @@ class Datausermahasiswa extends BaseController
 {
 	
 	protected $siakad_akun = 'siakad_akun';
+	protected $siakad_riwayatpendidikan = 'siakad_riwayatpendidikan';
+	protected $siakad_mahasiswa = 'siakad_mahasiswa';
+	protected $feeder_riwayatpendidikan = 'feeder_riwayatpendidikan';
+	
 	public function __construct(){
 		$session = \Config\Services::session();
 		if($session->get("level") != 1){
@@ -50,69 +54,50 @@ class Datausermahasiswa extends BaseController
 	public function tambah(){
 		?>
 		<script>
-		$('.select2').select2({
-			dropdownParent: $("#modalku")
-			
-		})
+		  $(function () {
+			$('#datatable').DataTable({
+			  "paging": true,
+			  "lengthChange": true,
+			  "searching": true,
+			  "ordering": true,
+			  "info": true,
+			  "autoWidth": false,
+			  "responsive": true,
+			});
+		  });
 		</script>
 		<?php
-		$profile 	= $this->msiakad_setting->getdata(); 			
-		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
-		$leveluser 	= $this->msiakad_akun->leveluser();
-		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datausermahasiswa/create'>";
-		echo csrf_field(); 
-		echo "<div class='row'>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='username'>Username</label>";
-					echo "<input type='text' class='form-control' name='username' id='username'>";
-				echo "</div>";
-			echo "</div>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='password'>Password</label>";
-					echo "<input type='text' class='form-control' name='password' id='password'>";
-				echo "</div>";
-			echo "</div>";
-		echo "</div>";
-		echo "<div class='row'>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='nama'>Nama</label>";
-					echo "<input type='text' class='form-control' name='nama' id='nama'>";
-				echo "</div>";
-			echo "</div>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='level'>Level</label>";
-					echo "<select type='text' name='level' id='level' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
-					if($leveluser){
-						foreach($leveluser as $key=>$val){
-							echo "<option value='{$key}'";
-							if($this->request->getVar("level") == $key) echo " selected='selected'";
-							echo ">{$val}</option>";
-						}
-					}
-					echo "</select>";
-				echo "</div>";
-			echo "</div>";
-		echo "</div>";
-		echo "<div class='form-group'>";
-			echo "<label for='email'>Email</label>";
-			echo "<input type='email' class='form-control' name='email' id='email'>";
-		echo "</div>";		
-		echo "<div class='form-group clearfix'>";
-			echo "<label for='akses'>Hak akses </label><hr>";
-			foreach($prodi as $key=>$val){
-				echo "<div class='icheck-primary d-inline'>";                      
-				echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}'>";
-				echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
-				echo "</div>";
-			}
-			
-		echo "</div>";	
+		$profile 	= $this->msiakad_setting->getdata();
+
+
+		$builder = $this->db->table("{$this->siakad_riwayatpendidikan} a");
+		$builder->join("{$this->siakad_mahasiswa} b","a.id_mahasiswa = b.id_mahasiswa");
+		$builder->select("a.*,b.nama_mahasiswa");
+		$query = $builder->get();
+		$datamahasiswa = $query->getResult();
 		
-		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datausermahasiswa/create'>";
+		echo csrf_field();
+		echo "<table class='table' id='datatable'>";
+		echo "<thead><th>No</th><th>Nim</th><th>Nama</th><th>Buat Akun</th></thead>";
+		echo "<tbody>";		
+		if($query->getRowArray() == 0){
+			echo "<tr><td colspan='4'>tidak ada data</td></tr>";
+		}else{
+			$no=0;
+			foreach($datamahasiswa as $key=>$val){
+				$no++;
+				echo "<tr>";
+				echo "<td>{$no}</td>";
+				echo "<td>{$val->nim}</td>";
+				echo "<td>{$val->nama_mahasiswa}</td>";
+				echo "<td><input type='checkbox' name='add' 	></td>";
+				echo "</tr>";
+			}
+		}	
+		echo "</tbody>";				
+		echo "</table>";
+		echo "<hr><div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
 	public function create(){
