@@ -8,6 +8,7 @@ class Kelas extends BaseController
 	protected $siakad_kelas = 'siakad_kelas';
 	protected $feeder_kelas = 'feeder_kelas';
 	protected $siakad_nilai = 'siakad_nilai';
+	protected $siakad_dosenmengajar = 'siakad_dosenmengajar';
 	public function __construct()
     {
         $this->msiakad_kelas = new Msiakad_kelas();
@@ -527,7 +528,8 @@ class Kelas extends BaseController
 		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
 		echo "Prodi : {$datakelas->nama_prodi} - {$datakelas->nama_jenjang_didik}<br>"; 
 		echo "Semester : {$datakelas->id_semester}<br>"; 
-		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah}";
+		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah}<br>";
+		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
 		echo "<hr>";
 		echo "<h4 class='text-primary'>Dosen Penganjar</h4>";
 		$datapengajar = $this->msiakad_dosenmengajar->getdata(false,false,$profile->kodept,$id_kelas);
@@ -548,7 +550,7 @@ class Kelas extends BaseController
 				echo "<td>{$val->rencana_tatap_muka}</td>";
 				echo "<td>{$val->realisasi_tatap_muka}</td>";
 				echo "<td>{$val->id_jenis_evaluasi}</td>";
-				echo "<td>#</td>";
+				echo "<td><a href='#' name='hapusdosenmengajar_{$no}' data-src='".base_url()."/akademik/kelas/hapusdosenmengajar' id_aktivitas_mengajar='{$val->id_aktivitas_mengajar}'>Hapus</a></td>";
 				echo "</tr>";
 			}
 		}
@@ -740,10 +742,72 @@ class Kelas extends BaseController
 	public function prosestambahdosenmengajar(){
 		if ($this->request->isAJAX()){
 			$ret=array("success"=>false,"messages"=>array());
+			$profile 	= $this->msiakad_setting->getdata();
 			$id_kelas	= $this->request->getVar("id_kelas");
 			$datakelas	= $this->msiakad_kelas->getdata($id_kelas);
+			$validation =  \Config\Services::validation();   
 			
+			if (!$this->validate([
+				'nidn'=>[
+					'rules' => "trim|required|is_unique[siakad_dosenmengajar.nidn,id_kelas,{id_kelas}]",
+					'errors' => [
+						'required' => 'NIDN harus dipilih.',
+						'is_unique' => "Data sudah ada {$id_kelas}."
+					]
+				],
+				'sks_substansi_total'=>[
+					'rules' => 'required|numeric',
+					'errors' => [
+						'required' => 'Jumlah bobot sks wajib harus diisi.',
+						'numeric'=>'Jumlah sks harus angka'
+					]
+				],
+				'rencana_tatap_muka'=>[
+					'rules' => 'required|numeric',
+					'errors' => [
+						'required' => 'Rencana tatap muka sks wajib harus diisi.',
+						'numeric'=>'Rencana tatap muka harus angka'
+					]
+				]
+			]))
+			{			
+				foreach($validation->getErrors() as $key=>$value){
+					$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
+				}
+			}else{
+				$nidn 					= $this->request->getVar("nidn");
+				$id_jenis_evaluasi 		= $this->request->getVar("id_jenis_evaluasi");
+				$realisasi_tatap_muka 	= $this->request->getVar("realisasi_tatap_muka");
+				$rencana_tatap_muka 	= $this->request->getVar("rencana_tatap_muka");
+				$sks_substansi_total 	= $this->request->getVar("sks_substansi_total");
+				$datain=array("id_kelas"=>$id_kelas,
+							  "nidn"=>$nidn,
+							  "kodept"=>$profile->kodept,
+							  "id_jenis_evaluasi"=>$id_jenis_evaluasi,
+							  "realisasi_tatap_muka"=>$realisasi_tatap_muka,
+							  "rencana_tatap_muka"=>$rencana_tatap_muka,
+							  "sks_substansi_total"=>$sks_substansi_total,
+							  "date_created"=>date("Y-m-d H:i:s"));
+				if($this->db->table($this->siakad_dosenmengajar)->insert($datain)){
+					$ret["messages"] = "Data sudah dimasuka";
+					$ret["success"] = true;
+				}
+			}
 			
+			echo json_encode($ret);
+		}else{
+			echo "Tidak diizinkan..!!!!";
+		}
+	}
+	public function hapusdosenmengajar(){
+		if ($this->request->isAJAX()){
+			$ret=array("success"=>false,"messages"=>array());
+			$profile 	= $this->msiakad_setting->getdata();
+			$id_aktivitas_mengajar = $this->request->getVar("id_aktivitas_mengajar");
+			if($this->db->table($this->siakad_dosenmengajar)->delete(['id_aktivitas_mengajar'=>$id_aktivitas_mengajar])){
+				$ret["messages"] = "Data sudah dihapus";
+				$ret["success"] = true;
+			}
 			echo json_encode($ret);
 		}else{
 			echo "Tidak diizinkan..!!!!";

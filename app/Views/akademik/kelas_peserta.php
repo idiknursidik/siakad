@@ -18,7 +18,7 @@ echo $this->section('content');
 <script>
 $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listpeserta/<?php echo $id_kelas;?>");
-	$("body").on("submit","#form_tambah_peserta",function(){
+	$("body").on("submit","#form_tambah_peserta,#form_tambah_dosenmengajar",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
 		$.ajax({
@@ -61,6 +61,7 @@ $(function(){
 		})
 		return false;
 	})
+	
 	$("body").on("click","input,select,textarea",function(){
 		var element = $(this);
 			element.closest("input.form-control")
@@ -87,6 +88,40 @@ $(function(){
 				}
 			})
 		}
+	})
+	$("body").on("click","a[name^='hapusdosenmengajar']",function(){
+		var dString = "id_aktivitas_mengajar="+$(this).attr("id_aktivitas_mengajar");
+		var action = $(this).attr("data-src");
+		var name = $(this).attr("name");
+		if(confirm("yakin data akan dihapus?")){
+			$.ajax({
+				type:'post',
+				dataType:'json',
+				url:action,
+				data:dString,
+				beforeSend:function(){
+					$("a[name='"+name+"']").prop("disabled",true);
+					$("a[name='"+name+"']").html("<i class='fa fa-spin fa-spinner'></i> loading...");			
+				},
+				complete:function(){
+					$("a[name='"+name+"']").prop("disabled",false);
+					$("a[name='"+name+"']").html("hapus");	
+				},
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#modalku").modal("hide");
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listpeserta/<?php echo $id_kelas;?>");
+					}else{
+						toastr.error(ret.messages);
+					}
+				},
+				error:function(xhr,ajaxOptions,thrownError){
+					alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+				}
+			})
+		}
+		return false;
 	})
 })
 </script>

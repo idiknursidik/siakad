@@ -1,4 +1,9 @@
 <?php
+if(!session()->username){
+	?>
+		<script> document.location="<?php echo base_url();?>/login"; </script>
+	<?php
+}
 $session = \Config\Services::session();
 
 use \App\Models\Msiakad_setting;

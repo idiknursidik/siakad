@@ -19,7 +19,6 @@ if($profil_setting){
 	$kodept = "NO DATA";
 	$logopt = "logo.png";
 }
-
 $dataakun = $msiakad_akun->getakun(false,session()->username);
 $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
 ?>
@@ -189,6 +188,12 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                 <a href="<?php echo base_url();?>/admin/datauser" class="nav-link <?php echo isset($mn_setting_datauser)?'active':'';?>">
                   <i class="fas fa-user-cog nav-icon"></i>
                   <p>Kelola User</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/admin/datausermahasiswa" class="nav-link <?php echo isset($mn_setting_datausermhs)?'active':'';?>">
+                  <i class="fas fa-user-cog nav-icon"></i>
+                  <p>Kelola User Mahasiswa</p>
                 </a>
               </li>
               <li class="nav-item">
