@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 29/08/2020 23:06:21
+ Date: 06/09/2020 14:04:17
 */
 
 SET NAMES utf8mb4;
@@ -585,6 +585,23 @@ CREATE TABLE `siakad_akun`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for siakad_akun_mahasiswa
+-- ----------------------------
+DROP TABLE IF EXISTS `siakad_akun_mahasiswa`;
+CREATE TABLE `siakad_akun_mahasiswa`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kodept` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `nim` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `user_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `date_create` datetime(0) NULL DEFAULT NULL,
+  `date_update` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for siakad_dosen
 -- ----------------------------
 DROP TABLE IF EXISTS `siakad_dosen`;
@@ -611,8 +628,8 @@ CREATE TABLE `siakad_dosen`  (
 DROP TABLE IF EXISTS `siakad_dosenmengajar`;
 CREATE TABLE `siakad_dosenmengajar`  (
   `id_aktivitas_mengajar` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_kelas` int(11) NULL DEFAULT NULL,
-  `nidn` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
+  `id_kelas` int(11) NOT NULL,
+  `nidn` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `kodept` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `id_aktivitas_mengajar_ws` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `id_dosen_ws` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
@@ -625,8 +642,9 @@ CREATE TABLE `siakad_dosenmengajar`  (
   `sks_substansi_total` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `date_created` datetime(0) NULL DEFAULT NULL,
   `date_updated` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_aktivitas_mengajar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 440 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id_aktivitas_mengajar`) USING BTREE,
+  UNIQUE INDEX `nkel`(`id_kelas`, `nidn`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 467 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_kelas
@@ -675,7 +693,7 @@ CREATE TABLE `siakad_kurikulum`  (
   `nama_kurikulum` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `semester_mulai_berlaku` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_kurikulum`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_kurikulummatakuliah
