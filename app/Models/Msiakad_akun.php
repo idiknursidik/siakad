@@ -49,7 +49,7 @@ class Msiakad_akun extends Model
 		$builder = $this->db->table("{$this->siakad_akun_mahasiswa} a");
 		$builder->join("{$this->siakad_riwayatpendidikan} b","a.nim = b.nim","left");
 		$builder->join("{$this->siakad_mahasiswa} c","b.id_mahasiswa = c.id_mahasiswa","left");
-		$builder->select("a.*,c.nama_mahasiswa");
+		$builder->select("a.*,c.id_mahasiswa,c.nama_mahasiswa");
 		
 		if($id){
 			$builder->where("a.id",$id);

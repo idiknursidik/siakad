@@ -64,12 +64,26 @@ class Referensi extends BaseController
 			//exit();			
 			//hapus data dulu
 			$this->db->table('ref_'.strtolower($act))->emptyTable();
-			foreach($datareferensiws->data as $key=>$val){				
-				$datain = $this->mfungsi->object_to_array($val);
-				$query = $this->db->table('ref_'.strtolower($act))->insert($datain);
-				$ret['messages'] = "Data berhasil dimasukan";
-				$ret['success'] = true;				
+			$jumlah = 0;
+			$cekjumlah = 0;
+			foreach($datareferensiws->data as $key=>$val){
+				if($act == "GetKebutuhanKhusus"){
+					$cekjumlah = explode(',',$val->nama_kebutuhan_khusus);
+					if(count($cekjumlah) <= 1){
+						$datain = $this->mfungsi->object_to_array($val);				
+						$this->db->table('ref_'.strtolower($act))->insert($datain);
+						$jumlah++;
+					}					
+				}else{
+					$jumlah++;
+					$datain = $this->mfungsi->object_to_array($val);				
+					$this->db->table('ref_'.strtolower($act))->insert($datain);
+				}
+				
+							
 			}
+			$ret['messages'] = "{$jumlah} {$act} Data berhasil dimasukan";
+			$ret['success'] = true;	
 		}			
 		echo json_encode($ret);
 	}

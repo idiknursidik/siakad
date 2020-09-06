@@ -2,22 +2,13 @@
 echo $this->extend('layout/template_mahasiswa');
 echo $this->section('content');
 ?>
-<div class="row no-print">
-	<div class="col-12">
-	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a name="tambahdata" href="#modalku" data-toggle="modal" title="Tambah Mahasiswa" data-src="<?php echo base_url();?>/akademik/mahasiswa/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
-	  <a href="#" name="getmahasiswapddikti" data-src="<?php echo base_url();?>/akademik/mahasiswa/getmahasiswapddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
-		<i class="fas fa-download"></i> Ambil dari PDDIKTI
-	  </a>
-	</div>
-</div>
-<br>
+
 <div class="card card-solid">
 	<div class="card-body" id="resultcontent">Loading data....</div>
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/listdata");
+	$("#resultcontent").load("<?php echo base_url();?>/mahasiswa/biodata/viewdata");
 	
 	$("a[name='getmahasiswapddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
