@@ -58,7 +58,8 @@ class Login extends BaseController
 							'nama' => $row->nama,
 							'level' => $row->userlevel,
 							'akses' => $row->akses,
-							'nama_level' => $this->msiakad_akun->leveluser($row->userlevel)
+							'nama_level' => $this->msiakad_akun->leveluser($row->userlevel),
+							'type'=>'admin'
 						];
 						$this->session->set($simpan_session);
 						$msg = [
@@ -74,11 +75,39 @@ class Login extends BaseController
 						];
 					}
 				}else{
-					$msg = [
-						'error' => [
-							'username'=>'Username tidak ditemukan'
-						]
-					];
+					//cek akun mahasiswa
+					$qcekuser = $this->db->query("SELECT * FROM siakad_akun_mahasiswa WHERE username = '{$username}' ");
+					$result = $qcekuser->getResult();
+					if(count($result) > 0){
+						$row = $qcekuser->getRow();
+						$password_user = $row->password;
+						if(password_verify($password,$password_user)){
+							$simpan_session = [
+								'login' => true,
+								'username' => $row->username,
+								'type'=>'mahasiswa'
+							];
+							$this->session->set($simpan_session);
+							$msg = [
+								'success' => [
+									'link'=>base_url()
+								]
+							];
+						}else{
+							$msg = [
+								'error' => [
+									'password'=>'Maaf password salah'
+								]
+							];
+						}
+					}else{
+						
+						$msg = [
+							'error' => [
+								'username'=>'Username tidak ditemukan'
+							]
+						];
+					}
 				}
 				
 			}

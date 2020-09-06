@@ -30,7 +30,7 @@ class Riwayatpendidikan extends BaseController
 			$('#datatable thead tr:eq(1) th').each( function (i) {
 				
 				var title = $(this).text();
-				if(i !=0 ){
+				if(i!=0 && i!=8){
 					$(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
 				}else{
 					$(this).html("");
@@ -43,7 +43,7 @@ class Riwayatpendidikan extends BaseController
 							.draw();
 					}
 				} );
-			} );
+			});
 			
 			var table = $('#datatable').DataTable({
 			  "paging": true,
@@ -53,17 +53,16 @@ class Riwayatpendidikan extends BaseController
 			  "info": true,
 			  "autoWidth": false,
 			  "responsive": true,
-			   "orderCellsTop": true,
-				"fixedHeader": true
+			   "orderCellsTop": true
 			});
 		  });
 		</script>
 		<?php
 		
 		$profile 	= $this->msiakad_setting->getdata(); 
-		$data 		= $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,$profile->kodept);
+		$data 		= $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept);
 		
-		echo "<table class='table display' id='datatable'>";
+		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Jenis Pendaftaran</th><th>Periode</th><th>Tanggal Masuk</th><th>Prodi</th><th>Status</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){

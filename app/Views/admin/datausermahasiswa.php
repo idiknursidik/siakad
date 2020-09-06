@@ -15,7 +15,7 @@ echo $this->section('content');
 <script>
 $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/admin/datausermahasiswa/listdata");
-	$("body").on("submit","#form_tambah,#form_ubah",function(){
+	$("body").on("submit","#form_tambah",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
 		$.ajax({
@@ -26,7 +26,9 @@ $(function(){
 			success:function(ret){
 				if(ret.success == true){
 					toastr.success(ret.messages);
-					$("#modalku").modal("hide");
+					//$("#modalku").modal("hide");
+					$('#modalisi').html('Loading, please wait...');
+					$('#modalisi').load("<?php echo base_url();?>/admin/datausermahasiswa/tambah");
 					$("#resultcontent").load("<?php echo base_url();?>/admin/datausermahasiswa/listdata");
 				}else{
 					if(ret.error_feeder==true){

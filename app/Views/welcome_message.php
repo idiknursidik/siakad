@@ -1,7 +1,11 @@
 <?php
-echo $this->extend('layout/template');
+$session = session();
+if($session->type == "admin"){
+	echo $this->extend('layout/template');
+}else{
+	echo $this->extend('layout/template_mahasiswa');
+}
 echo $this->section('content');
- $session = session();
 
 ?>
 <div class="card card-solid">
