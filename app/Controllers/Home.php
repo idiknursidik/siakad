@@ -9,7 +9,11 @@ class Home extends BaseController
 		$data = [
 			'title' => 'halaman depan'
 		];
-		return view('welcome_message',$data);
+		if(session()->type == "admin"){
+			return view('welcome_message',$data);
+		}else{
+			return view('mahasiswa/home',$data);
+		}
 	}
 
 	//--------------------------------------------------------------------

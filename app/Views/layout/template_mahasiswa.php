@@ -7,7 +7,10 @@ if(!session()->username){
 $session = \Config\Services::session();
 
 use \App\Models\Msiakad_setting;
+use \App\Models\Msiakad_akun;
 $msiakad_setting = new Msiakad_setting();
+$msiakad_akun = new Msiakad_akun();
+
 $profil_setting = $msiakad_setting->getprofile();
 $profileinfo = $msiakad_setting->getdata();
 if($profil_setting){
@@ -19,6 +22,8 @@ if($profil_setting){
 	$kodept = "NO DATA";
 	$logopt = "logo.png";
 }
+$infoakun = $msiakad_akun->getakunmahasiswa(false,$session->username);
+
 $uri = current_url(true);
 ?>
 <!DOCTYPE html>
@@ -82,39 +87,22 @@ to get the desired effect
           <li class="nav-item">
             <a href="<?php echo base_url();?>" class="nav-link">Home</a>
           </li>
-         
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>/mahasiswa/biodata" class="nav-link">Biodata Mahasiswa</a>
+          </li>
           <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Info Akademik</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <li><a href="#" class="dropdown-item">Some action </a></li>
-              <li><a href="#" class="dropdown-item">Some other action</a></li>
+              <li><a href="#" class="dropdown-item">Jadwal Kuliah </a></li>
+              <li><a href="#" class="dropdown-item">Nilai Kuliah</a></li>
 
               <li class="dropdown-divider"></li>
-
-              <!-- Level two dropdown-->
-              <li class="dropdown-submenu dropdown-hover">
-                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
-                <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                  <li>
-                    <a tabindex="-1" href="#" class="dropdown-item">level 2</a>
-                  </li>
-
-                  <!-- Level three dropdown-->
-                  <li class="dropdown-submenu">
-                    <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">level 2</a>
-                    <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
-                      <li><a href="#" class="dropdown-item">3rd level</a></li>
-                      <li><a href="#" class="dropdown-item">3rd level</a></li>
-                    </ul>
-                  </li>
-                  <!-- End Level three -->
-
-                  <li><a href="#" class="dropdown-item">level 2</a></li>
-                  <li><a href="#" class="dropdown-item">level 2</a></li>
-                </ul>
-              </li>
-              <!-- End Level two -->
+              <li><a href="#" class="dropdown-item">Perwalian</a></li>
+         
             </ul>
+          </li>
+		  <li class="nav-item">
+            <a href="<?php echo base_url();?>" class="nav-link">Info Keuangan</a>
           </li>
         </ul>
 
@@ -162,86 +150,29 @@ to get the desired effect
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+	<!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark"> Top Navigation <small>Example 3.0</small></h1>
+            <h1 class="m-0 text-dark"><?php echo isset($judul)?$judul:"Home";?></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              <li class="breadcrumb-item active">Top Navigation</li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Home</a></li>
+              <li class="breadcrumb-item active"><a href="<?php echo (string)$uri;?>"><?php echo isset($judul)?$judul:"Halaman depan";?></a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div><!-- /.container -->
     </div>
     <!-- /.content-header -->
+	
 
     <!-- Main content -->
-    <div class="content">
+    <div class="content" style="min-height:500px;">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="card-title m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
+		<?php echo $this->renderSection('content');?>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -251,9 +182,16 @@ to get the desired effect
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
+    <div class="p-3">      
+		<div class="text-center">
+			<h5>Info Akun</h5>
+			<img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/adminlte/dist/img/user4-128x128.jpg" alt="User profile picture">
+			<p><?php echo $infoakun->nama_mahasiswa;?></p>
+		</div>
+	  <hr>
+      <p><a href="<?php echo base_url();?>/login/logout">Profile</a><br>
+      <a href="<?php echo base_url();?>/login/logout">Logout</a></p>
+	  
     </div>
   </aside>
   <!-- /.control-sidebar -->
@@ -316,7 +254,6 @@ to get the desired effect
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="<?php echo base_url();?>/public/adminlte/plugins/chart.js/Chart.min.js"></script>
-<script src="<?php echo base_url();?>/public/adminlte/dist/js/demo.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/dist/js/pages/dashboard3.js"></script>
 <script>
 
