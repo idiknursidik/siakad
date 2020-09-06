@@ -82,6 +82,10 @@ class Login extends BaseController
 						$row = $qcekuser->getRow();
 						$password_user = $row->password;
 						if(password_verify($password,$password_user)){
+							//update last login
+							$last_login = array('last_login'=>date("Y-m-d H:i:s"));
+							$this->db->table("siakad_akun_mahasiswa")->update($last_login,['username'=>$row->username]);
+							
 							$simpan_session = [
 								'login' => true,
 								'username' => $row->username,
