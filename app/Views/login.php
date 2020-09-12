@@ -35,8 +35,8 @@ to get the desired effect
     <a>SIAKAD</a>
   </div>
   <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
+  <div class="card" style="padding:20px;">
+    <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
       <form id="form_login" action="<?php echo base_url();?>/login/proseslogin" method="post">
@@ -79,13 +79,13 @@ to get the desired effect
       </form>
 
       <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-      
+	  <br>
+        <hr>      
       </div>
       <!-- /.social-auth-links -->
-
-      <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
+		
+      <p class="mb-1 text-center">
+        <a href="#" onclick="alert('Kontak Bagian Akademik');">Lupa Password</a>
       </p>
     </div>
     <!-- /.login-card-body -->

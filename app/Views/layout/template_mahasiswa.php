@@ -98,7 +98,7 @@ to get the desired effect
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"><i class="fas fa-file-invoice"></i> Info Akademik</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="#" class="dropdown-item"><i class="fas fa-clock"></i> Jadwal Kuliah </a></li>
-              <li><a href="#" class="dropdown-item"><i class="fas fa-file-alt"></i> Nilai Kuliah</a></li>
+              <li><a href="<?php echo base_url();?>/mahasiswa/nilai" class="dropdown-item"><i class="fas fa-file-alt"></i> Nilai Kuliah</a></li>
 
               <li class="dropdown-divider"></li>
               <li><a href="#" class="dropdown-item"><i class="fas fa-book"></i> Perwalian</a></li>
@@ -193,7 +193,7 @@ to get the desired effect
 			<p><?php echo $infoakun->nama_mahasiswa;?></p>
 		</div>
 	  <hr>
-      <p><a href="<?php echo base_url();?>/mahasiswa/profile"><i class="fas fa-user-edit"></i>  Profile</a><br>
+      <p><a href="<?php echo base_url();?>/mahasiswa/profile"><i class="fas fa-user-edit"></i>  Profile</a><hr>
       <a href="<?php echo base_url();?>/login/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></p>
 	  
     </div>

@@ -76,7 +76,9 @@ class Login extends BaseController
 					}
 				}else{
 					//cek akun mahasiswa
-					$qcekuser = $this->db->query("SELECT * FROM siakad_akun_mahasiswa WHERE username = '{$username}' ");
+					$qcekuser = $this->db->query("SELECT a.*,b.id_prodi FROM siakad_akun_mahasiswa a
+					LEFT JOIN siakad_riwayatpendidikan b ON a.nim = b.nim
+					WHERE a.username = '{$username}' ");
 					$result = $qcekuser->getResult();
 					if(count($result) > 0){
 						$row = $qcekuser->getRow();
@@ -89,6 +91,7 @@ class Login extends BaseController
 							$simpan_session = [
 								'login' => true,
 								'username' => $row->username,
+								'akses' => $row->id_prodi,
 								'type'=>'mahasiswa'
 							];
 							$this->session->set($simpan_session);
