@@ -5,7 +5,7 @@ echo $this->section('content');
 
 <div class="card card-solid">
 	<div class="card-body" id="resultcontent">Loading data....</div>
-</div>
+</div><br>
 <script>
 $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/mahasiswa/profile/viewdata");

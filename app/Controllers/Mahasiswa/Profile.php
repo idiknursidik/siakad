@@ -50,7 +50,8 @@ class Profile extends BaseController
 			echo "<button class='btn btn-primary' id='btnSubmit_form_editprofile' type='submit' name='kirim'>Proses update</button>";
 			echo "</form>";
 			echo "<hr>";
-			echo "<h3>Ubah Password</h1>";
+			
+			echo "<h3>Ubah Password</h3>";
 			echo "<form class='form-horizontal' id='form_editpassword' method='post' action='".base_url()."/mahasiswa/profile/updatepassword'>";
 			echo "<div class='form-group row'>";
 				echo "<label for='passwordlama' class='col-sm-2 col-form-label'>Password lama</label>";
@@ -73,8 +74,9 @@ class Profile extends BaseController
 			echo "<button class='btn btn-success' id='btnSubmit_form_editpassword' type='submit' name='kirim'>Proses update</button>";
 			echo "</form>";
 			echo "<hr>";
-			echo "<h3>Ubah Gambar Profile</h1>";
-			echo "<form method='post' id='form_profile_image' action='".base_url()."/mahasiswa/profile/updateimage' enctype='multipart/form-data' class='d-inline'>";	
+			
+			echo "<h3>Ubah Gambar Profile</h3>";
+			echo "<form class='form-horizontal' method='post' id='form_profile_image' action='".base_url()."/mahasiswa/profile/updateimage' enctype='multipart/form-data' class='d-inline'>";	
 			echo csrf_field();			 
 			  echo "<div class='form-group row'>";
 				echo "<div class='col-sm-2'>";

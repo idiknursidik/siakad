@@ -49,7 +49,7 @@ class Datausermahasiswa extends BaseController
 		<?php
 		$data = $this->msiakad_akun->getakunmahasiswa();
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>Username</th><th>Nama</th><th>#</th></tr></thead>";
+		echo "<thead><tr><th width='1'>No</th><th>Username</th><th>Nama</th><th>#</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='6'>no data</td></tr>";

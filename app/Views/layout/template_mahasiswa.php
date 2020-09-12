@@ -1,7 +1,7 @@
 <?php
-if(!session()->username){
+if(!session()->username || session()->type != 'mahasiswa'){
 	?>
-		<script> document.location="<?php echo base_url();?>/login"; </script>
+		<script> document.location="<?php echo base_url();?>/login/logout"; </script>
 	<?php
 	exit();
 }
@@ -170,8 +170,7 @@ to get the desired effect
         </div><!-- /.row -->
       </div><!-- /.container -->
     </div>
-    <!-- /.content-header -->
-	
+    <!-- /.content-header -->	
 
     <!-- Main content -->
     <div class="content" style="min-height:500px;">
@@ -205,8 +204,7 @@ to get the desired effect
     <strong>Copyright &copy; <?php echo (date("Y")==2020)?"2020":"2020 - ".date('Y')."";?> - <?php echo $namapt;?>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-	  Page rendered in {elapsed_time} seconds
-      
+	  Page rendered in {elapsed_time} seconds      
     </div>
   </footer>
 </div>

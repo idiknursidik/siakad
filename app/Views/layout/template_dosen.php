@@ -1,7 +1,7 @@
 <?php
-if(!session()->username){
+if(!session()->username || session()->type != 'dosen'){	
 	?>
-		<script> document.location="<?php echo base_url();?>/login"; </script>
+		<script> document.location="<?php echo base_url();?>/login/logout"; </script>
 	<?php
 	exit();
 }

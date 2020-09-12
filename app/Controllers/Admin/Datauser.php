@@ -28,7 +28,7 @@ class Datauser extends BaseController
 	public function listdata(){
 		$data = $this->msiakad_akun->getakun();
 		echo "<table class='table'>";
-		echo "<thead><tr><th>No</th><th>Username</th><th>Nama</th><th>Level</th><th>Akses</th><th>#</th></tr></thead>";
+		echo "<thead><tr><th width='1'>No</th><th>Username</th><th>Nama</th><th>Level</th><th>Akses</th><th>#</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='6'>no data</td></tr>";
