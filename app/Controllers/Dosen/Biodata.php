@@ -1,22 +1,21 @@
 <?php 
-namespace App\Controllers\Mahasiswa;
+namespace App\Controllers\Dosen;
 use App\Controllers\BaseController;
 
 class Biodata extends BaseController
 {
-	protected $siakad_mahasiswa = 'siakad_mahasiswa';
-	protected $feeder_biodatamahasiswa = 'feeder_biodatamahasiswa';
+	protected $siakad_dosen = 'siakad_dosen';
 	
 	public function index()
 	{
 
 		$data = [
-			'title' => 'Data Mahasiswa',
-			'judul' => 'Biodata Mahasiswa',
+			'title' => 'Data dosen',
+			'judul' => 'Biodata dosen',
 			'mn_biodata' => true
 			
 		];
-		return view('mahasiswa/biodata',$data);
+		return view('dosen/biodata',$data);
 	}
 	public function viewdata()
 	{
@@ -32,23 +31,23 @@ class Biodata extends BaseController
 		$kebutuhankhusus	= $this->mreferensi->GetKebutuhanKhusus();
 		
 		
-		$infoakun 			= $this->msiakad_akun->getakunmahasiswa(false,$this->session->username);
+		$infoakun 			= $this->msiakad_akun->getakundosen(false,$this->session->username);
 		
-		$data 				= $this->msiakad_mahasiswa->getdata(false,$infoakun->id_mahasiswa);
+		$data 				= $this->msiakad_dosen->getdata(false,$infoakun->id_dosen);
 		//echo "<pre>";
 		//print_r($kebutuhankhusus);
 		//echo "</pre>";
 		
-		echo "<form id='form_ubah' action='".base_url()."/mahasiswa/biodata/ubah' method='post'>";
-		echo "<input type='hidden' name='id_mahasiswa' value='{$data->id_mahasiswa}'>";
+		echo "<form id='form_ubah' action='".base_url()."/akademik/dosendaftar/ubah' method='post'>";
+		echo "<input type='hidden' name='id_dosen' value='{$data->id_dosen}'>";
 		echo "<input type='hidden' name='kodept' value='{$profile->kodept}'>";
 		echo csrf_field();
 		
 		
-		//data calon mahasiswa
-		echo "<div class='card card-outline card-primary'>";
+		//data calon dosen
+		echo "<div class='card'>";
 		  echo "<div class='card-header'>";
-			echo "<h3 class='card-title'>DATA CALON MAHASISWA</h3>";
+			echo "<h3 class='card-title'>DATA CALON dosen</h3>";
             echo "<div class='card-tools'>";
               echo "<button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-minus'></i></button>";
               echo "<button type='button' class='btn btn-tool' data-card-widget='remove'><i class='fas fa-times'></i></button>";
@@ -59,7 +58,7 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-5'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Nama</label>";
-					echo "<input type='text' name='nama' class='form-control' value='{$data->nama_mahasiswa}'>";
+					echo "<input type='text' name='nama' class='form-control' value='{$data->nama_dosen}'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-3'>";
@@ -246,10 +245,10 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>ID Kebutuhan Khusus</label>";
-					echo "<select name='id_kebutuhan_khusus_mahasiswa' class='custom-select'>";
+					echo "<select name='id_kebutuhan_khusus_dosen' class='custom-select'>";
 						foreach($kebutuhankhusus as $key=>$val){
 							echo "<option value='{$val->id_kebutuhan_khusus}'";
-							if($data->id_kebutuhan_khusus_mahasiswa == $val->id_kebutuhan_khusus) echo " selected='selected'";
+							if($data->id_kebutuhan_khusus_dosen == $val->id_kebutuhan_khusus) echo " selected='selected'";
 							echo ">{$val->nama_kebutuhan_khusus}</option>";
 						}				  
 					echo "</select>";
@@ -260,7 +259,7 @@ class Biodata extends BaseController
 		echo "</div>"; // end card
 		
 		//DATA AYAH
-		echo "<div class='card card-outline card-secondary'>";
+		echo "<div class='card'>";
 		  echo "<div class='card-header'>";
 			echo "<h3 class='card-title'>DATA ORANG TUA - AYAH</h3>";
             echo "<div class='card-tools'>";
@@ -332,7 +331,7 @@ class Biodata extends BaseController
 		  echo "</div>";
 		echo "</div>";
 		//DATA IBU
-		echo "<div class='card card-outline card-dark'>";
+		echo "<div class='card'>";
 		  echo "<div class='card-header'>";
 			echo "<h3 class='card-title'>DATA ORANG TUA - IBU</h3>";
             echo "<div class='card-tools'>";
@@ -399,7 +398,7 @@ class Biodata extends BaseController
 		  echo "</div>";
 		echo "</div>";
 		//DATA WALI
-		echo "<div class='card card-outline card-info'>";
+		echo "<div class='card'>";
 		  echo "<div class='card-header'>";
 			echo "<h3 class='card-title'>DATA ORANG TUA - WALI</h3>";
             echo "<div class='card-tools'>";
@@ -456,75 +455,5 @@ class Biodata extends BaseController
 		echo "<hr><button class='btn btn-primary' name='kirim' type='submit'>Simpan data</button><br><br>";
 		echo "</form>";
 	}
-	public function ubah(){
-		if ($this->request->isAJAX()){
-			$ret=array("success"=>false,"messages"=>array());
-			$profile 	= $this->msiakad_setting->getdata(); 
-			
-			
-			$validation =  \Config\Services::validation();   
-			if (!$this->validate([
-				'nama'=>[
-					'rules' => 'required',
-					'errors' => [
-						'required' => 'Nama harus diisi.'
-					]
-				],
-				'nik'=>[
-					'rules' => 'required|numeric',
-					'errors' => [
-						'required' => 'NIK harus diisi.',
-						'numeric' => 'NIK sks harus angka'
-					]
-				],
-				'nama_ibu_kandung'=>[
-					'rules' => 'required',
-					'errors' => [
-						'required' => 'Nama ibu kandung harus diisi.'
-					]
-				]
-			]))
-			{			
-				foreach($validation->getErrors() as $key=>$value){
-					$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
-				}
-			}else{
-				
-				$datain=array();
-				foreach($this->request->getVar() as $key=>$val){
-					if(!in_array($key,array("csrf_test_name","id_prodi"))){
-						$datain[$key] =  $this->request->getVar($key);
-					}
-				}
-				$datain["kodept"] = $profile->kodept;
-				$datain["id_prodi"] = $id_prodi;
-				
-				$semester = $this->mreferensi->GetSemester($id_semester);
-				if($semester){
-					$datain["semester_mulai_berlaku"] = $semester->nama_semester;
-				}
-				
-				$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
-				if($prodi){
-					if(strlen($prodi->kode_prodi) > 0){
-						$datain["kode_prodi"] = $prodi->kode_prodi;
-					}
-					if(strlen($prodi->id_prodi_ws) > 0){
-						$datain["id_prodi_ws"] = $prodi->id_prodi_ws;
-					}
-				}
-				
-				$query = $this->db->table($this->siakad_kurikulum)->insert($datain);		
-				if($query){	
-					$ret['messages'] = "Data berhasil dimasukan";
-					$ret['success'] = true;	
-				}else{
-					$ret['messages'] = "Data gagal dimasukan";
-				}			
-			}	
-			echo json_encode($ret);
-		}else{
-			echo "Ajax Only";
-		}
-	}
+	
 }

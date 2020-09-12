@@ -196,6 +196,12 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                   <p>Kelola User Mahasiswa</p>
                 </a>
               </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/admin/datauserdosen" class="nav-link <?php echo isset($mn_setting_datauserdosen)?'active':'';?>">
+                  <i class="fas fa-user-cog nav-icon"></i>
+                  <p>Kelola User Dosen</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="<?php echo base_url();?>/admin/profilpt" class="nav-link <?php echo isset($mn_setting_profile)?'active':'';?>">
                   <i class="fas fa-sign nav-icon"></i>

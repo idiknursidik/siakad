@@ -105,12 +105,42 @@ class Login extends BaseController
 							];
 						}
 					}else{
-						
-						$msg = [
-							'error' => [
-								'username'=>'Username tidak ditemukan'
-							]
-						];
+						//cek akun mahasiswa
+						$qcekuser = $this->db->query("SELECT * FROM siakad_akun_dosen WHERE username = '{$username}' ");
+						$result = $qcekuser->getResult();
+						if(count($result) > 0){
+							$row = $qcekuser->getRow();
+							$password_user = $row->password;
+							if(password_verify($password,$password_user)){
+								//update last login
+								$last_login = array('last_login'=>date("Y-m-d H:i:s"));
+								$this->db->table("siakad_akun_dosen")->update($last_login,['username'=>$row->username]);
+								
+								$simpan_session = [
+									'login' => true,
+									'username' => $row->username,
+									'type'=>'dosen'
+								];
+								$this->session->set($simpan_session);
+								$msg = [
+									'success' => [
+										'link'=>base_url()
+									]
+								];
+							}else{
+								$msg = [
+									'error' => [
+										'password'=>'Maaf password salah'
+									]
+								];
+							}
+						}else{
+							$msg = [
+								'error' => [
+									'username'=>'Username tidak ditemukan'
+								]
+							];
+						}
 					}
 				}
 				

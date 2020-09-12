@@ -23,8 +23,7 @@ if($profil_setting){
 	$kodept = "NO DATA";
 	$logopt = "logo.png";
 }
-$infoakun = $msiakad_akun->getakunmahasiswa(false,$session->username);
-$userimage = ($infoakun->user_image)?$infoakun->user_image:"noimage.png";
+$infoakun = $msiakad_akun->getakundosen(false,$session->username);
 
 $uri = current_url(true);
 ?>
@@ -71,15 +70,13 @@ to get the desired effect
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-danger navbar-dark">
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-		<a href="<?php echo base_url();?>" class="navbar-brand">
+      <a href="#" class="navbar-brand">
         <img src="<?php echo base_url();?>/public/gambar/<?php echo $logopt;?>" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-		 </a>
-		 <a href="<?php echo base_url();?>/mahasiswa/profile" class="navbar-brand">
-        <span class="brand-text font-weight-light"><img src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" class="brand-image img-circle elevation-3"></span>
-		</a>
+        <span class="brand-text font-weight-light"><img src="<?php echo base_url();?>/public/adminlte/dist/img/user1-128x128.jpg" class="brand-image img-circle elevation-3"></span>
+      </a>
       
       <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -89,24 +86,21 @@ to get the desired effect
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="<?php echo base_url();?>" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="<?php echo base_url();?>" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url();?>/mahasiswa/biodata" class="nav-link"><i class="fas fa-digital-tachograph"></i> Biodata Mahasiswa</a>
+            <a href="<?php echo base_url();?>/dosen/biodata" class="nav-link">Biodata Dosen</a>
           </li>
           <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"><i class="fas fa-file-invoice"></i> Info Akademik</a>
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Info Akademik</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <li><a href="#" class="dropdown-item"><i class="fas fa-clock"></i> Jadwal Kuliah </a></li>
-              <li><a href="#" class="dropdown-item"><i class="fas fa-file-alt"></i> Nilai Kuliah</a></li>
+              <li><a href="#" class="dropdown-item">Jadwal Mengajar </a></li>
+              <li><a href="#" class="dropdown-item">Materi</a></li>
 
               <li class="dropdown-divider"></li>
-              <li><a href="#" class="dropdown-item"><i class="fas fa-book"></i> Perwalian</a></li>
+              <li><a href="#" class="dropdown-item">Perwalian</a></li>
          
             </ul>
-          </li>
-		  <li class="nav-item">
-            <a href="<?php echo base_url();?>" class="nav-link"><i class="fas fa-money-check-alt"></i> Info Keuangan</a>
           </li>
         </ul>
 
@@ -189,12 +183,12 @@ to get the desired effect
     <div class="p-3">      
 		<div class="text-center">
 			<h5>Info Akun</h5>
-			<img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" alt="User profile picture">
-			<p><?php echo $infoakun->nama_mahasiswa;?></p>
+			<img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/adminlte/dist/img/user4-128x128.jpg" alt="User profile picture">
+			<p><?php echo $infoakun->nama_dosen;?></p>
 		</div>
 	  <hr>
-      <p><a href="<?php echo base_url();?>/mahasiswa/profile"><i class="fas fa-user-edit"></i>  Profile</a><br>
-      <a href="<?php echo base_url();?>/login/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></p>
+      <p><a href="<?php echo base_url();?>/login/logout">Profile</a><br>
+      <a href="<?php echo base_url();?>/login/logout">Logout</a></p>
 	  
     </div>
   </aside>

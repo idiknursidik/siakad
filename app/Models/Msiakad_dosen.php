@@ -9,7 +9,7 @@ class Msiakad_dosen extends Model
 	protected $siakad_dosen = 'siakad_dosen';
 	protected $feeder_dosen = 'feeder_dosen';
 	
-    public function getdata($id_dosen=false,$id_dosen_ws=false,$kodept=false)
+    public function getdata($id_dosen=false,$id_dosen_ws=false,$nip=false,$kodept=false)
     {
 		$builder = $this->db->table("{$this->siakad_dosen} a");
 		
@@ -22,11 +22,13 @@ class Msiakad_dosen extends Model
 		if($id_dosen_ws){
 			$builder->where("a.id_dosen_ws",$id_dosen_ws);
 		}
-		
+		if($nip){
+			$builder->where("a.nip",$nip);
+		}
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();
-			if($id_dosen || $id_dosen_ws){
+			if($id_dosen || $id_dosen_ws || $nip){
 				$ret = $data[0]; 
 			}else{
 				$ret = $data;
