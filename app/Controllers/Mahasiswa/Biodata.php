@@ -48,7 +48,7 @@ class Biodata extends BaseController
 		//data calon mahasiswa
 		echo "<div class='card card-outline card-primary'>";
 		  echo "<div class='card-header'>";
-			echo "<h3 class='card-title'>DATA CALON MAHASISWA</h3>";
+			echo "<h3 class='card-title'>DATA MAHASISWA</h3>";
             echo "<div class='card-tools'>";
               echo "<button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-minus'></i></button>";
               echo "<button type='button' class='btn btn-tool' data-card-widget='remove'><i class='fas fa-times'></i></button>";

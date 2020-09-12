@@ -11,6 +11,8 @@ class Msiakad_akun extends Model
 	protected $siakad_level = 'siakad_level';
 	protected $siakad_akun_dosen = 'siakad_akun_dosen';
 	protected $siakad_dosen = 'siakad_dosen';
+	protected $siakad_prodi = 'siakad_prodi';
+	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
 	
     public function getakun($id=false,$username=false,$kodept=false)
     {
@@ -51,7 +53,9 @@ class Msiakad_akun extends Model
 		$builder = $this->db->table("{$this->siakad_akun_mahasiswa} a");
 		$builder->join("{$this->siakad_riwayatpendidikan} b","a.nim = b.nim","left");
 		$builder->join("{$this->siakad_mahasiswa} c","b.id_mahasiswa = c.id_mahasiswa","left");
-		$builder->select("a.*,c.id_mahasiswa,c.nama_mahasiswa");
+		$builder->join("{$this->siakad_prodi} d","b.id_prodi = d.id_prodi","left");
+		$builder->join("{$this->ref_getjenjangpendidikan} e","d.id_jenjang = e.id_jenjang_didik","left");
+		$builder->select("a.*,b.id_periode_masuk,c.id_mahasiswa,c.nama_mahasiswa,d.nama_prodi,e.nama_jenjang_didik");
 		
 		if($id){
 			$builder->where("a.id",$id);
