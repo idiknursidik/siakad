@@ -9,10 +9,10 @@ echo $this->section('content');
 	  <?php
 		if(session()->level == 1){
 	  ?>
-	  <a href="#" name="getkurikulumpddikti" data-src="<?php echo base_url();?>/akademik/kurikulum/getkurikulumpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#" id="btnGet_getkurikulumpddikti" name="getkurikulumpddikti" data-src="<?php echo base_url();?>/akademik/kurikulum/getkurikulumpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil Kurikulum dari PDDIKTI
 	  </a>
-	  <a href="#" name="getkurikulummatakuliahpddikti" data-src="<?php echo base_url();?>/akademik/kurikulum/getkurikulummatakuliahpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#" id="btnGet_getkurikulummatakuliahpddikti" name="getkurikulummatakuliahpddikti" data-src="<?php echo base_url();?>/akademik/kurikulum/getkurikulummatakuliahpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil Kurikulum Matakuliah dari PDDIKTI
 	  </a>
 		<?php
@@ -27,21 +27,39 @@ echo $this->section('content');
 <script>
 $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/akademik/kurikulum/listdata");
+	
 	$("a[name='getkurikulumpddikti'],a[name='getkurikulummatakuliahpddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
-		$(this).html("loading....mohon tunggu!").addClass("disabled");
-		$.get(action, function( data ) {		  
-			if(data.success == true){
-			   toastr.success(data.messages);
-			    $("#resultcontent").load("<?php echo base_url();?>/akademik/kurikulum/listdata");
-			}else{
-				toastr.error(data.messages);
-			}
-			$("a[name='getkurikulumpddikti']").html("<i class='fas fa-download'></i> Ambil Kurikulum dari PDDIKTI").removeClass("disabled");
-			$("a[name='getkurikulummatakuliahpddikti']").html("<i class='fas fa-download'></i> Ambil Kurikulum Matakuliah dari PDDIKTI").removeClass("disabled");
-		},'json')
+		var btnGet = $(this).attr("id");
+		var htmlbtn = $(this).html();
+		if(confirm("yakin akan mengambil data?")){
+			$.ajax({
+				dataType:'json',
+				url:action,
+				beforeSend:function(){
+					$("#"+btnGet).prop("disabled",true);
+					$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				},
+				complete:function(){
+					$("#"+btnGet).prop("disabled",false);
+					$("#"+btnGet).html(htmlbtn);	
+				},
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/kurikulum/listdata");
+					}else{
+						toastr.error(ret.messages);
+					}
+				},
+				error:function(xhr,ajaxOptions,thrownError){
+					alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+				}
+			})
+		}
 		return false;
 	})
+	
 	$("body").on("submit","#form_tambah,#form_ubah",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
@@ -80,24 +98,38 @@ $(function(){
 			.removeClass('is-invalid').find('.invalid-feedback').remove();
 			element.after(value="");
 	})
-	$("body").on("a[name='hapusdata']",function(e){
-		e.prevenDefault();
+	$("body").on("click","a[name='hapusdata']",function(){
 		var dString = "id_kurikulum="+$(this).attr("id_kurikulum");
-		var action = $(this).attr("action");
-		$.ajax({
-			type:'post',
-			dataType:'json',
-			url:action,
-			data:dString,
-			success:function(ret){
-				if(ret.success == true){
-					toastr.success(ret.messages);
-					$("#resultcontent").load("<?php echo base_url();?>/akademik/kurikulum/listdata");
-				}else{
-					toastr.success(ret.messages);
+		var btnGet = $(this).attr("id");
+		var htmlbtn = $(this).html();
+		var action = $(this).attr("data-src");
+		if(confirm("yakin akan menghapus data?")){
+			$.ajax({
+				type:'post',
+				dataType:'json',
+				url:action,
+				data:dString,
+				beforeSend:function(){
+					$("#"+btnGet).prop("disabled",true);
+					$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				},
+				complete:function(){
+					$("#"+btnGet).prop("disabled",false);
+					$("#"+btnGet).html(htmlbtn);	
+				},
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/kurikulum/listdata");
+					}else{
+						toastr.error(ret.messages);
+					}
+				},
+				error:function(xhr,ajaxOptions,thrownError){
+					alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
 				}
-			}
-		})
+			})
+		}
 		return false;	
 	})
 })

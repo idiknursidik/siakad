@@ -69,7 +69,7 @@ class Kurikulum extends BaseController
 				echo "<td>{$jumlahmk} Matakuliah</td>";
 				echo "<td>";
 					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/kurikulum/edit/{$val->id_kurikulum}' title='Edit data'>edit</a>";
-					echo " - <a href='#' name='hapusdata' data-src='".base_url()."/akademik/kurikulum/hapusdata' id_kurikulum='{$val->id_kurikulum}'>hapus</a>";
+					echo " - <a href='#' id='btnGet_{$no}' name='hapusdata' data-src='".base_url()."/akademik/kurikulum/hapusdata' id_kurikulum='{$val->id_kurikulum}'>hapus</a>";
 				echo "</td>";
 				echo "</tr>";
 			}
@@ -80,7 +80,17 @@ class Kurikulum extends BaseController
 	public function hapusdata(){
 		$ret=array("success"=>false,"messages"=>array());
 		$id_kurikulum = $this->request->getVar("id_kurikulum");
-		$this->db->table()->delete();
+		//cek data matakuliah yang berkaitan
+		$datakurikulum = $this->msiakad_kurikulummatakuliah->getdata(false,$id_kurikulum);
+		if($datakurikulum){
+			$ret['messages'] = "Kurikulum terkait matakuliah silahkan hapus dahulu matakuliah terkait";
+		}else{
+			$query = $this->db->table($this->siakad_kurikulum)->delete(['id_kurikulum'=>$id_kurikulum]);
+			if($query){
+				$ret['messages'] = "Kurikulum berhasil dihapus";
+				$ret['success'] = true;
+			}
+		}
 		echo json_encode($ret);
 	}
 	public function tambah(){

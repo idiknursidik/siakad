@@ -101,7 +101,7 @@ to get the desired effect
               <li><a href="<?php echo base_url();?>/mahasiswa/nilai" class="dropdown-item"><i class="fas fa-file-alt"></i> Nilai Kuliah</a></li>
 
               <li class="dropdown-divider"></li>
-              <li><a href="#" class="dropdown-item"><i class="fas fa-book"></i> Perwalian</a></li>
+              <li><a href="<?php echo base_url();?>/mahasiswa/perwalian" class="dropdown-item"><i class="fas fa-book"></i> Perwalian atau KRS</a></li>
          
             </ul>
           </li>

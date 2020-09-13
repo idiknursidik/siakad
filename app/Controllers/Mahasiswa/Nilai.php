@@ -44,7 +44,7 @@ class Nilai extends BaseController
 		$profile 	= $this->msiakad_setting->getdata();
 		$infoakun 	= $this->msiakad_akun->getakunmahasiswa(false,$this->session->username);
 		
-		$data 		= $this->msiakad_nilai->getdata(false,'1263612014');
+		$data 		= $this->msiakad_nilai->getdata(false,$infoakun->nim);
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th>No</th><th>Semester</th><th>Kode MK</th><th>Nama MK</th><th>Nilai Huruf</th><th>Nilai Indeks</th></tr></thead>";
 		echo "<tbody>";

@@ -10,7 +10,7 @@ echo $this->section('content');
 	  <?php
 		if(session()->level == 1){
 	  ?>
-	  <a href="#" name="getkelaspddikti" data-src="<?php echo base_url();?>/akademik/kelas/getkelaspddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#" id="getkelaspddikti" name="getkelaspddikti" data-src="<?php echo base_url();?>/akademik/kelas/getkelaspddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dari PDDIKTI
 	  </a>
 	  <?php
@@ -25,20 +25,39 @@ echo $this->section('content');
 <script>
 $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listdata");
+	
 	$("a[name='getkelaspddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
-		$(this).html("loading....mohon tunggu!").addClass("disabled");
-		$.get(action, function( data ) {		  
-			if(data.success == true){
-			   toastr.success(data.messages);
-			    $("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listdata");
-			}else{
-				toastr.error(data.messages);
-			}
-			$("a[name='getkelaspddikti']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI").removeClass("disabled");
-		},'json')
+		var btnGet = $(this).attr("id");
+		var htmlbtn = $(this).html();
+		if(confirm("yakin akan mengambil data?")){
+			$.ajax({
+				dataType:'json',
+				url:action,
+				beforeSend:function(){
+					$("#"+btnGet).prop("disabled",true);
+					$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				},
+				complete:function(){
+					$("#"+btnGet).prop("disabled",false);
+					$("#"+btnGet).html(htmlbtn);	
+				},
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listdata");
+					}else{
+						toastr.error(ret.messages);
+					}
+				},
+				error:function(xhr,ajaxOptions,thrownError){
+					alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+				}
+			})
+		}
 		return false;
 	})
+	
 	$("body").on("submit","#form_tambah,#form_ubah",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");

@@ -207,7 +207,13 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                   <i class="fas fa-sign nav-icon"></i>
                   <p>Setting Profile</p>
                 </a>
-              </li>              
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/admin/perkuliahan" class="nav-link <?php echo isset($mn_setting_perkuliahan)?'active':'';?>">
+                  <i class="fas fa-sign nav-icon"></i>
+                  <p>Setting Perkuliahan</p>
+                </a>
+              </li>               
             </ul>
           </li>
 		<?php

@@ -41,6 +41,7 @@ class Msiakad_kurikulummatakuliah extends Model
 		}
 		//akses only
 		$builder->whereIn("a.id_prodi",$akses);
+		$builder->orderBy('a.id_semester','DESC');
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();

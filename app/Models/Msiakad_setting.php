@@ -12,6 +12,7 @@ class Msiakad_setting extends Model
     }
 	
 	protected $siakad_profil = 'siakad_profil';
+	protected $siakad_perkuliahan = 'siakad_perkuliahan';
 	
     public function getdata($kodept=false)
     {
@@ -35,5 +36,20 @@ class Msiakad_setting extends Model
 		}else{
 			return FALSE;
 		}
+	}
+	
+	public function setperkuliahan($status=false){
+		$builder = $this->db->table($this->siakad_perkuliahan);
+		if($status){
+			$builder->where("status",$status);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResultObject();
+			$ret = $data[0];
+			return $ret;
+		}else{
+			return FALSE;
+		}	
 	}
 }

@@ -14,7 +14,7 @@ class Msiakad_kelas extends Model
 	protected $feeder_kelas = 'feeder_kelas';
 	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
 	
-    public function getdata($id_kelas=false,$id_kelas_kuliah_ws=false,$kodept=false)
+    public function getdata($id_kelas=false,$id_kelas_kuliah_ws=false,$periode=false,$kodept=false)
     {
 		$akses = explode(",",session()->akses);
 		$builder = $this->db->table("{$this->siakad_kelas} a");
@@ -23,9 +23,12 @@ class Msiakad_kelas extends Model
 		$builder->join("{$this->siakad_matakuliah} d","a.id_matakuliah = d.id_matakuliah","left");
 		$builder->join("{$this->siakad_prodi} e","a.id_prodi = e.id_prodi","left");
 		$builder->join("{$this->ref_getjenjangpendidikan} f", 'e.id_jenjang = f.id_jenjang_didik',"left");
-		$builder->select("a.*,c.nama_kurikulum,d.nama_matakuliah,e.nama_prodi,f.nama_jenjang_didik");
+		$builder->select("a.*,b.semester,c.nama_kurikulum,d.nama_matakuliah,e.nama_prodi,f.nama_jenjang_didik");
 		if($kodept){
 			$builder->where("a.kodept",$kodept);
+		}
+		if($periode){
+			$builder->where("a.id_semester",$periode);
 		}
 		if($id_kelas){
 			$builder->where("a.id_kelas",$id_kelas);

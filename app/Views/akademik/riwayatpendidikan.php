@@ -6,7 +6,7 @@ echo $this->section('content');
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
 	  <a href="#modalku" data-toggle="modal" title="Tambah Riwayat Pendidikan" data-src="<?php echo base_url();?>/akademik/riwayatpendidikan/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
-	  <a href="#" name="getriwayatpendidikanpddikti" data-src="<?php echo base_url();?>/akademik/riwayatpendidikan/getriwayatpendidikanpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#" id="btnGet_getriwayatpendidikanpddikti" name="getriwayatpendidikanpddikti" data-src="<?php echo base_url();?>/akademik/riwayatpendidikan/getriwayatpendidikanpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dari PDDIKTI
 	  </a>
 	</div>
@@ -20,18 +20,36 @@ $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/akademik/riwayatpendidikan/listdata");
 	$("a[name='getriwayatpendidikanpddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
-		$(this).html("loading....mohon tunggu!").addClass("disabled");
-		$.get(action, function( data ) {		  
-			if(data.success == true){
-			   toastr.success(data.messages);
-			    $("#resultcontent").load("<?php echo base_url();?>/akademik/riwayatpendidikan/listdata");
-			}else{
-				toastr.error(data.messages);
-			}
-			$("a[name='getriwayatpendidikanpddikti']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI").removeClass("disabled");
-		},'json')
+		var btnGet = $(this).attr("id");
+		var htmlbtn = $(this).html();
+		if(confirm("yakin akan mengambil data?")){
+			$.ajax({
+				dataType:'json',
+				url:action,
+				beforeSend:function(){
+					$("#"+btnGet).prop("disabled",true);
+					$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				},
+				complete:function(){
+					$("#"+btnGet).prop("disabled",false);
+					$("#"+btnGet).html(htmlbtn);	
+				},
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/riwayatpendidikan/listdata");
+					}else{
+						toastr.error(ret.messages);
+					}
+				},
+				error:function(xhr,ajaxOptions,thrownError){
+					alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+				}
+			})
+		}
 		return false;
 	})
+
 	$("body").on("submit","#form_tambah,#form_ubah",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");

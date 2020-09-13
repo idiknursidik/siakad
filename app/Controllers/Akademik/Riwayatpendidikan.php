@@ -117,9 +117,8 @@ class Riwayatpendidikan extends BaseController
 			$jum=0;
 			foreach($data_riwayatpendidikan_feeder as $key=>$val){
 				//cek data dulu
-				$cekdata = $this->msiakad_riwayatpendidikan->getdata(false,$val->id_registrasi_mahasiswa,$profile->kodept);
-				if(!$cekdata){
-					
+				$query = $this->db->table($this->siakad_riwayatpendidikan)->where("id_registrasi_mahasiswa",$val->id_registrasi_mahasiswa)->get();
+				if($query->getRowArray() == 0){					
 					$datain = array("kodept"=>$val->kode_perguruan_tinggi,
 									"biaya_masuk"=>$val->biaya_masuk,
 									"id_bidang_minat"=>$val->id_bidang_minat,
@@ -151,6 +150,7 @@ class Riwayatpendidikan extends BaseController
 					$datain["id_prodi"] = $prodi->id_prodi;
 					$mahasiswa = $this->msiakad_mahasiswa->getdata(false,false,$val->id_mahasiswa,false,$profile->kodept);
 					$datain["id_mahasiswa"] = $mahasiswa->id_mahasiswa;
+					
 					$query = $this->db->table($this->siakad_riwayatpendidikan)->insert($datain);
 					if($query){
 						$jum++;

@@ -7,8 +7,8 @@ echo $this->section('content');
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/admin/profilpt/form");
-	$("body").on("submit","#form_profile",function(){
+	$("#resultcontent").load("<?php echo base_url();?>/admin/perkuliahan/form");
+	$("body").on("submit","#form_perkuliahan",function(){
 		var action = $(this).attr("action");
 		var dString = $(this).serialize();
 		var id = $(this).attr("id");
@@ -28,7 +28,7 @@ $(function(){
 			success:function(ret){
 				if(ret.success == true){
 					toastr.success(ret.messages);
-					document.location="<?php echo base_url();?>/admin/profilpt";
+					document.location="<?php echo base_url();?>/admin/perkuliahan";
 				}else{
 					toastr.error('Data isian tidak valid');					
 					$("div.invalid-feedback").remove();
@@ -54,34 +54,7 @@ $(function(){
 			element.after(value="");
 	})
 	
-	$("body").on("change","input[name='fileupload']",function(e){
-		const fileupload = document.querySelector('#logoFile');
-		const fileuploadlabel = document.querySelector('.custom-file-label');
-		const imgpreview = document.querySelector('.img-preview');
-		fileuploadlabel.textContent = fileupload.files[0].name;
-		
-		const uploadfile = new FileReader();
-		uploadfile.readAsDataURL(fileupload.files[0]);
-		
-		uploadfile.onload = function(e){
-			imgpreview.src = e.target.result;
-		}
-		return false;
-	})
-	/*
-	function previewImg(){
-		const fileupload = document.querySelector('#logoFile');
-		const fileuploadlabel = document.querySelector('.custom-file-label');
-		const imgpreview = document.querySelector('.img-preview');
-		fileuploadlabel.textContent = fileupload.files[0].name;
-		
-		const uploadfile = new FileReader();
-		uploadfile.readAsDataURL(fileupload.file[0]);
-		
-		uploadfile.onload = function(e){
-			imgpreview.src = e.target.result;
-		}
-	}*/
+	
 })
 </script>
 <?php

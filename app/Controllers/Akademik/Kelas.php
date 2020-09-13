@@ -66,7 +66,7 @@ class Kelas extends BaseController
 		</script>
 		<?php
 		$profile 	= $this->msiakad_setting->getdata(); 
-		$data 		= $this->msiakad_kelas->getdata(false,false,$profile->kodept);
+		$data 		= $this->msiakad_kelas->getdata(false,false,false,$profile->kodept);
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th>No</th><th>Kode MK</th><th>Nama MK</th><th>Kelas</th><th>Prodi</th><th>Semester</th><th>Peserta</th><th width='10%'>Aksi</th></tr></thead>";
 		echo "<tbody>";
@@ -105,8 +105,8 @@ class Kelas extends BaseController
 		if(!$profile){
 			$ret["messages"] = "Error data.."; 
 		}else{
-			$data = $this->msiakad_kelas->getdata($id_kelas,false,$profile->kodept);
-			//cek dulu di data nila
+			$data = $this->msiakad_kelas->getdata($id_kelas,false,false,$profile->kodept);
+			//cek dulu di data nilai
 			$builder = $this->db->table($this->siakad_nilai);
 			$cekdata = $builder->getWhere(['kode_matakuliah' => $data->kode_mata_kuliah,'semester'=>$data->id_semester,'kelas'=>$data->nama_kelas_kuliah,'kode_prodi'=>$data->kode_prodi]);
 			if($cekdata->getResult()){
@@ -132,10 +132,12 @@ class Kelas extends BaseController
 		})
 		</script>
 		<?php
-		$profile 	= $this->msiakad_setting->getdata(); 		
+		$profile 			= $this->msiakad_setting->getdata(); 		
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();		
-		$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
-		$semester = $this->mreferensi->GetSemester();
+		$prodi				= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+		$semester 			= $this->mreferensi->GetSemester();
+		$setperkuliahan		= $this->msiakad_setting->setperkuliahan("Y");
+		$semester_aktif 	= ($setperkuliahan)?$setperkuliahan->semester_aktif:"";
 		$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata(false,false,false,false,false,false,$profile->kodept);
 		
 		echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kelas/create'>";
@@ -152,7 +154,9 @@ class Kelas extends BaseController
 		  echo "<select name='id_kurikulummatakuliah' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
 			if($kurikulummatakuliah){
 				foreach($kurikulummatakuliah as $key=>$val){
-					echo "<option value='{$val->id_kurikulummatakuliah}'>{$val->kode_mata_kuliah} {$val->nama_matakuliah} {$val->nama_kurikulum}</option>";
+					echo "<option value='{$val->id_kurikulummatakuliah}'";
+					if($semester_aktif == $val->id_semester) echo " selected='selected'";
+					echo ">{$val->kode_mata_kuliah}-{$val->nama_matakuliah}-Kurikulum: {$val->nama_kurikulum}</option>";
 				}
 			}
 		  echo "</select>";
@@ -180,7 +184,9 @@ class Kelas extends BaseController
 					echo "<select name='id_semester' class='form-control' id='id_semester'>";
 					if($semester){
 						foreach($semester as $key=>$val){
-							echo "<option value='{$val->id_semester}'>{$val->nama_semester}</option>";
+							echo "<option value='{$val->id_semester}'";
+							if($semester_aktif == $val->id_semester) echo " selected='selected'";
+							echo ">{$val->nama_semester}</option>";
 						}
 					}
 					echo "</select>";
@@ -220,7 +226,7 @@ class Kelas extends BaseController
 		$validation =  \Config\Services::validation();   
 		if (!$this->validate([
 			'nama_kelas_kuliah'=>[
-				'rules' => 'required|is_unique[siakad_kelas.nama_kelas_kuliah,id_kurikulummatakuliah]',
+				'rules' => 'required|is_unique[siakad_kelas.nama_kelas_kuliah,id_matakuliah,id_semester]',
 				'errors' => [
 					'required' => 'nama kelas harus diisi.',
 					'is_unique' => 'Data sudah ada.'
@@ -248,6 +254,7 @@ class Kelas extends BaseController
 				$datain["id_matkul_ws"] = (strlen($matakuliah->id_matkul_ws) > 0)?$matakuliah->id_matkul_ws:"";
 				$datain["kode_mata_kuliah"] = $matakuliah->kode_matakuliah;
 				$datain["id_matakuliah"] = $matakuliah->id_matakuliah;
+				$datain["id_kelas_kuliah_ws"] = uniqid();
 			}
 			
 			$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
@@ -285,13 +292,14 @@ class Kelas extends BaseController
 		</script>
 		<?php
 		
-		$data	= $this->msiakad_kelas->getdata($id,false,$profile->kodept);
+		$data	= $this->msiakad_kelas->getdata($id,false,false,$profile->kodept);
 		
 		$profile 	= $this->msiakad_setting->getdata(); 		
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();		
 		$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$semester = $this->mreferensi->GetSemester();
 		$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata(false,false,false,false,false,false,$profile->kodept);
+		$setperkuliahan		= $this->msiakad_setting->setperkuliahan("Y");
 		
 		echo "<form method='post' id='form_ubah' action='".base_url()."/akademik/kelas/update'>";
 		echo "<input type='hidden' name='id_kelas' value='{$data->id_kelas}'";
@@ -310,7 +318,7 @@ class Kelas extends BaseController
 				foreach($kurikulummatakuliah as $key=>$val){
 					echo "<option value='{$val->id_kurikulummatakuliah}'";
 					if($data->id_kurikulummatakuliah == $val->id_kurikulummatakuliah) echo " selected='selected'";
-					echo ">{$val->kode_mata_kuliah} {$val->nama_matakuliah} {$val->nama_kurikulum}</option>";
+					echo ">{$val->kode_mata_kuliah}-{$val->nama_matakuliah} - Kurikulum: {$val->nama_kurikulum}</option>";
 				}
 			}
 		  echo "</select>";
@@ -480,7 +488,7 @@ class Kelas extends BaseController
 					$datain['id_matakuliah'] = $matakuliah->id_matakuliah;
 				}
 				//cek data dulu
-				$cekdata = $this->msiakad_kelas->getdata(false,$val->id_kelas_kuliah,$profile->kodept);			 
+				$cekdata = $this->msiakad_kelas->getdata(false,$val->id_kelas_kuliah,$val->id_semester,$profile->kodept);			 
 				if($cekdata){// jika data belum ada				
 					$query = $this->db->table($this->siakad_kelas)->update($datain,array('id_kelas_kuliah_ws'=>$val->id_kelas_kuliah));
 					if($query){
@@ -685,7 +693,7 @@ class Kelas extends BaseController
 		})
 		</script>
 		<?php
-		$dosen = $this->msiakad_dosen->getdata(false,false,$profile->kodept);
+		$dosen = $this->msiakad_dosen->getdata(false,false,false,$profile->kodept);
 		$jenisevaluasi = $this->mreferensi->GetJenisEvaluasi();
 		echo "<form method='post' id='form_tambah_dosenmengajar' action='".base_url()."/akademik/kelas/prosestambahdosenmengajar'>";
 		echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'";
@@ -744,15 +752,20 @@ class Kelas extends BaseController
 			$ret=array("success"=>false,"messages"=>array());
 			$profile 	= $this->msiakad_setting->getdata();
 			$id_kelas	= $this->request->getVar("id_kelas");
+			$nidn 					= $this->request->getVar("nidn");
+			$id_jenis_evaluasi 		= $this->request->getVar("id_jenis_evaluasi");
+			$realisasi_tatap_muka 	= $this->request->getVar("realisasi_tatap_muka");
+			$rencana_tatap_muka 	= $this->request->getVar("rencana_tatap_muka");
+			$sks_substansi_total 	= $this->request->getVar("sks_substansi_total");
+			
 			$datakelas	= $this->msiakad_kelas->getdata($id_kelas);
 			$validation =  \Config\Services::validation();   
 			
 			if (!$this->validate([
 				'nidn'=>[
-					'rules' => "trim|required|is_unique[siakad_dosenmengajar.nidn,id_kelas,{id_kelas}]",
+					'rules' => 'trim|required',
 					'errors' => [
-						'required' => 'NIDN harus dipilih.',
-						'is_unique' => "Data sudah ada {$id_kelas}."
+						'required' => 'NIDN harus dipilih.'
 					]
 				],
 				'sks_substansi_total'=>[
@@ -775,22 +788,26 @@ class Kelas extends BaseController
 					$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
 				}
 			}else{
-				$nidn 					= $this->request->getVar("nidn");
-				$id_jenis_evaluasi 		= $this->request->getVar("id_jenis_evaluasi");
-				$realisasi_tatap_muka 	= $this->request->getVar("realisasi_tatap_muka");
-				$rencana_tatap_muka 	= $this->request->getVar("rencana_tatap_muka");
-				$sks_substansi_total 	= $this->request->getVar("sks_substansi_total");
-				$datain=array("id_kelas"=>$id_kelas,
-							  "nidn"=>$nidn,
-							  "kodept"=>$profile->kodept,
-							  "id_jenis_evaluasi"=>$id_jenis_evaluasi,
-							  "realisasi_tatap_muka"=>$realisasi_tatap_muka,
-							  "rencana_tatap_muka"=>$rencana_tatap_muka,
-							  "sks_substansi_total"=>$sks_substansi_total,
-							  "date_created"=>date("Y-m-d H:i:s"));
-				if($this->db->table($this->siakad_dosenmengajar)->insert($datain)){
-					$ret["messages"] = "Data sudah dimasuka";
-					$ret["success"] = true;
+				//cek data dulu
+				$builder = $this->db->table($this->siakad_dosenmengajar);
+				$builder->where("nidn",$nidn);
+				$builder->where("id_kelas",$id_kelas);
+				$query = $builder->get();
+				if($query->getRowArray() > 0){
+					$ret['messages']['nidn']="<div class='invalid-feedback'>NIDN sudah terdata di kelas ini</div>";
+				}else{				
+					$datain=array("id_kelas"=>$id_kelas,
+								  "nidn"=>$nidn,
+								  "kodept"=>$profile->kodept,
+								  "id_jenis_evaluasi"=>$id_jenis_evaluasi,
+								  "realisasi_tatap_muka"=>$realisasi_tatap_muka,
+								  "rencana_tatap_muka"=>$rencana_tatap_muka,
+								  "sks_substansi_total"=>$sks_substansi_total,
+								  "date_created"=>date("Y-m-d H:i:s"));
+					if($this->db->table($this->siakad_dosenmengajar)->insert($datain)){
+						$ret["messages"] = "Data sudah dimasuka";
+						$ret["success"] = true;
+					}
 				}
 			}
 			
