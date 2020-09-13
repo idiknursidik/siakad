@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 12/09/2020 19:46:29
+ Date: 13/09/2020 22:20:45
 */
 
 SET NAMES utf8mb4;
@@ -628,7 +628,7 @@ CREATE TABLE `siakad_akun_mahasiswa`  (
   `date_update` datetime(0) NULL DEFAULT NULL,
   `last_login` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_dosen
@@ -673,7 +673,20 @@ CREATE TABLE `siakad_dosenmengajar`  (
   `date_updated` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_aktivitas_mengajar`) USING BTREE,
   UNIQUE INDEX `nkel`(`id_kelas`, `nidn`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 467 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 479 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for siakad_dosenwali
+-- ----------------------------
+DROP TABLE IF EXISTS `siakad_dosenwali`;
+CREATE TABLE `siakad_dosenwali`  (
+  `id_dosenwali` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nim` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `id_dosen` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `date_insert` datetime(0) NULL DEFAULT NULL,
+  `date_update` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_dosenwali`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_kelas
@@ -702,7 +715,7 @@ CREATE TABLE `siakad_kelas`  (
   `date_update` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_kelas`) USING BTREE,
   UNIQUE INDEX `id_kelas_kuliah_ws`(`id_kelas_kuliah_ws`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6528 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6535 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_kurikulum
@@ -746,7 +759,7 @@ CREATE TABLE `siakad_kurikulummatakuliah`  (
   `date_update` datetime(0) NULL DEFAULT NULL,
   `date_insert` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_kurikulummatakuliah`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 350 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 353 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_mahasiswa
@@ -943,7 +956,18 @@ CREATE TABLE `siakad_nilai`  (
   `date_update` datetime(0) NULL DEFAULT NULL,
   `date_created` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_nilai`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22453 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22457 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for siakad_perkuliahan
+-- ----------------------------
+DROP TABLE IF EXISTS `siakad_perkuliahan`;
+CREATE TABLE `siakad_perkuliahan`  (
+  `semester_aktif` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `status` enum('Y','N') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'N',
+  `date_inserted` datetime(0) NULL DEFAULT NULL,
+  `date_updated` datetime(0) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_prodi
@@ -985,7 +1009,7 @@ CREATE TABLE `siakad_riwayatpendidikan`  (
   `id_bidang_minat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `id_jalur_daftar` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `id_jenis_daftar` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
-  `id_jenis_keluar` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_jenis_keluar` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `id_mahasiswa_ws` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `id_pembiayaan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `id_perguruan_tinggi` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
@@ -1007,6 +1031,6 @@ CREATE TABLE `siakad_riwayatpendidikan`  (
   `sks_diakui` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `tanggal_daftar` date NULL DEFAULT NULL,
   PRIMARY KEY (`id_riwayatpendidikan`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3629 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7430 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

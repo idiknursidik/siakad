@@ -239,6 +239,12 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                   <p>Data prodi</p>
                 </a>
                </li>
+			    <li class="nav-item">
+                <a href="<?php echo base_url();?>/akademik/dosenwali" class="nav-link <?php echo isset($mn_akademik_dosenwali)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kelola dosen wali</p>
+                </a>
+               </li>
 				<?php
 				}
 				?>
