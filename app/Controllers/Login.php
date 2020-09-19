@@ -12,6 +12,8 @@ class Login extends BaseController
 		$data = [
 			'title' => 'Halaman Login'
 		];
+		$this->createakun();
+		//create akun jika tidak ada admin
 		return view('login',$data);
 	}
 	public function proseslogin(){
@@ -154,5 +156,22 @@ class Login extends BaseController
 	public function logout(){
 		$this->session->destroy();
 		return redirect()->to('index');
+	}
+	//create akun
+	public function createakun(){
+		$builder = $this->db->table("siakad_akun");
+		$query = $builder->get();
+		if($query->getRowArray() == 0){
+			$hashed_password = password_hash('admin',PASSWORD_DEFAULT);
+			$datain = array("username"=>'admin',
+							"password"=>$hashed_password,
+							"nama"=>'User Administrator',
+							"userlevel"=>'1',
+							"date_create"=>date("Y-m-d H:i:s")
+							);
+			$this->db->table("siakad_akun")->insert($datain);
+			
+		}	
+		
 	}
 }
