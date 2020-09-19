@@ -2,11 +2,15 @@
 namespace App\Controllers\Akademik;
 use App\Controllers\BaseController;
 use App\Models\Msiakad_nilai;
- 
+use App\Libraries\Datatables;
+
+
 class Nilai extends BaseController
 {
 	protected $siakad_nilai = 'siakad_nilai';
 	protected $feeder_nilai = 'feeder_nilai';
+	protected $siakad_riwayatpendidikan = 'siakad_riwayatpendidikan';
+	protected $siakad_mahasiswa = 'siakad_mahasiswa';
 	public function __construct()
     {
         $this->msiakad_nilai = new Msiakad_nilai();
@@ -23,6 +27,58 @@ class Nilai extends BaseController
 			
 		];
 		return view('akademik/nilai',$data);
+	}
+	public function listdataserverside(){
+		$datatables = new Datatables;
+		
+		
+		$datatables->table("{$this->siakad_nilai} a");
+		$datatables->select('a.id_nilai,a.semester,a.nilai_huruf,a.nilai_indeks,a.nim as nim_mahasiswa,a.kode_matakuliah,b.id_periode_masuk,c.nama_mahasiswa');
+		$datatables->join("{$this->siakad_riwayatpendidikan} b", 'a.nim = b.nim','LEFT JOIN');
+		$datatables->join("{$this->siakad_mahasiswa} c",'b.id_mahasiswa = c.id_mahasiswa','LEFT JOIN');
+
+		echo $datatables->draw();
+		// Automatically return json
+	}
+	public function showdataserverside(){
+	?>
+	<script type="text/javascript">
+		$(document).ready( function () {
+		  var table = $('#myTable').DataTable({ 
+			"processing": true,
+			"serverSide": true,
+			"ajax": {
+				"url": "<?php echo base_url('/akademik/nilai/listdataserverside')?>",
+				"type": "POST"
+			},
+			"dataType": "json",
+		    "type": "POST",
+		    "columns": [
+		          { "data": "id_nilai" },
+		          { "data": "semester" },
+		          { "data": "nim_mahasiswa" },
+		          { "data": "nama_mahasiswa" },
+				  { "data": "kode_matakuliah" },
+				  { "data": "nilai_huruf" },
+				  { "data": "nilai_indeks" },
+		       ],
+			"order": [[ 1, "desc" ]]
+		});
+			table.on( 'draw.dt', function () {
+			var PageInfo = $('#myTable').DataTable().page.info();
+				 table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+					cell.innerHTML = i + 1 + PageInfo.start;
+				} );
+			} );
+		
+		} );
+		</script>
+	<table id="myTable" class="table table-striped table-bordered table-hover">
+      <thead><tr><th>No</th><th>Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Nama Matakuliah</th><th>Nilai Indeks</th><th>Nilai Huruf</th></tr></thead>
+      <tbody>
+      </tbody>
+    </table>
+	<?php
 	}
 	public function listdata()
 	{

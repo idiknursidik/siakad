@@ -17,7 +17,7 @@ echo $this->section('content');
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/akademik/nilai/listdata");
+	$("#resultcontent").load("<?php echo base_url();?>/akademik/nilai/showdataserverside");
 	
 	$("a[name='getnilaipddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
