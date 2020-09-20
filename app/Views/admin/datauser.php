@@ -35,7 +35,7 @@ $(function(){
 						toastr.error('Data isian tidak valid');
 					}
 					$("div.invalid-feedback").remove();
-					$.each(ret.messages, function(key, value){
+					$.each(ret.messages, function(key, value){						
 						var element = $("input[name="+key+"],select[name="+key+"],textarea[name="+key+"],checkbox[name="+key+"]");
 							element.closest("input.form-control")
 							.removeClass('is-invalid')

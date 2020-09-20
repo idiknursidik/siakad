@@ -103,17 +103,16 @@ class Datauser extends BaseController
 			echo "<label for='email'>Email</label>";
 			echo "<input type='email' class='form-control' name='email' id='email'>";
 		echo "</div>";		
-		echo "<div class='form-group clearfix'>";
+		echo "<div class='form-group'>";
 			echo "<label for='akses'>Hak akses </label><hr>";
 			foreach($prodi as $key=>$val){
 				echo "<div class='icheck-primary d-inline'>";                      
 				echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}'>";
 				echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
 				echo "</div>";
-			}
-			
-		echo "</div>";	
-		
+			}			
+		echo "</div>";
+		echo "<hr>";
 		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
