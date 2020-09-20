@@ -64,14 +64,16 @@ class Mahasiswa extends BaseController
 	}
 	public function detail($id_mahasiswa){
 		$profile 	= $this->msiakad_setting->getdata();
-		$mahasiswa = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa,false,false,$profile->kodept);
+		$mahasiswa  = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa,false,false,$profile->kodept);
+		$infoakun 	= $this->msiakad_akun->getakunmahasiswa(false,false,false,$mahasiswa->id_mahasiswa);
 		$data = [
 			'title' => 'Data Akademik',
 			'judul' => 'Mahasiswa',
 			'mn_akademik' => true,
 			'mn_akademik_mahasiswa'=>true,
 			'id_mahasiswa'=>$id_mahasiswa,
-			'data' => $mahasiswa
+			'data' => $mahasiswa,
+			'infoakun'=>$infoakun
 			
 		];
 		return view('akademik/mahasiswa_detail',$data);
@@ -160,5 +162,8 @@ class Mahasiswa extends BaseController
 	}
 	public function tambah(){
 		echo "test";
+	}
+	public function getbiodata(){
+		echo "Biodata ";
 	}
 }

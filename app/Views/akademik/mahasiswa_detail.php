@@ -2,6 +2,8 @@
 use App\Models\Mfungsi;
 $this->mfungsi	= new Mfungsi();
 
+$userimage = ($infoakun->user_image)?$infoakun->user_image:"noimage.png";
+
 echo $this->extend('layout/template');
 echo $this->section('content');
 ?>
@@ -15,7 +17,7 @@ echo $this->section('content');
 		<div class="card card-primary card-outline">
 		  <div class="card-body box-profile">
 			<div class="text-center">
-			  <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/adminlte/dist/img/user4-128x128.jpg" alt="User profile picture">
+			  <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" alt="User profile picture">
 			</div>
 
 			<h3 class="profile-username text-center"><?php echo $data->nama_mahasiswa;?></h3>
@@ -23,7 +25,10 @@ echo $this->section('content');
 			<p class="text-muted text-center"><?php echo $this->mfungsi->jenis_kelamin($data->jenis_kelamin);?></p>
 
 			<ul class="list-group list-group-unbordered mb-3">
-			<li class="list-group-item">
+			  <li class="list-group-item">
+				<b><a name="mhs_biodata" href="<?php echo base_url();?>/akademik/mahasiswa/getbiodata/<?php echo $id_mahasiswa;?>">Biodata mahasiswa</a></b>
+			  </li>
+			  <li class="list-group-item">
 				<b><a name="mhs_historipendidikan" href="<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan/<?php echo $id_mahasiswa;?>">Histori Pendidikan</a></b>
 			  </li>
 			  <li class="list-group-item">
@@ -49,13 +54,12 @@ echo $this->section('content');
 		<div class="card">
 		  <div class="card-header p-2">
 			<ul class="nav nav-pills">
-			  <li class="nav-item"><a class="nav-link active" href="#infoakademik" data-toggle="tab">Detai Mahasiswa</a></li>
-			  <li class="nav-item"><a class="nav-link" href="#infokeuangan" data-toggle="tab">Info Keuangan</a></li>
+			  <li class="nav-item"><a data-toggle="tab">Informasi data Mahasiswa</a></li>
 			</ul>
 		  </div><!-- /.card-header -->
 		  <div class="card-body" id="resultcontent">
 			<div class="tab-content">
-			  <div class="tab-pane active" id="infoakademik">                    
+			  <div class="tab-pane active" id="informasidata">                    
 				  <p>
 				  <table class="table">
 				  <tr><th width="20%">Alamat</th><td>: <?php echo $data->jalan;?></td></tr>
@@ -72,16 +76,7 @@ echo $this->section('content');
 				  </table>
 				  </p>                      
 			  </div>
-			  <!-- /.tab-pane -->
-			  <div class="tab-pane" id="infokeuangan">
-				 <p>
-					KKK Lorem ipsum represents a long-held tradition for designers,
-					typographers and the like. Some people hate it and argue for
-					its demise, but others ignore the hate as they create awesome
-					tools to help create filler text for everyone from bacon lovers
-					to Charlie Sheen fans.
-				  </p> 
-			  </div>
+			 
 			  <!-- /.tab-pane -->
 			</div>
 			<!-- /.tab-content -->

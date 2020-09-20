@@ -148,7 +148,9 @@ class Datausermahasiswa extends BaseController
 					$username	= $val;
 					$password	= $val;
 					$hashed_password = password_hash($password,PASSWORD_DEFAULT);	
-					
+					//get data mahasiswa
+					$biodatamahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,$username);
+					$retidmahasiswa = ($biodatamahasiswa)?$biodatamahasiswa->id_mahasiswa:"";
 					//cek dulu apakah data udah ada?
 					$query = $this->db->table($this->siakad_akun_mahasiswa)->where(['nim'=>$username]);
 					if($query->countAllResults() == 0){					
@@ -156,6 +158,7 @@ class Datausermahasiswa extends BaseController
 										"username"=>$username,
 										"password"=>$hashed_password,
 										"nim"=>$username,
+										"id_mahasiswa"=>$retidmahasiswa,
 										"date_create"=>date("Y-m-d H:i:s")
 										);
 						if($this->db->table($this->siakad_akun_mahasiswa)->insert($datain)){

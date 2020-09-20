@@ -48,7 +48,7 @@ class Msiakad_akun extends Model
 		}
 		return $ret;
 	}
-	public function getakunmahasiswa($id=false,$username=false,$kodept=false)
+	public function getakunmahasiswa($id=false,$username=false,$kodept=false,$id_mahasiswa=false)
     {
 		$builder = $this->db->table("{$this->siakad_akun_mahasiswa} a");
 		$builder->join("{$this->siakad_riwayatpendidikan} b","a.nim = b.nim","left");
@@ -66,10 +66,13 @@ class Msiakad_akun extends Model
 		if($kodept){
 			$builder->where("a.kodept",$kodept);
 		}
+		if($id_mahasiswa){
+			$builder->where("a.id_mahasiswa",$id_mahasiswa);
+		}
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
-			if($id || $username){
+			if($id || $username || $id_mahasiswa){
 				$ret = $data[0];
 			}else{
 				$ret = $data;
