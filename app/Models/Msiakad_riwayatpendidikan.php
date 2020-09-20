@@ -10,7 +10,7 @@ class Msiakad_riwayatpendidikan extends Model
 	protected $siakad_mahasiswa = 'siakad_mahasiswa';
 	protected $feeder_riwayatpendidikan = 'feeder_riwayatpendidikan';
 	
-    public function getdata($id_riwayatpendidikan=false,$id_registrasi_mahasiswa=false,$kodept=false,$id_jenis_keluar=false,$nim=false,$id_prodi=false)
+    public function getdata($id_riwayatpendidikan=false,$id_registrasi_mahasiswa=false,$kodept=false,$id_jenis_keluar=false,$nim=false,$id_prodi=false,$id_mahasiswa=false)
     {
 		$akses = explode(",",session()->akses);
 		$builder = $this->db->table("{$this->siakad_riwayatpendidikan} a");
@@ -34,6 +34,9 @@ class Msiakad_riwayatpendidikan extends Model
 		}
 		if($id_prodi){
 			$builder->where("a.id_prodi",$id_prodi);
+		}
+		if($id_mahasiswa){
+			$builder->where("a.id_mahasiswa",$id_mahasiswa);
 		}
 		//akses only
 		$builder->whereIn("a.id_prodi",$akses);

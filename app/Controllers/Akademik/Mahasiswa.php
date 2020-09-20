@@ -155,15 +155,24 @@ class Mahasiswa extends BaseController
 	}
 	
 	public function gethistoripendidikan($id_mahasiswa){
-		echo "H pendidi {$id_mahasiswa}";
+		if($this->request->isAJAX()){
+			$data  = $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,false,false,$id_mahasiswa);
+			echo "<pre>";
+			print_r($data);
+			echo "</pre>";
+		}
+		
 	}
 	public function getkrs($id_mahasiswa){
 		echo "H KRS {$id_mahasiswa}";
 	}
-	public function tambah(){
-		echo "test";
-	}
-	public function getbiodata(){
-		echo "Biodata ";
+	
+	public function getbiodata($id_mahasiswa){
+		if($this->request->isAJAX()){
+			$data  = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa);
+			echo "<pre>";
+			print_r($data);
+			echo "</pre>";
+		}
 	}
 }
