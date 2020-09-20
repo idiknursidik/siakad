@@ -40,7 +40,7 @@ class Akm extends BaseController
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$data 		= $this->msiakad_akm->getdata();
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th><th>Semester</th><th>Status</th><th>IPS</th><th>IPK</th><th>sks Semester</th><th>sks Total</th><th>Aksi</th></tr></thead>";
+		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Semester</th><th>Status</th><th>IPS</th><th>IPK</th><th>sks Semester</th><th>sks Total</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='7'>no data</td></tr>";
@@ -53,7 +53,7 @@ class Akm extends BaseController
 				echo "<td>{$val->nim}</td>";
 				echo "<td>{$val->nama_mahasiswa}</td>";
 				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";
-				echo "<td>{$val->id_periode_masuk}</td>";
+				//echo "<td>{$val->id_periode_masuk}</td>";
 				echo "<td>{$val->id_semester}</td>";
 				echo "<td>{$val->id_status_mahasiswa}</td>";
 				echo "<td>{$val->ips}</td>";
