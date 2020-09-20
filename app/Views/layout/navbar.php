@@ -149,10 +149,10 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo base_url();?>" class="brand-link">
+    <a href="<?php echo base_url();?>/admin/profilpt" class="brand-link">
       <img src="<?php echo base_url();?>/public/gambar/<?php echo $logopt;?>" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">SIAKAD : <?php echo $kodept;?></span>
+      <span class="brand-text font-weight-light">SIAKAD | <?php echo $kodept;?></span>
     </a>
 
     <!-- Sidebar -->

@@ -9,7 +9,7 @@ class Profilpt extends BaseController
 	public function __construct(){
 		$session = \Config\Services::session();
 		if($session->get("level") != 1){
-			echo "DONT ALLOW";
+			header("Location:".base_url());
 			exit();			
 		}
 	}
