@@ -29,7 +29,7 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
 - xml (enabled by default - don't turn it off)
 
-# Untuk yang menggunakan windows
+# Web server bagi yang menggunakan windows
 
 Silahkan menggunakan XAMPP terbaru 
 - https://www.apachefriends.org/index.html
