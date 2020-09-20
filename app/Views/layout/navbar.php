@@ -330,6 +330,7 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
           </li>
 		  <?php
 		  }
+		  if(session()->get("level") == 4){
 		  ?>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -356,6 +357,7 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
             </ul>
           </li>
 		  <?php
+		  }
 		  if(session()->get("level") == 3){
 		  ?>
           <li class="nav-item has-treeview">
