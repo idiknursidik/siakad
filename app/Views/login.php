@@ -160,7 +160,7 @@ $(document).ready(function(){
 		Swal.fire(
 		  'Lupa password atau belum punya akun?',
 		  'Silahkan Kontak Bagian Akademik',
-		  'question'
+		  'info'
 		)
 	})
 })
