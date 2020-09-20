@@ -5,6 +5,8 @@ if($session->type == "admin"){
 }else{
 	echo $this->extend('layout/template_mahasiswa');
 }
+
+
 echo $this->section('content');
 ?>
 <section class="content">
@@ -18,8 +20,8 @@ echo $this->section('content');
               <div class="info-box-content">
                 <span class="info-box-text">Jumlah Mahasiswa</span>
                 <span class="info-box-number">
-                  10
-                  <small>%</small>
+                  <?php echo $jumlah_mahasiswa;?>
+                  <small>Mahasiswa</small>
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -33,7 +35,7 @@ echo $this->section('content');
 
               <div class="info-box-content">
                 <span class="info-box-text">Jumlah Prodi</span>
-                <span class="info-box-number">41,410</span>
+                <span class="info-box-number"><?php echo $jumlah_prodi;?> <small>Program Studi</small></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -63,7 +65,7 @@ echo $this->section('content');
 
               <div class="info-box-content">
                 <span class="info-box-text">Jumlah Dosen</span>
-                <span class="info-box-number">2,000</span>
+                <span class="info-box-number"><?php echo $jumlah_dosen;?> <small>Dosen</small></span>
               </div>
               <!-- /.info-box-content -->
             </div>
