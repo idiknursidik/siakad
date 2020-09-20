@@ -16,6 +16,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.css">
+  
    <!-- jQuery -->
   <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.min.js"></script>
 
@@ -86,7 +88,7 @@ to get the desired effect
       <!-- /.social-auth-links -->
 		
       <p class="mb-1 text-center">
-        <a href="#" onclick="alert('Kontak Bagian Akademik');">Lupa Password</a>
+        <a href="#" id="lupa_password">Lupa Password</a>
       </p>
     </div>
     <!-- /.login-card-body -->
@@ -108,6 +110,8 @@ to get the desired effect
 <!-- Jquery form -->
 <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.form.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.js"></script>
+<script src="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+
 <script>
 $(document).ready(function(){
 	$("#form_login").on("submit",function(e){
@@ -151,6 +155,13 @@ $(document).ready(function(){
 			}
 		})
 		return false;
+	})
+	$("#lupa_password").on("click",function(){
+		Swal.fire(
+		  'Lupa password atau belum punya akun?',
+		  'Silahkan Kontak Bagian Akademik',
+		  'question'
+		)
 	})
 })
 $(function() {
