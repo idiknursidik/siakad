@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.css">
    <!-- jQuery -->
   <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.min.js"></script>
 
@@ -32,7 +33,7 @@ to get the desired effect
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a>SIAKAD</a>
+    <a class="text-warning">SIAKAD</a>
   </div>
   <!-- /.login-logo -->
   <div class="card" style="padding:20px;">
@@ -106,6 +107,7 @@ to get the desired effect
 <script src="<?php echo base_url();?>/public/adminlte/dist/js/adminlte.js"></script>
 <!-- Jquery form -->
 <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.form.js"></script>
+<script src="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.js"></script>
 <script>
 $(document).ready(function(){
 	$("#form_login").on("submit",function(e){
@@ -151,4 +153,20 @@ $(document).ready(function(){
 		return false;
 	})
 })
+$(function() {
+    $('body').vegas({
+		delay: 7000,
+		timer: false,
+		shuffle: true,
+		firstTransition: 'fade',
+		firstTransitionDuration: 5000,
+		transition: 'zoomOut',
+		transitionDuration: 2000,
+        slides: [
+            { src: '<?php echo base_url();?>/public/adminlte/dist/img/vegas/photo1.png' },
+            { src: '<?php echo base_url();?>/public/adminlte/dist/img/vegas/photo2.png' }
+        ],
+		overlay: '<?php echo base_url();?>/public/adminlte/plugins/vegas/overlays/08.png'
+    });
+});
 </script>
