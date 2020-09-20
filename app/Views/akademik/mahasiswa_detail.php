@@ -2,7 +2,7 @@
 use App\Models\Mfungsi;
 $this->mfungsi	= new Mfungsi();
 
-$userimage = ($infoakun->user_image)?$infoakun->user_image:"noimage.png";
+$userimage = ($infoakun)?$infoakun->user_image:"noimage.png";
 
 echo $this->extend('layout/template');
 echo $this->section('content');
