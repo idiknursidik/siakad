@@ -15,6 +15,7 @@ class Mreferensi extends Model
 	protected $GetJenisKeluar		= "ref_getjeniskeluar";
 	protected $GetJenisEvaluasi		= "ref_getjenisevaluasi";
 	protected $GetKebutuhanKhusus	= "ref_getkebutuhankhusus";
+	protected $GetStatusMahasiswa	= "ref_getstatusmahasiswa";
 	
 	public function getlistreferensi(){
 		$data =array("GetJenjangPendidikan",
@@ -27,7 +28,8 @@ class Mreferensi extends Model
 					 "GetSemester",
 					 "GetJenisKeluar",
 					 "GetJenisEvaluasi",
-					 "GetKebutuhanKhusus");
+					 "GetKebutuhanKhusus",
+					 "GetStatusMahasiswa");
 		return $data;
 	}
 	public function GetJenjangPendidikan($id_jenjang_didik=false){
@@ -219,6 +221,24 @@ class Mreferensi extends Model
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
 			if($id_kebutuhan_khusus){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}
+	}
+	public function GetStatusMahasiswa($id_status_mahasiswa=false){
+		$builder = $this->db->table($this->GetStatusMahasiswa);
+		if($id_status_mahasiswa){
+			$builder->where("id_status_mahasiswa",$id_status_mahasiswa);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResultObject();
+			if($id_status_mahasiswa){
 				$ret = $data[0];
 			}else{
 				$ret = $data;

@@ -48,6 +48,8 @@ class Akm extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
+				$statusmahasiswa = $this->mreferensi->GetStatusMahasiswa($val->id_status_mahasiswa);
+				$statusmahasiswa = ($statusmahasiswa)?$statusmahasiswa->nama_status_mahasiswa:$val->id_status_mahasiswa;
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nim}</td>";
@@ -55,7 +57,7 @@ class Akm extends BaseController
 				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";
 				//echo "<td>{$val->id_periode_masuk}</td>";
 				echo "<td>{$val->id_semester}</td>";
-				echo "<td>{$val->id_status_mahasiswa}</td>";
+				echo "<td>{$statusmahasiswa}</td>";
 				echo "<td>{$val->ips}</td>";
 				echo "<td>{$val->ipk}</td>";
 				echo "<td>{$val->sks_semester}</td>";
