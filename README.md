@@ -1,4 +1,4 @@
-# Sistem Informasi Akademik - Feeder dengan CodeIgniter 4
+# Sistem Informasi Akademik - Feeder menggunakan framework CodeIgniter 4
 
 ## What is CodeIgniter?
 
