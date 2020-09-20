@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 20/09/2020 15:33:12
+ Date: 20/09/2020 16:02:51
 */
 
 SET NAMES utf8mb4;
@@ -532,6 +532,16 @@ CREATE TABLE `ref_getsemester`  (
   `semester` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `tanggal_mulai` date NULL DEFAULT NULL,
   `tanggal_selesai` date NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for ref_getstatusmahasiswa
+-- ----------------------------
+DROP TABLE IF EXISTS `ref_getstatusmahasiswa`;
+CREATE TABLE `ref_getstatusmahasiswa`  (
+  `id_status_mahasiswa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `nama_status_mahasiswa` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id_status_mahasiswa`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
