@@ -67,12 +67,18 @@ class Prodi extends BaseController
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata();
 		$id_prodi = $this->request->getVar("id_prodi");
-		$query = $this->db->table($this->siakad_prodi)->delete(['id_prodi'=>$id_prodi,'kodept'=>$profile->kodept]);
-		if($query){
-			$ret["messages"] = "Data berhasil dihapus";
-			$ret["success"] = true;
+		//cek data yang diacu
+		$cekdataprodi = $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,false,$id_prodi);
+		if($cekdataprodi){
+			$ret["messages"] = "Data tidak dapat dihapus sudah diacu oleh mahasiswa";
 		}else{
-			$ret["messages"] = "Data gagal dihapus";
+			$query = $this->db->table($this->siakad_prodi)->delete(['id_prodi'=>$id_prodi,'kodept'=>$profile->kodept]);
+			if($query){
+				$ret["messages"] = "Data berhasil dihapus";
+				$ret["success"] = true;
+			}else{
+				$ret["messages"] = "Data gagal dihapus";
+			}
 		}
 		echo json_encode($ret);	
 	}
