@@ -33,7 +33,7 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
         <a href="<?php echo base_url();?>" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">- <b><?php echo session()->nama;?></b> Login As <b><?php echo session()->nama_level;?></b></a>
+        <a href="<?php echo base_url();?>/profile" class="nav-link">- <b><?php echo session()->nama;?></b> Login As <b><?php echo session()->nama_level;?></b></a>
       </li>
     </ul>
 
