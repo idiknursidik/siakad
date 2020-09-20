@@ -33,3 +33,13 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 Silahkan menggunakan XAMPP terbaru 
 - https://www.apachefriends.org/index.html
+
+#Instalasi SIAKAD-FEEDER
+- Download XAMPP 
+- Install XAMPP
+- Download SIAKAD-FEEDER
+- Simpan di C:\xampp\htdocs
+- buka http://localhost/phpmyadmin/
+- buat database "siakad"
+- import "siakad.sql"
+- Buka http://localhost/siakad
