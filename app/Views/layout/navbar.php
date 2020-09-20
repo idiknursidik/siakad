@@ -341,23 +341,18 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>Data Pendidik</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>Data Kependidikan</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
+              
             </ul>
           </li>
 		  <?php
@@ -397,7 +392,7 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
             <a href="<?php echo base_url();?>/feeder/akun" class="nav-link <?php echo isset($mn_akun)?'active':'';?>">
               <i class="nav-icon fas fa fa-cog fa-spin fa-3x fa-fw"></i>
               <p>
-                Akun Setting
+                Akun PDDIKTI Setting
               </p>
             </a>
           </li>
