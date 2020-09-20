@@ -53,7 +53,7 @@ class Mahasiswa extends BaseController
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nama_mahasiswa}</td>";
 				echo "<td>{$val->tanggal_lahir}</td>";
-				echo "<td>{$val->jenis_kelamin}</td>";
+				echo "<td>{$this->mfungsi->jenis_kelamin($val->jenis_kelamin)}</td>";
 				echo "<td>{$val->nik}</td>";
 				echo "<td><a href='".base_url()."/akademik/mahasiswa/detail/{$val->id_mahasiswa}'>detail</a></td>";
 				echo "</tr>";
