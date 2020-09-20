@@ -46,3 +46,4 @@ Silahkan menggunakan XAMPP terbaru
 - buat database "siakad"
 - import "siakad.sql"
 - Buka http://localhost/siakad
+- Login username dan password = admin
