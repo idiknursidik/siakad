@@ -60,7 +60,7 @@ class Profilpt extends BaseController
 			echo "</div>";
 		echo "</div>";
 		echo "<hr><button type='submit' name='kirim' id='btnSubmit_form_profile' class='btn bg-primary'>Simpan data</button>";
-		echo " <a href='".base_url()."admin/profilpt' class='btn btn-warning'>Batal</a>";
+		echo " <a href='".base_url()."' class='btn btn-warning'>Batal</a>";
 		echo "</form>";		
 	}
 	public function simpan(){

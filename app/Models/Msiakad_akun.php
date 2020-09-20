@@ -40,7 +40,7 @@ class Msiakad_akun extends Model
 		}		
 	}
 	public function leveluser($val=false){
-		$data = array("1"=>"Administrator","2"=>"Admin Prodi");
+		$data = array("1"=>"Administrator","2"=>"Admin Prodi","3"=>"Keuangan");
 		if($val){
 			$ret = $data[$val];
 		}else{

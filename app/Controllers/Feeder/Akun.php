@@ -73,7 +73,7 @@ class Akun extends BaseController
 				echo "<label for='password'>Password</label>";
 				echo "<input name='password' type='text' class='form-control' placeholder='masukan password PDDIKTI' id='password' value='".old('password')."'>";
 			  echo "</div>";
-			echo "<hr><button type='submit' class='btn bg-primary'>Proses connect PDDIKTI</button>";
+			echo "<hr><button type='submit' id='btnSubmit_login_feeder' class='btn bg-primary'>Proses connect PDDIKTI</button>";
 			echo "</form>";	
 		}
 		

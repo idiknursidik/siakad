@@ -10,12 +10,22 @@ $(function(){
 	$("#resultcontent").load("<?php echo base_url();?>/feeder/akun/form");
 	$("body").on("submit","#login_feeder",function(){
 		var dString = $(this).serialize();
+		var id = $(this).attr("id");
+		var btncontent = $("#btnSubmit_"+id).html();
 		var action = $(this).attr("action");
 		$.ajax({
 			type:'post',
 			dataType:'json',
 			url:action,
 			data:dString,
+			beforeSend:function(){
+				$("#btnSubmit_"+id+"").prop("disabled",true);
+				$("#btnSubmit_"+id+"").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+			},
+			complete:function(){
+				$("#btnSubmit_"+id+"").prop("disabled",false);
+				$("#btnSubmit_"+id+"").html(btncontent);	
+			},
 			success:function(ret){
 				if(ret.success == true){
 					toastr.success(ret.messages);
@@ -35,6 +45,9 @@ $(function(){
 						element.after(value);
 					})
 				}
+			},
+			error:function(xhr,ajaxOptions,thrownError){
+				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
 			}
 		})
 		return false;

@@ -58,7 +58,7 @@ class Datauserdosen extends BaseController
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->username}</td>";
 				echo "<td>{$val->nama_dosen}</td>";
-				echo "<td><a href='#modalku' class='modalButton' data-toggle='modal' data-src='".base_url()."/admin/datausermahasiswa/ubah/{$val->id}' title='Edit User'>edit</a></td>";
+				echo "<td><a href='#modalku' class='modalButton' data-toggle='modal' data-src='".base_url()."/admin/datauserdosen/ubah/{$val->id}' title='Edit User'>edit</a></td>";
 				echo "</tr>";
 			}
 		}
@@ -117,7 +117,7 @@ class Datauserdosen extends BaseController
 		}	
 		echo "</tbody>";				
 		echo "</table>";
-		echo "<hr><div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+		echo "<hr><div><button type='submit' id='btnSubmit_form_tambah' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
 	public function create(){
@@ -185,11 +185,11 @@ class Datauserdosen extends BaseController
 		})
 		</script>
 		<?php
-		$data 		= $this->msiakad_akun->getakun($id);
+		$data 		= $this->msiakad_akun->getakundosen($id);
 		$profile 	= $this->msiakad_setting->getdata(); 			
 		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		$leveluser 	= $this->msiakad_akun->leveluser();
-		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datausermahasiswa/update'>";
+		echo "<form method='post' id='form_ubah' action='".base_url()."/admin/datauserdosen/update'>";
 		echo "<input type='hidden' name='id' value='{$data->id}'>";
 		echo csrf_field(); 
 		echo "<div class='row'>";
@@ -207,51 +207,21 @@ class Datauserdosen extends BaseController
 			echo "</div>";
 		echo "</div>";
 		echo "<div class='row'>";
-			echo "<div class='col-sm-6'>";
+			echo "<div class='col-sm-12'>";
 				echo "<div class='form-group'>";
 					echo "<label for='nama'>Nama</label>";
-					echo "<input type='text' class='form-control' name='nama' id='nama' value='{$data->nama}'>";
+					echo "<input type='text' class='form-control' name='nama' id='nama' value='{$data->nama_dosen}'>";
 				echo "</div>";
 			echo "</div>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='level'>Level</label>";
-					echo "<select type='text' name='level' id='level' class='form-control select2 select2-hidden-accessible' style='width: 100%;' data-select2-id='1' tabindex='-1' aria-hidden='true'>";
-					if($leveluser){
-						foreach($leveluser as $key=>$val){
-							echo "<option value='{$key}'";
-							if($data->userlevel == $key) echo " selected='selected'";
-							echo ">{$val}</option>";
-						}
-					}
-					echo "</select>";
-				echo "</div>";
-			echo "</div>";
+			
 		echo "</div>";
 		echo "<div class='form-group'>";
 			echo "<label for='email'>Email</label>";
 			echo "<input type='email' class='form-control' name='email' id='email' value='{$data->email}'>";
 		echo "</div>";		
-		echo "<div class='form-group clearfix'>";
-			echo "<label for='akses'>Hak akses </label><hr>";
-			$akses = explode(",",$data->akses);
-			$checked="";
-			foreach($prodi as $key=>$val){
-				
-				if(in_array($val->id_prodi,$akses)){
-					$checked = "checked";
-				}else{
-					$checked = "";
-				}					
-				echo "<div class='icheck-primary d-inline'>";                      
-				echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}' {$checked}>";
-				echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
-				echo "</div>";
-			}
-			
-		echo "</div>";	
 		
-		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+		
+		echo "<div><button type='submit' id='btnSubmit_form_ubah' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
 	public function update(){
@@ -266,29 +236,11 @@ class Datauserdosen extends BaseController
 					'required' => 'Username harus diisi.'
 				]
 			],
-			'nama'=>[
-				'rules'=>'required',
-				'errors'=>[
-					'required'=>'Nama harus diisi'
-				]
-			],
-			'level'=>[
-				'rules'=>'required',
-				'errors'=>[
-					'required'=>'Level harus dipilih'
-				]
-			],
 			'email'=>[
 				'rules'=>'required|valid_email',
 				'errors'=>[
 					'required'=>'Email harus diisi',
 					'valid_email'=>'Email harus benar'
-				]
-			],
-			'akses'=>[
-				'rules'=>'required',
-				'errors'=>[
-					'required'=>'Hak akses harus dipilih'
 				]
 			]
 		]))
@@ -299,24 +251,18 @@ class Datauserdosen extends BaseController
 		}else{
 			$username	= $this->request->getVar("username");
 			$password	= $this->request->getVar("password");
-			$hashed_password = password_hash($password,PASSWORD_DEFAULT);			
-			$level		= $this->request->getVar("level");
-			$nama		= $this->request->getVar("nama");
+			$hashed_password = password_hash($password,PASSWORD_DEFAULT);	
 			$email		= $this->request->getVar("email");
-			$akses		= implode(",",$this->request->getVar("akses"));
 			$id			= $this->request->getVar("id");
 			$datain = array("kodept"=>$profile->kodept,
-							"username"=>$username,							
-							"nama"=>$nama,
+							"username"=>$username,	
 							"email"=>$email,
-							"userlevel"=>$level,
-							"akses"=>$akses,
-							"date_create"=>date("Y-m-d H:i:s")
+							"date_update"=>date("Y-m-d H:i:s")
 							);
 			if($password){
 				$datain["password"]=$hashed_password;
 			}				
-			$query = $this->db->table($this->siakad_akun)->update($datain,array("username"=>$username,"id"=>$id));		
+			$query = $this->db->table($this->siakad_akun_dosen)->update($datain,array("username"=>$username,"id"=>$id));		
 			if($query){	
 				$ret['messages'] = "Data berhasil diupdate";
 				$ret['success'] = true;	

@@ -180,14 +180,14 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
               <p>
                 Setting Sistem
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">2</span>
+                <span class="badge badge-info right">5</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="<?php echo base_url();?>/admin/datauser" class="nav-link <?php echo isset($mn_setting_datauser)?'active':'';?>">
                   <i class="fas fa-user-cog nav-icon"></i>
-                  <p>Kelola User</p>
+                  <p>Kelola Admin</p>
                 </a>
               </li>
 			  <li class="nav-item">
@@ -220,13 +220,16 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
 		}
 		?>
 		  <li class="nav-header">DATA PT</li>
+		  <?php
+		  if(in_array(session()->get("level"),array('1','2'))){
+		  ?>
           <li class="nav-item has-treeview <?php echo isset($mn_akademik)?'menu-open':'';?>">
             <a href="#" class="nav-link <?php echo isset($mn_akademik)?'active':'';?>">
               <i class="nav-icon fas fa-school"></i>
               <p>
                 Kelola Akademik
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">2</span>
+                <span class="badge badge-info right">5</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -325,9 +328,9 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
 			  
             </ul>
           </li>
-		<?php
-		if(session()->get("level") == 1){
-		?>
+		  <?php
+		  }
+		  ?>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users-cog"></i>
@@ -357,6 +360,9 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
               </li>
             </ul>
           </li>
+		  <?php
+		  if(session()->get("level") == 3){
+		  ?>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-coins"></i>
@@ -381,9 +387,11 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
               
             </ul>
           </li>
-		<?php
-		}
-		?>
+		  <?php
+		  }
+		  if(in_array(session()->get("level"),array('1','2'))){
+		  ?>
+		  
           <li class="nav-header">PDDIKTI - FEEDER</li>
           <li class="nav-item">
             <a href="<?php echo base_url();?>/feeder/akun" class="nav-link <?php echo isset($mn_akun)?'active':'';?>">
@@ -562,6 +570,7 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
             </ul>
           </li>
 		  <?php
+		  }
 		  }
 		  ?>
           
