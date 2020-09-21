@@ -43,7 +43,7 @@ Silahkan menggunakan XAMPP terbaru
 - Download SIAKAD-FEEDER
 - Simpan di C:\xampp\htdocs
 - ekstrak hasil download, rename "siakad-master" menjadi "siakad"
-- cari file "env.txt" ubah menjadi ".env"
+- pada folder C:\xampp\htdocs\siakad - cari file "env.txt" ubah menjadi ".env"
 - buka http://localhost/phpmyadmin/
 - buat database "siakad"
 - import "siakad.sql"
