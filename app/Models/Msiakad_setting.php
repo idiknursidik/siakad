@@ -30,7 +30,9 @@ class Msiakad_setting extends Model
 		}		
 	}
 	public function getprofile(){
-		$data = $this->mfeeder_data->getprofilept(false,$this->getdata()->kodept);
+		$kodept = $this->getdata();
+		$retkodept = ($kodept)?$kodept->kodept:'0000'; 
+		$data = $this->mfeeder_data->getprofilept(false,$retkodept);
 		if($data){
 			return $data;
 		}else{
