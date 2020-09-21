@@ -7,7 +7,7 @@ class Home extends BaseController
 	{
 		//rekap data
 		$jumlah_mahasiswa	= $this->msiakad_mahasiswa->getdata();
-		$retjumlah_mahasiswa = ($retjumlah_mahasiswa)?count($jumlah_mahasiswa):0;		
+		$retjumlah_mahasiswa = ($jumlah_mahasiswa)?count($jumlah_mahasiswa):0;		
 		$jumlah_dosen 		= $this->msiakad_dosen->getdata();
 		$retjumlah_dosen	= ($jumlah_dosen)?count($jumlah_dosen):0;	
 		$jumlah_prodi 		= $this->msiakad_prodi->getdata();
