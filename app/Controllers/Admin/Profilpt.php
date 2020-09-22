@@ -106,10 +106,11 @@ class Profilpt extends BaseController
 				$logopt = "logo.png";
 			}else{
 				//hapus file yang ada
-				
-				if($datalama->logopt != "logo.png" && strlen($datalama->logopt) > 5){
-					if(file_exists("public/gambar/".$datalama->logopt)){
-						unlink("public/gambar/".$datalama->logopt);
+				if($datalama){
+					if($datalama->logopt != "logo.png" && strlen($datalama->logopt) > 5){
+						if(file_exists("public/gambar/".$datalama->logopt)){
+							unlink("public/gambar/".$datalama->logopt);
+						}
 					}
 				}
 				$logopt = $fileupload->getRandomName();
