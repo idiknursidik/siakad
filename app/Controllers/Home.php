@@ -15,8 +15,8 @@ class Home extends BaseController
 		$data = [
 			'title' => 'halaman depan',
 			'jumlah_mahasiswa'=>$retjumlah_mahasiswa,
-			'jumlah_dosen'=>$jumlah_dosen,
-			'jumlah_prodi'=>$jumlah_prodi
+			'jumlah_dosen'=>$retjumlah_dosen,
+			'jumlah_prodi'=>$retjumlah_prodi
 		];
 		if(session()->type == "admin"){
 			return view('welcome_message',$data);
