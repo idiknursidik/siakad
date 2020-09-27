@@ -10,10 +10,12 @@ $msiakad_akun = new Msiakad_akun();
 $profil_setting = $msiakad_setting->getprofile();
 $profileinfo = $msiakad_setting->getdata();
 
-if($profil_setting){
-	$kodept	= $profil_setting->kode_perguruan_tinggi;
-	$namapt = $profil_setting->nama_perguruan_tinggi;
-	$jalan	= $profil_setting->jalan;
+if($profileinfo){
+	if($profil_setting){	
+		$namapt = $profil_setting->nama_perguruan_tinggi;
+		$jalan	= $profil_setting->jalan;
+	}
+	$kodept	= $profileinfo->kodept;
 	$logopt	= ($profileinfo->logopt)?$profileinfo->logopt:'logo.png';
 }else{
 	$kodept = "NO DATA";
