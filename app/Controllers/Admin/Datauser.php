@@ -105,12 +105,16 @@ class Datauser extends BaseController
 		echo "</div>";		
 		echo "<div class='form-group'>";
 			echo "<label for='akses'>Hak akses </label><hr>";
-			foreach($prodi as $key=>$val){
-				echo "<div class='icheck-primary d-inline'>";                      
-				echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}'>";
-				echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
-				echo "</div>";
-			}			
+			if($prodi){
+				foreach($prodi as $key=>$val){
+					echo "<div class='icheck-primary d-inline'>";                      
+					echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}'>";
+					echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
+					echo "</div>";
+				}
+			}else{
+				echo "Datakan dahulu prodi";
+			}
 		echo "</div>";
 		echo "<hr>";
 		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
@@ -255,17 +259,21 @@ class Datauser extends BaseController
 			echo "<label for='akses'>Hak akses </label><hr>";
 			$akses = explode(",",$data->akses);
 			$checked="";
-			foreach($prodi as $key=>$val){
-				
-				if(in_array($val->id_prodi,$akses)){
-					$checked = "checked";
-				}else{
-					$checked = "";
-				}					
-				echo "<div class='icheck-primary d-inline'>";                      
-				echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}' {$checked}>";
-				echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
-				echo "</div>";
+			if($prodi){
+				foreach($prodi as $key=>$val){
+					
+					if(in_array($val->id_prodi,$akses)){
+						$checked = "checked";
+					}else{
+						$checked = "";
+					}					
+					echo "<div class='icheck-primary d-inline'>";                      
+					echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}' {$checked}>";
+					echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
+					echo "</div>";
+				}
+			}else{
+				echo "Datakan dahulu prodi";
 			}
 			
 		echo "</div>";	

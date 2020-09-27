@@ -6,7 +6,7 @@ echo $this->section('content');
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
 	  <a name="tambahdata" href="#modalku" data-toggle="modal" title="Tambah Mahasiswa" data-src="<?php echo base_url();?>/akademik/mahasiswa/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
-	  <a href="#" name="getmahasiswapddikti" data-src="<?php echo base_url();?>/akademik/mahasiswa/getmahasiswapddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	  <a href="#" name="getmahasiswapddikti" id="btnGet" data-src="<?php echo base_url();?>/akademik/mahasiswa/getmahasiswapddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dari PDDIKTI
 	  </a>
 	</div>
@@ -17,22 +17,39 @@ echo $this->section('content');
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/listdata");
-	
+	$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/listdata");	
 	$("a[name='getmahasiswapddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
-		$(this).html("loading....mohon tunggu!").addClass("disabled");
-		$.get(action, function( data ) {		  
-			if(data.success == true){
-			   toastr.success(data.messages);
-			    $("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/listdata");
-			}else{
-				toastr.error(data.messages);
-			}
-			$("a[name='getmahasiswapddikti']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI").removeClass("disabled");
-		},'json')
+		var btnGet = $(this).attr("id");
+		var htmlbtn = $(this).html();
+		if(confirm("yakin akan mengambil data?")){
+			$.ajax({
+				dataType:'json',
+				url:action,
+				beforeSend:function(){
+					$("#"+btnGet).addClass("disabled");
+					$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				},
+				complete:function(){
+					$("#"+btnGet).removeClass("disabled");
+					$("#"+btnGet).html(htmlbtn);	
+				},
+				success:function(ret){
+					if(ret.success == true){
+						toastr.success(ret.messages);
+						$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/listdata");
+					}else{
+						toastr.error(ret.messages);
+					}
+				},
+				error:function(xhr,ajaxOptions,thrownError){
+					alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+				}
+			})
+		}
 		return false;
 	})
+	
 	$("a[name='tambahdata']").on("click",function(e){
 		e.preventDefault();
 		$(".modal-dialog").removeClass("modal-lg").addClass("modal-xl");

@@ -3,9 +3,11 @@ namespace App\Models;
 
 use \App\Models\Msiakad_setting;
 use \App\Models\Msiakad_akun;
+use \App\Models\Msiakad_prodi;
 
 $msiakad_setting = new Msiakad_setting();
 $msiakad_akun = new Msiakad_akun();
+$msiakad_prodi = new Msiakad_prodi();
 
 $profil_setting = $msiakad_setting->getprofile();
 $profileinfo = $msiakad_setting->getdata();
@@ -22,6 +24,8 @@ if($profileinfo){
 	$logopt = "logo.png";
 }
 $dataakun = $msiakad_akun->getakun(false,session()->username);
+$dataprodi = $msiakad_prodi->getdata();
+
 $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
 ?>
 <!-- Navbar -->
@@ -244,14 +248,22 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                   <p>Data prodi</p>
                 </a>
                </li>
-			    <li class="nav-item">
-                <a href="<?php echo base_url();?>/akademik/dosenwali" class="nav-link <?php echo isset($mn_akademik_dosenwali)?'active':'';?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kelola dosen wali</p>
-                </a>
-               </li>
-				<?php
+			   
+			   <?php
+			   ///cek apakah sudah ada data prodi?
+				if($dataprodi){
+				   ?>
+					<li class="nav-item">
+					<a href="<?php echo base_url();?>/akademik/dosenwali" class="nav-link <?php echo isset($mn_akademik_dosenwali)?'active':'';?>">
+					  <i class="far fa-circle nav-icon"></i>
+					  <p>Kelola dosen wali</p>
+					</a>
+				   </li>
+					
+					<?php
+					}
 				}
+				if($dataprodi){
 				?>
                <li class="nav-item">
                 <a href="<?php echo base_url();?>/akademik/mahasiswadaftar" class="nav-link <?php echo isset($mn_akademik_mahasiswadaftar)?'active':'';?>">
@@ -325,7 +337,9 @@ $userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
                   </li>
                 </ul>
               </li>
-			  
+			  <?php
+				}
+				?>
 			  
 			  
             </ul>

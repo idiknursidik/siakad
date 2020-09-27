@@ -27,11 +27,11 @@ $(function(){
 				dataType:'json',
 				url:action,
 				beforeSend:function(){
-					$("#"+btnGet).prop("disabled",true);
+					$("#"+btnGet).addClass("disabled");
 					$("#"+btnGet).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
 				},
 				complete:function(){
-					$("#"+btnGet).prop("disabled",false);
+					$("#"+btnGet).removeClass("disabled");
 					$("#"+btnGet).html(htmlbtn);	
 				},
 				success:function(ret){

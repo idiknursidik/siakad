@@ -129,7 +129,7 @@ class Mahasiswa extends BaseController
 									"handphone"=>$val->handphone,
 									"email"=>$val->email,
 									"penerima_kps"=>$val->penerima_kps,
-									"nomor_kps"=>$val->nomor_kps,
+									"no_kps"=>$val->nomor_kps,
 									"npwp"=>$val->npwp,
 									"id_wilayah"=>$val->id_wilayah,
 									"id_jenis_tinggal"=>$val->id_jenis_tinggal,
