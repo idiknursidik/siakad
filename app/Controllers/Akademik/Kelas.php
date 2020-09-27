@@ -463,10 +463,13 @@ class Kelas extends BaseController
 			$juminsert=0;
 			foreach($data_kelas_feeder as $key=>$val){
 				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
+				$kodeprodi	= ($prodi)?$prodi->kode_prodi:'';
+				$id_prodi	= ($prodi)?$prodi->id_prodi:'';
+					
 				$datain = array("id_kelas_kuliah_ws"=>$val->id_kelas_kuliah,
 								"kodept"=>$val->kode_perguruan_tinggi,
-								"kode_prodi"=>$prodi->kode_prodi,
-								"id_prodi"=>$prodi->id_prodi,
+								"kode_prodi"=>$kodeprodi,
+								"id_prodi"=>$id_prodi,
 								"bahasan"=>$val->bahasan,
 								"id_matkul_ws"=>$val->id_matkul,
 								"id_prodi_ws"=>$val->id_prodi,

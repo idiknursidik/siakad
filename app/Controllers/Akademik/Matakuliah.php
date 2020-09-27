@@ -398,13 +398,16 @@ class Matakuliah extends BaseController
 				//cek data dulu
 				$cekdata = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
 				if(!$cekdata){// jika data belum ada
+						
 					$dataprodi = $this->msiakad_prodi->getdata(false,$val->id_prodi);
+					$kodeprodi	= ($dataprodi)?$dataprodi->kode_prodi:'';
+					$id_prodi	= ($dataprodi)?$dataprodi->id_prodi:'';
 					
 					$datain = array("id_matkul_ws"=>$val->id_matkul,
 									"kodept"=>$val->kode_perguruan_tinggi,
 									"id_prodi_ws"=>$val->id_prodi,
-									"kode_prodi"=>$dataprodi->kode_prodi,
-									"id_prodi"=>$dataprodi->id_prodi,
+									"kode_prodi"=>$kodeprodi,
+									"id_prodi"=>$id_prodi,
 									"ada_acara_praktek"=>$val->ada_acara_praktek,
 									"ada_bahan_ajar"=>$val->ada_bahan_ajar,
 									"ada_diktat"=>$val->ada_diktat,
