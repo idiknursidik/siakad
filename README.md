@@ -49,6 +49,7 @@ Silahkan menggunakan XAMPP terbaru
 - import "siakad.sql"
 - Buka http://localhost/siakad
 - Login username dan password = admin
+- Jika di hosting ada beberapa error contoh database.default.hostname = localhost ubah jadi 127.0.0.1
 
 # Mengaktifkan extension php_intl.dll
 - Masuk ke folder xampp/php/php.ini
