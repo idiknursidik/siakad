@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.css">
   
    <!-- jQuery -->
@@ -32,19 +31,63 @@ to get the desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition login-page">
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+ <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <div class="container">
+      <a href="#" class="navbar-brand">
+        <img src="<?php echo base_url();?>/public/gambar/logo.png" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+      </a>
+      
+      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-<div class="login-box">
+      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>/dosen/biodata" class="nav-link">Buat Akun</a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>/dosen/biodata" class="nav-link">Pengumuman</a>
+          </li>
+		  <li class="nav-item">
+            <a href="<?php echo base_url();?>/dosen/biodata" class="nav-link">Pengumuman</a>
+          </li>
+        </ul>
+
+       
+      </div>
+
+      <!-- Right navbar links -->
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        
+       
+        <li class="nav-item">
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
+              class="fas fa-th-large"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- /.navbar -->
+
+
   <div class="login-logo">
-    <a class="text-white" style="font-size:40px; text-shadow:1px 1px 1px #000;">SIAKAD</a>
+    <a class="text-info" style="font-size:40px;">Penerimaan Mahasiswa Baru</a>
   </div>
   <!-- /.login-logo -->
-  <a href="<?php echo base_url();?>/pmb/daftar" class="btn btn-danger" style="margin-left:5px; margin-bottom:-4px; padding-bottom:10px;">Pendaftaran Mahasiswa Baru</a>
   <div class="card" style="padding:20px;">
     <div class="card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+     
 
-      <form id="form_login" action="<?php echo base_url();?>/login/proseslogin" method="post">
+      <form id="form_login" action="<?php echo base_url();?>/pmb/daftar/prosesdaftar" method="post">
 	  <?php
 		echo csrf_field();
 	  ?>
@@ -68,16 +111,11 @@ to get the desired effect
         </div>
         <div class="row">
           <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
+            
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block btnLogin">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block btnLogin">Daftar</button>
           </div>
           <!-- /.col -->
         </div>
@@ -89,15 +127,15 @@ to get the desired effect
       </div>
       <!-- /.social-auth-links -->
 		
-      <p class="mb-1 text-center">
-        <a href="#" id="lupa_password">Lupa Password</a>
-      </p>
+     
     </div>
     <!-- /.login-card-body -->
   </div>
 </div>
 <!-- /.login-box -->
-	  
+
+</div>
+<!-- ./wrapper -->	  
 
 <!-- REQUIRED SCRIPTS -->
 
@@ -158,28 +196,7 @@ $(document).ready(function(){
 		})
 		return false;
 	})
-	$("#lupa_password").on("click",function(){
-		Swal.fire(
-		  'Lupa password atau belum punya akun?',
-		  'Silahkan Kontak Bagian Akademik',
-		  'info'
-		)
-	})
+	
 })
-$(function() {
-    $('body').vegas({
-		delay: 7000,
-		timer: false,
-		shuffle: true,
-		firstTransition: 'fade',
-		firstTransitionDuration: 5000,
-		transition: 'zoomOut',
-		transitionDuration: 2000,
-        slides: [
-            { src: '<?php echo base_url();?>/public/adminlte/dist/img/vegas/photo1.png' },
-            { src: '<?php echo base_url();?>/public/adminlte/dist/img/vegas/photo2.png' }
-        ],
-		overlay: '<?php echo base_url();?>/public/adminlte/plugins/vegas/overlays/08.png'
-    });
 });
 </script>
