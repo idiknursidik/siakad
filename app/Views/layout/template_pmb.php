@@ -82,7 +82,7 @@ to get the desired effect
 
 
   <div class="login-logo">
-    <a class="text-info" style="font-size:40px;">Penerimaan Mahasiswa Baru</a>
+    <a class="text-info" style="font-size:40px;"><?php echo isset($title)?$title:'Penerimaan Mahasiswa Baru';?></a>
   </div>
   <!-- /.login-logo -->
   <div style="padding:20px;">
