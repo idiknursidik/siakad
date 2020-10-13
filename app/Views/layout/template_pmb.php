@@ -19,9 +19,6 @@
   
    <!-- jQuery -->
   <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.min.js"></script>
- 
- <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -109,52 +106,3 @@ to get the desired effect
 <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.form.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
-
-<script>
-$(document).ready(function(){
-	$("#form_login").on("submit",function(e){
-		e.preventDefault();
-		$.ajax({
-			type:'post',
-			url:$(this).attr("action"),
-			data:$(this).serialize(),
-			dataType:'json',
-			beforeSend:function(){
-				$(".btnLogin").prop("disabled",true);
-				$(".btnLogin").html("<i class='fa fa-spin fa-spinner'></i>");			
-			},
-			complete:function(){
-				$(".btnLogin").prop("disabled",false);
-				$(".btnLogin").html("Sign In");	
-			},
-			success:function(response){
-				if(response.error){
-					if(response.error.username){
-						$("#username").addClass("is-invalid");
-						$("#username-error").html(response.error.username);
-					}else{
-						$("#username").removeClass("is-invalid");
-						$("#username-error").html("");
-					}
-					if(response.error.password){
-						$("#password").addClass("is-invalid");
-						$("#password-error").html(response.error.password);
-					}else{
-						$("#password").removeClass("is-invalid");
-						$("#password-error").html("");
-					}
-				}
-				if(response.success){
-					window.location=response.success.link;
-				}
-			},
-			error:function(xhr,ajaxOptions,thrownError){
-				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
-			}
-		})
-		return false;
-	})
-	
-})
-});
-</script>
