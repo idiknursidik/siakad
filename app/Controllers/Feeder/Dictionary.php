@@ -35,9 +35,8 @@ class Dictionary extends BaseController
 		$listcommanddic = $this->mdictionary->dictionaryFunction();
 		
 		if(!$listcommanddic){
-			echo "<a class='btn btn-primary' id='ambildataprodi' href='#' data-src='".base_url()."/feeder/dataprodi/inputdata'>Ambil data</a>";
+			echo "Tidak ada Data";
 		}else{
-			echo "<a class='btn btn-primary' style='float:right' id='ambildataprodi' href='#' data-src='".base_url()."/feeder/dataprodi/inputdata'>Update data</a>";
 			echo "<table class='table'>";
 			echo "<thead><tr><th width='1'>No</th><th>Perintah</th></tr></thead>";
 			echo "<tbody>";
