@@ -33,9 +33,12 @@ class Prodi extends BaseController
 			});
 		  });
 		</script>
-		<?php
-		
+		<?php		
 		$profile 	= $this->msiakad_setting->getdata(); 
+		if(!$profile){
+			echo "Kelola dahulu <b>Setting Profile</b> -> pada menu <b>Setting Sistem</ab> ";
+			exit();
+		}
 		$data 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th width='1'>No</th><th>Kode Prodi</th><th>Nama Prodi</th><th>Jenjang</th><th>Status</th><th>Aksi</th></tr></thead>";
