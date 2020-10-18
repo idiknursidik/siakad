@@ -527,6 +527,36 @@ if($dataakun){
               </li>
             </ul>
           </li>
+		  <!-- tool-->
+		  <li class="nav-item has-treeview <?php echo isset($mn_feeder_c)?'menu-open':'';?>">
+            <a href="#" class="nav-link active ">
+              <i class="nav-icon fa fa-cog"></i>
+              <p>
+                Tool PDDIKTI
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>/feedertool/mahasiswa" class="nav-link <?php echo isset($mn_c_mahasiswa)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Hapus Data Mahasiswa</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>/feedertool/kelas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Hapus Kelas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url();?>/feedertool/akm" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Hapus AKM</p>
+                </a>
+              </li>
+            </ul>
+          </li>
 		  <?php
 		  }
 		  }
