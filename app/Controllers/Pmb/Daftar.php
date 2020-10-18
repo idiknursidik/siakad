@@ -110,7 +110,7 @@ class Daftar extends BaseController
 				return view('pmb/verification',array('success'=>false,'messages'=>'Kode Tidak ditemukan'));
 			}
 		}else{
-			return redirect()->to(base_url().'/pmb/daftar');
+			return view('pmb/verification',array('success'=>false,'messages'=>'Kode Tidak ditemukan'));
 		}
 	}
 	

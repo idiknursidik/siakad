@@ -8,7 +8,12 @@ echo $this->section('content');
 </div><br>
 <script>
 $(function(){
-	$("#resultcontent").html("<?php echo $messages;?>");
+	$("#resultcontent").html(function(){
+		$(this).html("<?php echo $messages;?>");
+		window.setTimeout(function(){
+			window.location = "<?php echo base_url();?>/pmb/login";
+		},3000);
+	});
 })
 </script>
 <?php
