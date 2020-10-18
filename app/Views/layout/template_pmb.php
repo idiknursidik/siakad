@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="icon" type="image/png" href="<?php echo base_url();?>/public/gambar/logo.png">
-  <title>PMB <?php echo isset($title)?" | {$title}":"";?></title>
+  <title>PMB <?php echo isset($tpl_title)?" | {$tpl_title}":"Home";?></title>
     <!-- icheck bootstrap -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   

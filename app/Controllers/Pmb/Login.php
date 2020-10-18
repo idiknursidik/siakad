@@ -15,8 +15,7 @@ class Login extends BaseController
 		];
 		return view('pmb/login',$data);
 	}
-	public function form(){
-		
+	public function form(){		
 		if($this->request->isAJAX()){
 			echo "login";
 		}
