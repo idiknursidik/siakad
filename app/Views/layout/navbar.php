@@ -23,10 +23,13 @@ if($profileinfo){
 	$kodept = "NO DATA";
 	$logopt = "logo.png";
 }
-$dataakun = $msiakad_akun->getakun(false,session()->username);
 $dataprodi = $msiakad_prodi->getdata();
-
-$userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
+$dataakun = $msiakad_akun->getakun(false,session()->username);
+if($dataakun){
+	$userimage = ($dataakun->user_image)?$dataakun->user_image:"noimage.png";
+}else{
+	$userimage = "noimage.png";
+}
 ?>
 <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
