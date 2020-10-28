@@ -8,7 +8,6 @@
   <title>PMB <?php echo isset($tpl_title)?" | {$tpl_title}":"Home";?></title>
     <!-- icheck bootstrap -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/fontawesome-free/css/all.min.css">
   <!-- Toastr -->
@@ -17,6 +16,7 @@
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.css">
   
+  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/skins/_all-skins.min.css">
    <!-- jQuery -->
   <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.min.js"></script>
 </head>
@@ -30,10 +30,10 @@ to get the desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition layout-top-nav">
+<body class="hold-transition layout-top-nav" style="background-color:#ecf0f5">
 <div class="wrapper">
  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white text-white">
     <div class="container">
       <a href="#" class="navbar-brand">
         <img src="<?php echo base_url();?>/public/gambar/logo.png" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
@@ -77,17 +77,37 @@ to get the desired effect
   </nav>
   <!-- /.navbar -->
 
-
-  <div class="login-logo">
-    <a class="text-info" style="font-size:40px;"><?php echo isset($title)?$title:'Penerimaan Mahasiswa Baru';?></a>
-  </div>
+  <div class="container-fluid">
+	  <div class="card" style="margin-top:-10px;">
+		<div class="card-body text-center">
+			<a class="text-info" style="font-size:20px;">Nama Perguruan Tinggi  - Penerimaan mahasiswa baru</a>
+		</div>
+	  </div>
+  </div> 
+	
   <!-- /.login-logo -->
-  <div style="padding:20px;">
-    <div >
+  <div class="container-fluid">
+	<div class="direct-chat-msg">
+	  <!-- /.direct-chat-info -->
+	  <img class="direct-chat-img" src="<?php echo base_url();?>/public/adminlte/dist/img/avatar3.png" alt="message user image">
+	  <!-- /.direct-chat-img -->
+	  <div class="direct-chat-text">
+		<?php echo isset($judul)?$judul:'Home';?>
+	  </div>
+	  <!-- /.direct-chat-text -->
+	</div>  
+    <div>
      <?php echo $this->renderSection('content');?>
     </div>
   </div>
-  <hr>
+  
+ <footer class="main-footer">
+    <div class="container">
+      <strong>Copyright © 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
+      reserved.
+    </div>
+    <!-- /.container -->
+  </footer>
 
 </div>
 <!-- ./wrapper -->	  
@@ -106,3 +126,5 @@ to get the desired effect
 <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.form.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/plugins/vegas/vegas.min.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+</body>
+</html>

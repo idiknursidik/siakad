@@ -12,7 +12,8 @@ class Daftar extends BaseController
 	{
 		
 		$data = [
-			'tpl_title' => 'Halaman Pendaftaran Mahasiswa Baru'
+			'tpl_title' => 'Halaman Pendaftaran Mahasiswa Baru',
+			'judul'=>'Register calon mahasiswa'
 		];
 		return view('pmb/daftar',$data);
 	}
