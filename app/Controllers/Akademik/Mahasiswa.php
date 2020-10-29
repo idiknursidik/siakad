@@ -173,13 +173,21 @@ class Mahasiswa extends BaseController
 		
 	}
 	public function formhistorypendidikan($id_mahasiswa){
+		?>
+		<script>
+		$(function(){
+			$('.select2').select2();
+		})
+		</script>
+		<?php
 		$profile 	= $this->msiakad_setting->getdata();
-		$jenispendaftaran = $this->mreferensi->GetJenisPendaftaran();
+		$jenispendaftaran	= $this->mreferensi->GetJenisPendaftaran();
+		$jalurpendaftaran	= $this->mreferensi->GetJalurMasuk();
+		$prodi 				= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		if($this->request->isAJAX()){
-			$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 			echo "<table class='table table-striped'>";
-			echo "<tr><th>NIM</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Jenis Pendaftaran</th><td><select class='form-control' name='jenispendaftaran'>";
+			echo "<tr><th width='30%'>NIM</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Jenis Pendaftaran</th><td><select class='form-control select2' name='jenispendaftaran' style='width:100%'>";
 			if($jenispendaftaran){
 				foreach($jenispendaftaran as $key=>$val){
 					echo "<option value='{$val->id_jenis_daftar}'";
@@ -188,13 +196,29 @@ class Mahasiswa extends BaseController
 				}
 			}
 			echo "</select></td></tr>";
-			echo "<tr><th>Jalur Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Jalur Pendaftaran</th><td><select class='form-control select2' name='jalurpendaftaran' style='width:100%'>";
+			if($jalurpendaftaran){
+				foreach($jalurpendaftaran as $key=>$val){
+					echo "<option value='{$val->id_jalur_masuk}'";
+					if($this->request->getVar('jalurpendaftaran') == $val->id_jalur_masuk) echo " selected='selected'";
+					echo ">{$val->nama_jalur_masuk}</option>";
+				}
+			}
+			echo "</select></td></tr>";
 			echo "<tr><th>Periode Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Tanggal Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Tanggal Masuk</th><td><input type='date' class='form-control' name='tanggalmasuk'></td></tr>";
 			echo "<tr><th>Pembiayaan Awal</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Biaya Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Perguruan Tinggi </th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Program Studi</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Program Studi</th><td><select class='form-control select2' name='prodi' style='width:100%'>";
+			if($prodi){
+				foreach($prodi as $key=>$val){
+					echo "<option value='{$val->id_prodi}'";
+					if($this->request->getVar('prodi') == $val->id_prodi) echo " selected='selected'";
+					echo ">{$val->nama_prodi} - {$val->nama_jenjang_didik}</option>";
+				}
+			}
+			echo "</select></td></tr>";
 			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
 			echo "<tr><th>Jumlah sks di akui</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='nim'></td></tr>";

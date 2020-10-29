@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/sweetalert2/sweetalert2.min.css">
   
-  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/skins/_all-skins.min.css">
    <!-- jQuery -->
   <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.min.js"></script>
 </head>

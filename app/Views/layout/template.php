@@ -174,6 +174,9 @@ $('body').on("click", "a.modalButton,button.modalButton", function() {
   $('#modalisi').html('Loading, please wait...');
   $('#modalisi').load(src);
 })
+$(function(){
+	$('.select2').select2();
+})
 </script>
   
 </body>

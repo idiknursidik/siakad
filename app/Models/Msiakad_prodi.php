@@ -30,6 +30,9 @@ class Msiakad_prodi extends Model
 		if($kode_prodi){
 			$builder->where("a.kode_prodi",$kode_prodi);
 		}
+		if($status){
+			$builder->where("a.status",$status);
+		}
 		$query = $builder->get();
 		
 		if($query->getRowArray() > 0){
