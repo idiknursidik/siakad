@@ -104,6 +104,9 @@ to get the desired effect
   
  <footer class="main-footer">
     <div class="container">
+	<div class="float-right d-none d-sm-inline">
+      Versi 1.0
+    </div>
       <strong>Copyright © 2020.</strong> All rights reserved.
     </div>
     <!-- /.container -->

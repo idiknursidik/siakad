@@ -173,10 +173,25 @@ class Mahasiswa extends BaseController
 		
 	}
 	public function formhistorypendidikan($id_mahasiswa){
+		$profile 	= $this->msiakad_setting->getdata();
 		if($this->request->isAJAX()){
 			$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
-			
-			echo "OK {$id_mahasiswa}";
+			echo "<table class='table table-striped'>";
+			echo "<tr><th>NIM</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Jenis Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Jalur Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Periode Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Tanggal Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Pembiayaan Awal</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Biaya Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Perguruan Tinggi </th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Program Studi</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
+			echo "<tr><th>Jumlah sks di akui</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "</table>";
+			echo "<div class='float-right'> <button class='btn bg-maroon pull-right' type='submit' id='btnKirim'>Simpan</button></div>";
 		}
 	}
 	public function getkrs($id_mahasiswa){
