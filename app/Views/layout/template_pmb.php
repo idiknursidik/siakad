@@ -47,11 +47,11 @@ to get the desired effect
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a href="<?php echo base_url();?>" class="nav-link">SIAKAD</a>
+          <li class="nav-item px-md-1">
+            <a href="<?php echo base_url();?>" class="nav-link btn bg-olive margin">SIAKAD</a> 
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link">Buat akun</a>
+            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn bg-maroon margin">Buat akun</a>
           </li>
           <li class="nav-item">
             <a href="<?php echo base_url();?>/pmb/login" class="nav-link">Login calon mahasiswa</a>
@@ -91,6 +91,7 @@ to get the desired effect
 	  <!-- /.direct-chat-info -->
 	  <img class="direct-chat-img" src="<?php echo base_url();?>/public/adminlte/dist/img/avatar3.png" alt="message user image">
 	  <!-- /.direct-chat-img -->
+	  
 	  <div class="direct-chat-text">
 		<?php echo isset($judul)?$judul:'Home';?>
 	  </div>

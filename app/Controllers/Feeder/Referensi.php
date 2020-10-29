@@ -75,7 +75,7 @@ class Referensi extends BaseController
 				echo "</thead>";
 				echo "<tbody>";
 				$no=0;
-				foreach($data as $key=>$val){
+				foreach($this->mreferensi->$namatable() as $key=>$val){
 					$no++;
 					echo "<tr>";
 					echo "<td>{$no}</td>";
@@ -89,9 +89,6 @@ class Referensi extends BaseController
 			}else{
 				echo "no data";
 			}
-			echo "<pre>";
-			print_r($data);
-			echo "</pre>";
 		}
 	}
 	public function inputdata($act){
