@@ -33,11 +33,10 @@ to get the desired effect
 <body class="hold-transition layout-top-nav" style="background-color:#ecf0f5">
 <div class="wrapper">
  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark">
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark ">
     <div class="container">
       <a href="#" class="navbar-brand">
-        <img src="<?php echo base_url();?>/public/gambar/logo.png" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
-             style="opacity: .8">
+        <img src="<?php echo base_url();?>/public/gambar/logo.png" alt="SIAKAD Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       </a>
       
       <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

@@ -90,6 +90,9 @@ to get the desired effect
       <!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+	<a id="back-to-top" href="#" class="btn btn-info back-to-top" role="button" aria-label="Scroll to top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
   </div>
   <!-- /.content-wrapper -->
 
@@ -155,10 +158,7 @@ to get the desired effect
 <!-- Select2 -->
 <script src="<?php echo base_url();?>/public/adminlte/plugins/select2/js/select2.full.min.js"></script>
 
-<!-- OPTIONAL SCRIPTS -->
-<script src="<?php echo base_url();?>/public/adminlte/plugins/chart.js/Chart.min.js"></script>
 <script src="<?php echo base_url();?>/public/adminlte/dist/js/demo.js"></script>
-<script src="<?php echo base_url();?>/public/adminlte/dist/js/pages/dashboard3.js"></script>
 <script>
 
 $('body').on("click", "a.modalButton,button.modalButton", function() {

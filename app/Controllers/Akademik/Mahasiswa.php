@@ -174,11 +174,20 @@ class Mahasiswa extends BaseController
 	}
 	public function formhistorypendidikan($id_mahasiswa){
 		$profile 	= $this->msiakad_setting->getdata();
+		$jenispendaftaran = $this->mreferensi->GetJenisPendaftaran();
 		if($this->request->isAJAX()){
 			$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 			echo "<table class='table table-striped'>";
 			echo "<tr><th>NIM</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Jenis Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Jenis Pendaftaran</th><td><select class='form-control' name='jenispendaftaran'>";
+			if($jenispendaftaran){
+				foreach($jenispendaftaran as $key=>$val){
+					echo "<option value='{$val->id_jenis_daftar}'";
+					if($this->request->getVar('jenispendaftaran') == $val->id_jenis_daftar) echo " selected='selected'";
+					echo ">{$val->nama_jenis_daftar}</option>";
+				}
+			}
+			echo "</select></td></tr>";
 			echo "<tr><th>Jalur Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Periode Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Tanggal Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";

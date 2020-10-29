@@ -67,7 +67,7 @@ to get the desired effect
 		  <span id="password-error" class="error invalid-feedback">Loading..</span>
         </div>
         <div class="row">
-          <div class="col-8">
+          <div class="col-7">
             <div class="icheck-primary">
               <input type="checkbox" id="remember">
               <label for="remember">
@@ -76,8 +76,8 @@ to get the desired effect
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block btnLogin">Sign In</button>
+          <div class="col-5">
+            <button type="submit" id="btnLogin_form_login" class="btn btn-primary btn-block btnLogin"> <i class="fas fa-unlock"></i> Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -118,18 +118,20 @@ to get the desired effect
 $(document).ready(function(){
 	$("#form_login").on("submit",function(e){
 		e.preventDefault();
+		var id = $(this).attr("id");
+		var btnHtml = $("#btnLogin_"+id).html();
 		$.ajax({
 			type:'post',
 			url:$(this).attr("action"),
 			data:$(this).serialize(),
 			dataType:'json',
 			beforeSend:function(){
-				$(".btnLogin").prop("disabled",true);
-				$(".btnLogin").html("<i class='fa fa-spin fa-spinner'></i>");			
+				$("#btnLogin_"+id).prop("disabled",true);
+				$("#btnLogin_"+id).html("<i class='fa fa-spin fa-spinner'></i>");			
 			},
 			complete:function(){
-				$(".btnLogin").prop("disabled",false);
-				$(".btnLogin").html("Sign In");	
+				$("#btnLogin_"+id).prop("disabled",false);
+				$("#btnLogin_"+id).html(btnHtml);	
 			},
 			success:function(response){
 				if(response.error){

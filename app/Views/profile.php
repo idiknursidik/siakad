@@ -62,6 +62,7 @@ $(function(){
 			element.after(value="");
 	})
 	$("body").on("submit","#form_profile_image",function(){
+		
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
 		var id = $(this).attr("id");
