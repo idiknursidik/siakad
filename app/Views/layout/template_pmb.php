@@ -33,7 +33,7 @@ to get the desired effect
 <body class="hold-transition layout-top-nav" style="background-color:#ecf0f5">
 <div class="wrapper">
  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white text-white">
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark">
     <div class="container">
       <a href="#" class="navbar-brand">
         <img src="<?php echo base_url();?>/public/gambar/logo.png" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
@@ -48,7 +48,7 @@ to get the desired effect
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="<?php echo base_url();?>" class="nav-link">Siakad</a>
+            <a href="<?php echo base_url();?>" class="nav-link">SIAKAD</a>
           </li>
           <li class="nav-item">
             <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link">Buat akun</a>
@@ -103,8 +103,7 @@ to get the desired effect
   
  <footer class="main-footer">
     <div class="container">
-      <strong>Copyright © 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-      reserved.
+      <strong>Copyright © 2020.</strong> All rights reserved.
     </div>
     <!-- /.container -->
   </footer>

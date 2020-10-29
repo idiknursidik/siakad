@@ -181,6 +181,7 @@ class Mahasiswadaftar extends BaseController
 		$jenis_semester		= $this->mfungsi->jenis_semester();
 		$jalur_pendaftaran	= $this->mfungsi->jalur_pendaftaran();
 		$dataprodi			= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+		
 		$kelas_pendaftaran	= $this->mfungsi->kelas_pendaftaran();
 		$jenis_kelamin		= $this->mfungsi->jenis_kelamin();
 		$agama				= $this->mfungsi->agama();
@@ -758,7 +759,7 @@ class Mahasiswadaftar extends BaseController
 		echo "</form>";
 	}
 	public function simpan(){
-		
+		$profile 			= $this->msiakad_setting->getdata(); 
 		$ret=array("success"=>false,"messages"=>array());
 		
 		$validation =  \Config\Services::validation();   

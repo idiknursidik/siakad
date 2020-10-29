@@ -32,11 +32,67 @@ class Referensi extends BaseController
 			echo "<td>{$no}</td>";
 			echo "<td>{$namatable}</td>";
 			echo "<td>{$retjumlah}</td>";
-			echo "<td><a href='#' name='ambildata_{$no}' data-src='".base_url()."/feeder/referensi/inputdata/{$namatable}'>Ambil data</a></td>";
+			echo "<td>";
+				echo "<a href='#' name='ambildata_{$no}' data-src='".base_url()."/feeder/referensi/inputdata/{$namatable}'>Ambil data</a>";
+				if($retjumlah > 0){
+					echo " | <a href='#modalku' class='modalButton' data-toggle='modal' data-src='".base_url()."/feeder/referensi/listdetail/{$namatable}'>Lihat data</a>";
+				}
+			echo "</td>";
 			echo "</tr>";
 		}
 		echo "</tbody>";
 		echo "</table>";
+	}
+	public function listdetail($namatable){
+		?>
+		<script>
+		  $(function () {
+			$('#datatable').DataTable({
+			  "paging": true,
+			  "lengthChange": true,
+			  "searching": true,
+			  "ordering": true,
+			  "info": true,
+			  "autoWidth": false,
+			  "responsive": true,
+			});
+		  });
+		</script>
+		<?php
+		if($this->request->isAJAX()){
+			$data = $this->mreferensi->$namatable();
+			if($data){
+				//get column
+				$col = array_shift($data);				
+				echo "<table id='datatable' class='table table-hover table-bordered'>";
+				echo "<thead>";
+				echo "<tr>";
+				echo "<th>No</th>";
+				foreach($col as $key=>$val){
+					echo "<th>{$key}</th>";
+				}
+				echo "</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				$no=0;
+				foreach($data as $key=>$val){
+					$no++;
+					echo "<tr>";
+					echo "<td>{$no}</td>";
+					foreach($val as $showkey=>$showval){
+						echo "<td>{$showval}</td>";
+					}
+					echo "</tr>";
+				}
+				echo "</tbody>";
+				echo "</table>";
+			}else{
+				echo "no data";
+			}
+			echo "<pre>";
+			print_r($data);
+			echo "</pre>";
+		}
 	}
 	public function inputdata($act){
 		$ret=array("success"=>false,"messages"=>array());

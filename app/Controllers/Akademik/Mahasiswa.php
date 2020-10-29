@@ -167,8 +167,17 @@ class Mahasiswa extends BaseController
 			echo "<pre>";
 			print_r($data);
 			echo "</pre>";
+			echo "<hr>";
+			echo "<a href='#modalku' class='btn btn-primary modalButton' data-src='".base_url()."/akademik/mahasiswa/formhistorypendidikan/{$id_mahasiswa}' data-toggle='modal' title='Tambah riwayat pendidikan'>tambah data</a>";
 		}
 		
+	}
+	public function formhistorypendidikan($id_mahasiswa){
+		if($this->request->isAJAX()){
+			$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+			
+			echo "OK {$id_mahasiswa}";
+		}
 	}
 	public function getkrs($id_mahasiswa){
 		echo "H KRS {$id_mahasiswa}";
