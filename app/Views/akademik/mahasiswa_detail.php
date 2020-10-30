@@ -119,7 +119,7 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 				toastr.success(ret.messages);
 				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan");
 			}else{
-				toastr.error(ret.messages);
+				toastr.error("Data tidak valid");
 				$("div.invalid-feedback").remove();
 					$.each(ret.messages, function(key, value){
 						var element = $("input[name="+key+"],select[name="+key+"],textarea[name="+key+"]");

@@ -217,8 +217,9 @@ class Mahasiswa extends BaseController
 			}
 			echo "</select></td></tr>";
 			echo "<tr><th>Tanggal Masuk</th><td><input type='date' class='form-control' name='tanggalmasuk'></td></tr>";
-			echo "<tr><th>Pembiayaan Awal</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Biaya Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Pembiayaan Awal</th><td><select class='form-control' name='pembiayaanawal'>";
+			echo "</select></td></tr>";
+			echo "<tr><th>Biaya Masuk</th><td><input type='text' class='form-control' name='biayamasuk'></td></tr>";
 			echo "<tr><th>Perguruan Tinggi </th><td>{$profile->kodept}</td></tr>";
 			echo "<tr><th>Program Studi</th><td><select class='form-control select2' name='prodi' style='width:100%'>";
 			if($prodi){
@@ -230,9 +231,9 @@ class Mahasiswa extends BaseController
 			}
 			echo "</select></td></tr>";
 			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
-			echo "<tr><th>Jumlah sks di akui</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Jumlah sks di akui</th><td><input type='text' class='form-control' name='sksdiakui'></td></tr>";
+			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='ptasal'></td></tr>";
+			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='pprodiasal'></td></tr>";
 			echo "</table>";
 			echo "<div class='float-right'> <button class='btn bg-maroon pull-right' type='submit' id='btnKirim_form_tambahpendidikan'>Simpan</button></div>";
 		}
@@ -257,7 +258,7 @@ class Mahasiswa extends BaseController
 		}else{
 			
 		}
-		echo json_decode($ret);
+		echo json_encode($ret);
 	}
 	public function getkrs($id_mahasiswa){
 		echo "H KRS {$id_mahasiswa}";

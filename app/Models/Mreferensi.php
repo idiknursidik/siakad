@@ -18,6 +18,7 @@ class Mreferensi extends Model
 	protected $GetStatusMahasiswa	= "ref_getstatusmahasiswa";
 	protected $GetJalurMasuk		= "ref_getjalurmasuk";
 	protected $GetJenisPendaftaran	= "ref_getjenispendaftaran";
+	protected $GetPembiayaan		= "ref_getpembiayaan";
 	
 	public function getlistreferensi(){
 		$data =array("GetJenjangPendidikan",
@@ -33,7 +34,8 @@ class Mreferensi extends Model
 					 "GetKebutuhanKhusus",
 					 "GetStatusMahasiswa",
 					 "GetJalurMasuk",
-					 "GetJenisPendaftaran");
+					 "GetJenisPendaftaran",
+					 "GetPembiayaan");
 		return $data;
 	}
 	public function GetJenjangPendidikan($id_jenjang_didik=false){
@@ -288,6 +290,25 @@ class Mreferensi extends Model
 			return FALSE;
 		}
 	}
+	public function GetPembiayaan($id_pembiayaan=false){
+		$builder = $this->db->table($this->GetPembiayaan);
+		if($id_pembiayaan){
+			$builder->where("id_pembiayaan",$id_pembiayaan);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResult();
+			if($id_pembiayaan){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}
+	}
+	
 	public function GetJenisMatakuliah($val=false){
 		$data = array("A"=>"Wajib","B"=>"Pilihan","C"=>"Wajib Peminatan","D"=>"Pilihan Peminatan","S"=>"Tugas akhir/Skripsi/Tesis/Disertasi");
 		if($val){
