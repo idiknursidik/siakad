@@ -183,6 +183,7 @@ class Mahasiswa extends BaseController
 		$profile 	= $this->msiakad_setting->getdata();
 		$jenispendaftaran	= $this->mreferensi->GetJenisPendaftaran();
 		$jalurpendaftaran	= $this->mreferensi->GetJalurMasuk();
+		$pembiayaanawal		= $this->mreferensi->GetPembiayaan();
 		$prodi 				= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		if($this->request->isAJAX()){
 			echo "<form id='form_tambahpendidikan' method='post' action='".base_url()."/akademik/mahasiswa/proseshistorypendidikan'>";
@@ -211,13 +212,20 @@ class Mahasiswa extends BaseController
 				foreach(array("1","2") as $value){
 					$periodependaftaran = $periode.$value;					
 					echo "<option value='{$periodependaftaran}'";
-					if($this->request->getVar("periodependaftaran") == $periodependaftaran) echo " selected='selected'";
+					if(date("Y") == $periode) echo " selected='selected'";
 					echo ">{$periodependaftaran}</option>";
 				}
 			}
 			echo "</select></td></tr>";
 			echo "<tr><th>Tanggal Masuk</th><td><input type='date' class='form-control' name='tanggalmasuk'></td></tr>";
 			echo "<tr><th>Pembiayaan Awal</th><td><select class='form-control' name='pembiayaanawal'>";
+			if($pembiayaanawal){
+				foreach($pembiayaanawal as $key=>$val){
+					echo "<option value='{$val->id_pembiayaan}'";
+					if($this->request->getVar('pembiayaanawal') == $val->id_pembiayaan) echo " selected='selected'";
+					echo ">{$val->nama_pembiayaan}</option>";
+				}
+			}
 			echo "</select></td></tr>";
 			echo "<tr><th>Biaya Masuk</th><td><input type='text' class='form-control' name='biayamasuk'></td></tr>";
 			echo "<tr><th>Perguruan Tinggi </th><td>{$profile->kodept}</td></tr>";
@@ -256,7 +264,8 @@ class Mahasiswa extends BaseController
 				$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
 			}
 		}else{
-			
+			$datain = 
+			//insert data
 		}
 		echo json_encode($ret);
 	}

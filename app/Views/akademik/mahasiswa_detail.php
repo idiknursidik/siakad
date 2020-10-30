@@ -104,6 +104,7 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 	var htmlbtn = $("#btnKirim_"+id).html();
 	$.ajax({
 		dataType:'json',
+		type:'post',
 		url:action,
 		data:dString,
 		beforeSend:function(){
