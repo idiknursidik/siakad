@@ -118,6 +118,7 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 		success:function(ret){
 			if(ret.success == true){
 				toastr.success(ret.messages);
+				$("#modalku").modal("hide");
 				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan");
 			}else{
 				toastr.error("Data tidak valid");

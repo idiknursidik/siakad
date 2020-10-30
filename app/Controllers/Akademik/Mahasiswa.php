@@ -8,6 +8,7 @@ class Mahasiswa extends BaseController
 {
 	protected $siakad_mahasiswa = 'siakad_mahasiswa';
 	protected $feeder_biodatamahasiswa = 'feeder_biodatamahasiswa';
+	protected $siakad_riwayatpendidikan = 'siakad_riwayatpendidikan';
 	
 	public function index()
 	{
@@ -187,9 +188,10 @@ class Mahasiswa extends BaseController
 		$prodi 				= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		if($this->request->isAJAX()){
 			echo "<form id='form_tambahpendidikan' method='post' action='".base_url()."/akademik/mahasiswa/proseshistorypendidikan'>";
+			echo "<input type='hidden' name='id_mahasiswa' value='{$id_mahasiswa}'>";
 			echo "<table class='table table-striped'>";
 			echo "<tr><th width='30%'>NIM</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Jenis Pendaftaran</th><td><select class='form-control select2' name='jenispendaftaran' style='width:100%'>";
+			echo "<tr><th>Jenis Pendaftaran</th><td><select class='form-control select2' name='id_jenis_daftar' style='width:100%'>";
 			if($jenispendaftaran){
 				foreach($jenispendaftaran as $key=>$val){
 					echo "<option value='{$val->id_jenis_daftar}'";
@@ -198,7 +200,7 @@ class Mahasiswa extends BaseController
 				}
 			}
 			echo "</select></td></tr>";
-			echo "<tr><th>Jalur Pendaftaran</th><td><select class='form-control select2' name='jalurpendaftaran' style='width:100%'>";
+			echo "<tr><th>Jalur Pendaftaran</th><td><select class='form-control select2' name='id_jalur_daftar' style='width:100%'>";
 			if($jalurpendaftaran){
 				foreach($jalurpendaftaran as $key=>$val){
 					echo "<option value='{$val->id_jalur_masuk}'";
@@ -218,7 +220,7 @@ class Mahasiswa extends BaseController
 			}
 			echo "</select></td></tr>";
 			echo "<tr><th>Tanggal Masuk</th><td><input type='date' class='form-control' name='tanggalmasuk'></td></tr>";
-			echo "<tr><th>Pembiayaan Awal</th><td><select class='form-control' name='pembiayaanawal'>";
+			echo "<tr><th>Pembiayaan Awal</th><td><select class='form-control' name='id_pembiayaan'>";
 			if($pembiayaanawal){
 				foreach($pembiayaanawal as $key=>$val){
 					echo "<option value='{$val->id_pembiayaan}'";
@@ -241,7 +243,7 @@ class Mahasiswa extends BaseController
 			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
 			echo "<tr><th>Jumlah sks di akui</th><td><input type='text' class='form-control' name='sksdiakui'></td></tr>";
 			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='ptasal'></td></tr>";
-			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='pprodiasal'></td></tr>";
+			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='prodiasal'></td></tr>";
 			echo "</table>";
 			echo "<div class='float-right'> <button class='btn bg-maroon pull-right' type='submit' id='btnKirim_form_tambahpendidikan'>Simpan</button></div>";
 		}
@@ -254,8 +256,20 @@ class Mahasiswa extends BaseController
 			'nim'=>[
 				'rules' => 'required|is_unique[siakad_riwayatpendidikan.nim]',
 				'errors' => [
-					'required' => 'NIM kelas harus diisi.',
+					'required' => 'NIM harus diisi.',
 					'is_unique' => 'NIM sudah ada.'
+				]
+			],
+			'tanggalmasuk'=>[
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Tanggal masuk harus diisi.'
+				]
+			],
+			'biayamasuk'=>[
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Biaya Masuk masuk harus diisi.'
 				]
 			]
 		]))
@@ -264,8 +278,48 @@ class Mahasiswa extends BaseController
 				$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
 			}
 		}else{
-			$datain = 
+		
+			$prodi			= $this->request->getVar("prodi");
+			$id_mahasiswa	= $this->request->getVar("id_mahasiswa");
+			$kodept			= $this->request->getVar("kodept");
+			
+			$biayamasuk		= $this->request->getVar("biayamasuk");
+			$id_jenis_daftar	= $this->request->getVar("id_jenis_daftar");
+			$id_jalur_daftar	= $this->request->getVar("id_jalur_daftar");
+			$id_pembiayaan	= $this->request->getVar("id_pembiayaan");
+			$tanggal_daftar	= $this->request->getVar("tanggalmasuk");
+			$id_periode_masuk	= $this->request->getVar("periodependaftaran");
+			$nim			= $this->request->getVar("nim");
+			
+			$sksdiakui		= $this->request->getVar("sksdiakui");
+			$ptasal			= $this->request->getVar("ptasal");
+			$prodiasal		= $this->request->getVar("prodiasal");
+			
+			$getprodi = $this->msiakad_prodi->getdata($prodi,false,$profile->kodept);
+			$datain = array("id_prodi"=>$prodi,
+							"id_mahasiswa"=>$id_mahasiswa,
+							"kodept"=>$profile->kodept,
+							"kode_prodi"=>$getprodi->kode_prodi,
+							"biaya_masuk"=>$biayamasuk,
+							"id_jalur_daftar"=>$id_jalur_daftar,
+							"id_jenis_daftar"=>$id_jenis_daftar,
+							"id_pembiayaan"=>$id_pembiayaan,
+							"id_periode_masuk"=>$id_periode_masuk,
+							"tanggal_daftar"=>$tanggal_daftar,
+							"nim"=>$nim
+							);
+			if($id_jenis_daftar != 1){
+				$datain = array("sksdiakui"=>$sksdiakui,
+								"ptasal"=>$ptasal,
+								"prodiasal"=>$prodiasal
+								);
+			}				
 			//insert data
+			$insert = $this->db->table($this->siakad_riwayatpendidikan)->insert($datain);
+			if($insert){
+				$ret['messages'] = "Data sudah dimasukan";
+				$ret['success'] = true;
+			}
 		}
 		echo json_encode($ret);
 	}
@@ -327,7 +381,7 @@ class Mahasiswa extends BaseController
 			$spreadsheet = $reader->load($file);
 			$data = $spreadsheet->getActiveSheet()->toArray();
 			
-			print_r($data);
+			
 			foreach($data as $idx => $val){				 
 				// lewati baris ke 0 pada file excel
 				// dalam kasus ini, array ke 0 adalahpara title
