@@ -60,21 +60,7 @@ echo $this->section('content');
 		  <div class="card-body" id="resultcontent">
 			<div class="tab-content">
 			  <div class="tab-pane active" id="informasidata">                    
-				  <p>
-				  <table class="table">
-				  <tr><th width="20%">Alamat</th><td>: <?php echo $data->jalan;?></td></tr>
-				  <tr><th width="20%">RT</th><td>: <?php echo $data->rt;?></td></tr>
-				  <tr><th width="20%">RW</th><td>: <?php echo $data->rw;?></td></tr>
-				  <tr><th width="20%">Dusun</th><td>: <?php echo $data->dusun;?></td></tr>
-				  <tr><th width="20%">Keluarahan</th><td>: <?php echo $data->kelurahan;?></td></tr>
-				  <tr><th width="20%">Kodepos</th><td>: <?php echo $data->kode_pos;?></td></tr>
-				  <tr><th width="20%">NISN</th><td>: <?php echo $data->nisn;?></td></tr>
-				  <tr><th width="20%">NIK</th><td>: <?php echo $data->nik;?></td></tr>
-				  <tr><th width="20%">Tempat Lahir</th><td>: <?php echo $data->tempat_lahir;?></td></tr>
-				  <tr><th width="20%">Tanggal Lahir</th><td>: <?php echo $data->tanggal_lahir;?></td></tr>
-				  <tr><th width="20%">Agama</th><td>: <?php echo $data->id_agama;?></td></tr>
-				  </table>
-				  </p>                      
+				load data....                   
 			  </div>
 			 
 			  <!-- /.tab-pane -->
@@ -90,6 +76,7 @@ echo $this->section('content');
   </div><!-- /.container-fluid -->
 </section>
 <script>
+$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/getbiodata/<?php echo $id_mahasiswa;?>");
 $("a[name^=mhs_]").on("click",function(e){
 	e.preventDefault();
 	var action = $(this).attr("href");
@@ -119,7 +106,7 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 			if(ret.success == true){
 				toastr.success(ret.messages);
 				$("#modalku").modal("hide");
-				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan");
+				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan/<?php echo $id_mahasiswa;?>");
 			}else{
 				toastr.error("Data tidak valid");
 				$("div.invalid-feedback").remove();
