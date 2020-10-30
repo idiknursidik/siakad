@@ -97,6 +97,37 @@ $("a[name^=mhs_]").on("click",function(e){
 		$("a[data-toggle='tab']").removeClass("active");
 	})
 })
+$("body").on("submit","#form_tambahpendidikan",function(){
+	var action = $(this).attr("action");
+	var dString = $(this).serialize();
+	var id = $(this).attr("id");
+	var htmlbtn = $("#btnKirim_"+id).html();
+	$.ajax({
+		dataType:'json',
+		url:action,
+		data:dString,
+		beforeSend:function(){
+			$("#btnKirim_"+id).prop("disabled",true);
+			$("#btnKirim_"+id).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+		},
+		complete:function(){
+			$("#btnKirim_"+id).prop("disabled",false);
+			$("#btnKirim_"+id).html(htmlbtn);	
+		},
+		success:function(ret){
+			if(ret.success == true){
+				toastr.success(ret.messages);
+				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan");
+			}else{
+				toastr.error(ret.messages);
+			}
+		},
+		error:function(xhr,ajaxOptions,thrownError){
+			alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+		}
+	})
+	return false;
+})
 </script>
 <?php
 echo $this->endSection();

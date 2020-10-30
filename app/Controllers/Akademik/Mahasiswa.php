@@ -185,6 +185,7 @@ class Mahasiswa extends BaseController
 		$jalurpendaftaran	= $this->mreferensi->GetJalurMasuk();
 		$prodi 				= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		if($this->request->isAJAX()){
+			echo "<form id='form_tambahpendidikan' method='post' action='".base_url()."/akademik/mahasiswa/proseshistorypendidikan'>";
 			echo "<table class='table table-striped'>";
 			echo "<tr><th width='30%'>NIM</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Jenis Pendaftaran</th><td><select class='form-control select2' name='jenispendaftaran' style='width:100%'>";
@@ -205,11 +206,20 @@ class Mahasiswa extends BaseController
 				}
 			}
 			echo "</select></td></tr>";
-			echo "<tr><th>Periode Pendaftaran</th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Periode Pendaftaran</th><td><select class='form-control' name='periodependaftaran'>";
+			for($periode='2000'; $periode<=date("Y"); $periode++){
+				foreach(array("1","2") as $value){
+					$periodependaftaran = $periode.$value;					
+					echo "<option value='{$periodependaftaran}'";
+					if($this->request->getVar("periodependaftaran") == $periodependaftaran) echo " selected='selected'";
+					echo ">{$periodependaftaran}</option>";
+				}
+			}
+			echo "</select></td></tr>";
 			echo "<tr><th>Tanggal Masuk</th><td><input type='date' class='form-control' name='tanggalmasuk'></td></tr>";
 			echo "<tr><th>Pembiayaan Awal</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Biaya Masuk</th><td><input type='text' class='form-control' name='nim'></td></tr>";
-			echo "<tr><th>Perguruan Tinggi </th><td><input type='text' class='form-control' name='nim'></td></tr>";
+			echo "<tr><th>Perguruan Tinggi </th><td>{$profile->kodept}</td></tr>";
 			echo "<tr><th>Program Studi</th><td><select class='form-control select2' name='prodi' style='width:100%'>";
 			if($prodi){
 				foreach($prodi as $key=>$val){
@@ -224,8 +234,30 @@ class Mahasiswa extends BaseController
 			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='nim'></td></tr>";
 			echo "</table>";
-			echo "<div class='float-right'> <button class='btn bg-maroon pull-right' type='submit' id='btnKirim'>Simpan</button></div>";
+			echo "<div class='float-right'> <button class='btn bg-maroon pull-right' type='submit' id='btnKirim_form_tambahpendidikan'>Simpan</button></div>";
 		}
+	}
+	public function proseshistorypendidikan(){
+		$ret=array("success"=>false,"messages"=>array());
+		$profile 	= $this->msiakad_setting->getdata();
+		$validation =  \Config\Services::validation();   
+		if (!$this->validate([
+			'nim'=>[
+				'rules' => 'required|is_unique[siakad_riwayatpendidikan.nim]',
+				'errors' => [
+					'required' => 'NIM kelas harus diisi.',
+					'is_unique' => 'NIM sudah ada.'
+				]
+			]
+		]))
+		{			
+			foreach($validation->getErrors() as $key=>$value){
+				$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
+			}
+		}else{
+			
+		}
+		echo json_decode($ret);
 	}
 	public function getkrs($id_mahasiswa){
 		echo "H KRS {$id_mahasiswa}";
