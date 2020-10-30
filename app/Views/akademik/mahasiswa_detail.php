@@ -120,6 +120,14 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan");
 			}else{
 				toastr.error(ret.messages);
+				$("div.invalid-feedback").remove();
+					$.each(ret.messages, function(key, value){
+						var element = $("input[name="+key+"],select[name="+key+"],textarea[name="+key+"]");
+							element.closest("input.form-control")
+							.removeClass('is-invalid')
+							.addClass(value.length > 0 ? 'is-invalid' : '').find('.invalid-feedback').remove();
+						element.after(value);
+					})
 			}
 		},
 		error:function(xhr,ajaxOptions,thrownError){
@@ -127,6 +135,12 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 		}
 	})
 	return false;
+})
+$("body").on("click","input,select,textarea",function(){
+	var element = $(this);
+		element.closest("input.form-control")
+		.removeClass('is-invalid').find('.invalid-feedback').remove();
+		element.after(value="");
 })
 </script>
 <?php
