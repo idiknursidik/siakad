@@ -11,7 +11,8 @@ class Login extends BaseController
 	{
 		
 		$data = [
-			'title' => 'Halaman Login Mahasiswa Baru'
+			'tpl_title' => 'Penerimaan Mahasiswa Baru',
+			'judul'=>'Login calon mahasiswa'
 		];
 		return view('pmb/login',$data);
 	}

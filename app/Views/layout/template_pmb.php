@@ -46,16 +46,16 @@ to get the desired effect
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item px-md-1">
-            <a href="<?php echo base_url();?>" class="nav-link btn bg-olive margin">SIAKAD</a> 
+            <a href="<?php echo base_url();?>" class="nav-link btn btn-danger">SIAKAD</a> 
           </li>
-          <li class="nav-item">
-            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn bg-maroon margin">Buat akun</a>
+          <li class="nav-item px-md-1">
+            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn btn-outline-info btn-flat">Buat akun</a>
           </li>
-          <li class="nav-item">
-            <a href="<?php echo base_url();?>/pmb/login" class="nav-link">Login calon mahasiswa</a>
+          <li class="nav-item px-md-1">
+            <a href="<?php echo base_url();?>/pmb/login" class="nav-link btn btn-outline-primary btn-flat">Login calon mahasiswa</a>
           </li>
-		  <li class="nav-item">
-            <a href="<?php echo base_url();?>/pmb/info" class="nav-link">Info penerimaan mahasiswa baru</a>
+		  <li class="nav-item px-md-1">
+            <a href="<?php echo base_url();?>/pmb/info" class="nav-link btn btn-outline-info btn-flat">Info penerimaan mahasiswa baru</a>
           </li>
         </ul>
 

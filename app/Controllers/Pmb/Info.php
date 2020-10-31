@@ -11,7 +11,8 @@ class Info extends BaseController
 	{
 		
 		$data = [
-			'title' => 'Informasi Mahasiswa Baru'
+			'tpl_title' => 'Penerimaan Mahasiswa Baru',
+			'judul'=>'Informasi calon mahasiswa'
 		];
 		return view('pmb/info',$data);
 	}
