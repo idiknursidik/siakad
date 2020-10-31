@@ -330,6 +330,11 @@ class Mahasiswa extends BaseController
 	public function getbiodata($id_mahasiswa){
 		if($this->request->isAJAX()){
 			$data  = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa);
+			echo "<table class='table table-head-fixed text-nowrap'>";
+			echo "<tbody>";
+				echo "<tr><td>Nama</td><td>{$data->nama_mahasiswa}</td></tr>";
+			echo "</tbody>";
+			echo "</table>";
 			echo "<pre>";
 			print_r($data);
 			echo "</pre>";
