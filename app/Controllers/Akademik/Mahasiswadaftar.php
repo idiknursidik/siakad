@@ -59,9 +59,9 @@ class Mahasiswadaftar extends BaseController
 				$no++;
 				echo "<tr>";
 				echo "<td>{$no}</td>";
-				echo "<td>{$val->nama}</td>";
+				echo "<td>{$val->nama_mahasiswa}</td>";
 				echo "<td>{$val->tanggal_lahir}</td>";
-				echo "<td>{$this->mfungsi->jenis_pendaftaran($val->jenis_pendaftaran)}</td>";
+				echo "<td>{$val->nama_jenis_daftar}</td>";
 				echo "<td>{$val->kelas_pendaftaran}</td>";
 				echo "<td>";
 					echo "<a href='".base_url()."/akademik/mahasiswadaftar/ubahdata/{$val->id}'>ubah</a>";
@@ -90,48 +90,48 @@ class Mahasiswadaftar extends BaseController
 		if($data){
 			$datain["id_pendaftaran"] 	= $data->id;
 			$datain["kodept"] 			= $data->kodept;
-			$datain["nama_mahasiswa"] 	= $data->nama;
+			$datain["nama_mahasiswa"] 	= $data->nama_mahasiswa;
 			$datain["jenis_kelamin"] 	= $data->jenis_kelamin;
-			$datain["jalan"] 			= $data->alamat;
+			$datain["jalan"] 			= $data->jalan;
 			$datain["rt"] 				= $data->rt;
 			$datain["rw"] 				= $data->rw;
 			$datain["dusun"] 			= $data->dusun;
 			$datain["kelurahan"] 		= $data->kelurahan;
-			$datain["kode_pos"] 		= $data->kodepos;
+			$datain["kode_pos"] 		= $data->kode_pos;
 			$datain["nisn"] 			= "";
 			$datain["nik"] 				= $data->nik;
 			$datain["tempat_lahir"] 	= $data->tempat_lahir;
 			$datain["tanggal_lahir"] 	= $data->tanggal_lahir;
-			$datain["nama_ayah"] 		= $data->wali_nama;
-			$datain["tanggal_lahir_ayah"] = $data->wali_tanggal_lahir;
-			$datain["nik_ayah"] 		= $data->wali_ktp;
-			$datain["id_pendidikan_ayah"] = $data->wali_pendidikan;//Web Service: GetJenjangPendidikan
-			$datain["id_pekerjaan_ayah"] 	= $data->wali_pekerjaan; //Web Service: GetPekerjaan
-			$datain["id_penghasilan_ayah"]	= ""; //Web Service: GetPenghasilan
+			$datain["nama_ayah"] 		= $data->nama_ayah;
+			$datain["tanggal_lahir_ayah"] = $data->tanggal_lahir_ayah;
+			$datain["nik_ayah"] 		= $data->nik_ayah;
+			$datain["id_pendidikan_ayah"] = $data->id_pendidikan_ayah;//Web Service: GetJenjangPendidikan
+			$datain["id_pekerjaan_ayah"] 	= $data->id_pekerjaan_ayah; //Web Service: GetPekerjaan
+			$datain["id_penghasilan_ayah"]	= $data->id_penghasilan_ayah;; //Web Service: GetPenghasilan
 			$datain["id_kebutuhan_khusus_ayah"] = "";
-			$datain["nama_ibu_kandung"] 	= "";
-			$datain["tanggal_lahir_ibu"] 	= "";
-			$datain["nik_ibu"] 				= "";
-			$datain["id_pendidikan_ibu"]	= ""; //Web Service: GetJenjangPendidikan
-			$datain["id_pekerjaan_ibu"] 	= ""; //Web Service: GetPekerjaan
-			$datain["id_penghasilan_ibu"] 	= ""; //Web Service: GetPenghasilan
+			$datain["nama_ibu_kandung"] 	= $data->nama_ibu_kandung;
+			$datain["tanggal_lahir_ibu"] 	= $data->tanggal_lahir_ibu;
+			$datain["nik_ibu"] 				= $data->nik_ibu;
+			$datain["id_pendidikan_ibu"]	= $data->id_pendidikan_ibu; //Web Service: GetJenjangPendidikan
+			$datain["id_pekerjaan_ibu"] 	= $data->id_pekerjaan_ibu; //Web Service: GetPekerjaan
+			$datain["id_penghasilan_ibu"] 	= $data->id_penghasilan_ibu; //Web Service: GetPenghasilan
 			$datain["id_kebutuhan_khusus_ibu"] = "";
-			$datain["nama_wali"] 			= $data->wali_nama;
-			$datain["tanggal_lahir_wali"] 	= $data->wali_tanggal_lahir;
-			$datain["id_pendidikan_wali"] = $data->wali_pendidikan; //Web Service: GetRecordset:jenjang_pendidikan
-			$datain["id_pekerjaan_wali"] 	= $data->wali_pekerjaan; //Web Service: GetPekerjaan
-			$datain["id_penghasilan_wali"] 	= ""; //Web Service: GetPenghasilan
+			$datain["nama_wali"] 			= $data->nama_wali;
+			$datain["tanggal_lahir_wali"] 	= $data->tanggal_lahir_wali;
+			$datain["id_pendidikan_wali"] = $data->id_pendidikan_wali; //Web Service: GetRecordset:jenjang_pendidikan
+			$datain["id_pekerjaan_wali"] 	= $data->id_pekerjaan_wali; //Web Service: GetPekerjaan
+			$datain["id_penghasilan_wali"] 	= $data->id_penghasilan_wali; //Web Service: GetPenghasilan
 			$datain["id_kebutuhan_khusus_mahasiswa"] = "";
-			$datain["telepon"] 				= $data->hp;
-			$datain["handphone"]			= $data->hp;
+			$datain["telepon"] 				= $data->handphone;
+			$datain["handphone"]			= $data->handphone;
 			$datain["email"] 				= $data->email;
 			$datain["penerima_kps"] 		= (strlen($data->no_kps) > 5)?1:0; //0: Bukan penerima KPS, 1: Penerima KPS
 			$datain["no_kps"] 				= $data->no_kps;
 			$datain["npwp"] 				= "";
 			$datain["id_wilayah"]			= ""; //ID Wilayah. Web Service: GetRecordset:wilayah
-			$datain["id_jenis_tinggal"] 	= $data->jenis_tinggal; //Web Service: GetJenisTinggal
-			$datain["id_agama"] 			= $data->agama; //Web Service: GetAgama
-			$datain["id_alat_transportasi"] = ""; //Web Service: GetAlatTransportasi
+			$datain["id_jenis_tinggal"] 	= $data->id_jenis_tinggal; //Web Service: GetJenisTinggal
+			$datain["id_agama"] 			= $data->id_agama; //Web Service: GetAgama
+			$datain["id_alat_transportasi"] = $data->id_alat_transportasi; //Web Service: GetAlatTransportasi
 			$datain["kewarganegaraan"] 		= $data->kewarganegaraan; //Web Service: GetNegara
 			
 			
@@ -177,17 +177,21 @@ class Mahasiswadaftar extends BaseController
 	}
 	public function formtambah(){
 		$profile 			= $this->msiakad_setting->getdata(); 
-		$jenis_pendaftaran 	= $this->mfungsi->jenis_pendaftaran();
+		$GetJenisPendaftaran 	= $this->mreferensi->GetJenisPendaftaran();
 		$jenis_semester		= $this->mfungsi->jenis_semester();
-		$jalur_pendaftaran	= $this->mfungsi->jalur_pendaftaran();
+		
 		$dataprodi			= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
 		
 		$kelas_pendaftaran	= $this->mfungsi->kelas_pendaftaran();
 		$jenis_kelamin		= $this->mfungsi->jenis_kelamin();
-		$agama				= $this->mfungsi->agama();
-		$jenis_tinggal		= $this->mfungsi->jenis_tinggal();
+		$GetAgama				= $this->mreferensi->GetAgama();
+		$GetJenisTinggal		= $this->mreferensi->GetJenisTinggal();
 		$kewarganegaraan	= $this->mfungsi->kewarganegaraan();
 		$pend_terakhir		= $this->mfungsi->pend_terakhir();
+		$GetJenjangPendidikan = $this->mreferensi->GetJenjangPendidikan();
+		$GetJalurMasuk		= $this->mreferensi->GetJalurMasuk();
+		$GetPekerjaan		= $this->mreferensi->GetPekerjaan();
+		$GetPenghasilan		= $this->mreferensi->GetPenghasilan();
 		
 		echo "<form id='form_tambah' action='".base_url()."/akademik/mahasiswadaftar/simpan' method='post'>";
 		echo "<input type='hidden' name='kodept' value='{$profile->kodept}'>";
@@ -222,11 +226,11 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Jenis Pendaftaran</label>";
-					echo "<select name='jenis_pendaftaran' class='custom-select'>";
-						foreach($jenis_pendaftaran as $key=>$val){
-							echo "<option value='{$key}'";
-							if($this->request->getVar('jenis_pendaftaran') == $key) echo " selected='selected'";
-							echo ">{$val}</option>";
+					echo "<select name='id_jenis_daftar' class='custom-select'>";
+						foreach($GetJenisPendaftaran as $key=>$val){
+							echo "<option value='{$val->id_jenis_daftar}'";
+							if($this->request->getVar('id_jenis_daftar') == $val->id_jenis_daftar) echo " selected='selected'";
+							echo ">{$val->nama_jenis_daftar}</option>";
 						}			  
 					echo "</select>";
 				  echo "</div>";
@@ -234,18 +238,16 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Jalur Pendaftaran</label>";
-					echo "<select name='jalur_pendaftaran' class='custom-select'>";
-						foreach($jalur_pendaftaran as $key=>$val){
-							echo "<option value='{$key}'";
-							if($this->request->getVar('jalur_pendaftaran') == $key) echo " selected='selected'";
-							echo ">{$val}</option>";
+					echo "<select name='id_jalur_masuk' class='custom-select'>";
+						foreach($GetJalurMasuk as $key=>$val){
+							echo "<option value='{$val->id_jalur_masuk}'";
+							if("6" == $val->id_jalur_masuk) echo " selected='selected'";
+							echo ">{$val->nama_jalur_masuk}</option>";
 						}				  
 					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
-			echo "</div>";
-			
-			  
+			echo "</div>";		  
 			
 			echo "<div class='row'>";
 				echo "<div class='col-sm-6'>";
@@ -294,7 +296,7 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Nama</label>";
-					echo "<input type='text' name='nama' class='form-control'>";
+					echo "<input type='text' name='nama_mahasiswa' class='form-control'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-6'>";
@@ -334,11 +336,11 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Agama</label>";
-					echo "<select name='agama' class='custom-select'>";
-					foreach($agama as $key=>$val){
-						echo "<option value='{$key}'";
-						if($this->request->getVar('agama') == $key) echo " selected='selected'";
-						echo ">{$val}</option>";
+					echo "<select name='id_agama' class='custom-select'>";
+					foreach($GetAgama as $key=>$val){
+						echo "<option value='{$val->id_agama}'";
+						if($this->request->getVar('id_agama') == $val->id_agama) echo " selected='selected'";
+						echo ">{$val->nama_agama}</option>";
 					}			  
 					echo "</select>";
 				  echo "</div>";
@@ -346,7 +348,7 @@ class Mahasiswadaftar extends BaseController
 			echo "</div>";
 			echo "<div class='form-group'>";
 				echo "<label>Alamat</label>";
-				echo "<input type='text' name='alamat' class='form-control'>";
+				echo "<input type='text' name='jalan' class='form-control'>";
 			echo "</div>";
 			echo "<div class='row'>";
 				echo "<div class='col-sm-3'>";
@@ -392,18 +394,18 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Kode Pos</label>";
-					echo "<input type='text' name='kodepos' class='form-control'>";
+					echo "<input type='text' name='kode_pos' class='form-control'>";
 				  echo "</div>";
 				echo "</div>";
 			echo "</div>";
 			
 			echo "<div class='form-group'>";
 				echo "<label>Jenis tinggal</label>";
-				echo "<select name='jenis_tinggal' class='custom-select'>";
-					foreach($jenis_tinggal as $key=>$val){
-						echo "<option value='{$key}'";
-						if($this->request->getVar('jenis_tinggal') == $key) echo " selected='selected'";
-						echo ">{$val}</option>";
+				echo "<select name='id_jenis_tinggal' class='custom-select'>";
+					foreach($GetJenisTinggal as $key=>$val){
+						echo "<option value='{$val->id_jenis_tinggal}'";
+						if($this->request->getVar('id_jenis_tinggal') == $val->id_jenis_tinggal) echo " selected='selected'";
+						echo ">{$val->nama_jenis_tinggal}</option>";
 					}				  
 				echo "</select>";
 			echo "</div>";
@@ -411,7 +413,7 @@ class Mahasiswadaftar extends BaseController
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Nomor Handphone</label>";
-					echo "<input type='text' name='hp' class='form-control'>";
+					echo "<input type='text' name='handphone' class='form-control'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-6'>";
@@ -462,7 +464,7 @@ class Mahasiswadaftar extends BaseController
 			echo "<div class='row'>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Pendidikan Terakhir</label>";
+					echo "<label>Pendidikan Menengah</label>";
 					echo "<select name='pend_terakhir' class='custom-select'>";
 						foreach($pend_terakhir as $key=>$val){
 							echo "<option value='{$key}'";
@@ -502,7 +504,7 @@ class Mahasiswadaftar extends BaseController
 		//DATA Orang Tua
 		echo "<div class='card'>";
 		  echo "<div class='card-header'>";
-			echo "<h3 class='card-title'>DATA ORANG TUA/WALI</h3>";
+			echo "<h3 class='card-title'>DATA ORANG TUA/AYAH</h3>";
             echo "<div class='card-tools'>";
               echo "<button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-minus'></i></button>";
               echo "<button type='button' class='btn btn-tool' data-card-widget='remove'><i class='fas fa-times'></i></button>";
@@ -512,113 +514,197 @@ class Mahasiswadaftar extends BaseController
 			echo "<div class='row'>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Nama Wali</label>";
-					echo "<input type='text' class='form-control' name='wali_nama'>";
+					echo "<label>Nama</label>";
+					echo "<input type='text' class='form-control' name='nama_ayah'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>KTP Wali</label>";
-					echo "<input type='text' class='form-control' name='wali_ktp'>";
-				  echo "</div>";
-				echo "</div>";
-				echo "<div class='col-sm-4'>";
-				  echo "<div class='form-group'>";
-					echo "<label>Telepon Wali</label>";
-					echo "<input type='text' class='form-control' name='wali_hp'>";
-				  echo "</div>";
-				echo "</div>";
-			echo "</div>";
-			echo "<div class='row'>";
-				echo "<div class='col-sm-4'>";
-				  echo "<div class='form-group'>";
-					echo "<label>Tempat Lahir</label>";
-					echo "<input type='text' class='form-control' name='wali_tempat_lahir'>";
+					echo "<label>NIK</label>";
+					echo "<input type='text' class='form-control' name='nik_ayah'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Tanggal Lahir</label>";
-					echo "<input type='date' class='form-control' name='wali_tanggal_lahir'>";
+					echo "<input type='date' class='form-control' name='tanggal_lahir_ayah'>";
+				  echo "</div>";
+				echo "</div>";
+			echo "</div>";
+			echo "<div class='row'>";
+				echo "<div class='col-sm-4'>";
+				  echo "<div class='form-group'>";
+					echo "<label>Pendidikan</label>";
+					echo "<select class='form-control' name='id_pendidikan_ayah'>";
+					foreach($GetJenjangPendidikan as $key=>$val){
+						echo "<option value='{$val->id_jenjang_didik}'";
+						if($this->request->getVar("id_pendidikan_ayah") == $val->id_jenjang_didik) echo " selected='selected'";
+						echo ">{$val->nama_jenjang_didik}</option>";
+					}
+					echo "</select>";
+				  echo "</div>";
+				echo "</div>";
+				echo "<div class='col-sm-4'>";
+				  echo "<div class='form-group'>";
+					echo "<label>Pekerjaan</label>";
+					echo "<select class='form-control' name='id_pekerjaan_ayah'>";
+					foreach($GetPekerjaan as $key=>$val){
+						echo "<option value='{$val->id_pekerjaan}'";
+						if($this->request->getVar("id_pekerjaan_ayah") == $val->id_pekerjaan) echo " selected='selected'";
+						echo ">{$val->nama_pekerjaan}</option>";
+					}
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 					echo "<div class='form-group'>";
-						echo "<label>Agama</label>";
-						echo "<select name='wali_agama' class='custom-select'>";
-						foreach($agama as $key=>$val){
-							echo "<option value='{$key}'";
-							if($this->request->getVar('wali_agama') == $key) echo " selected='selected'";
-							echo ">{$val}</option>";
-						}			  
-						echo "</select>";
+						echo "<label>Penghasilan</label>";
+						echo "<select class='form-control' name='id_penghasilan_ayah'>";
+						foreach($GetPenghasilan as $key=>$val){
+							echo "<option value='{$val->id_penghasilan}'";
+							if($this->request->getVar("id_penghasilan_ayah") == $val->id_penghasilan) echo " selected='selected'";
+							echo ">{$val->nama_penghasilan}</option>";
+						}
+					echo "</select>";
 					echo "</div>";
 				echo "</div>";
 			echo "</div>";
-			echo "<div class='form-group'>";
-				echo "<label>Jalan</label>";
-				echo "<input type='text' class='form-control' name='wali_alamat'>";
+		  echo "</div>";
+		echo "</div>";
+		//IBU
+		//DATA Orang Tua
+		echo "<div class='card'>";
+		  echo "<div class='card-header'>";
+			echo "<h3 class='card-title'>DATA ORANG TUA/IBU</h3>";
+            echo "<div class='card-tools'>";
+              echo "<button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-minus'></i></button>";
+              echo "<button type='button' class='btn btn-tool' data-card-widget='remove'><i class='fas fa-times'></i></button>";
 			echo "</div>";
-			echo "<div class='row'>";
-				echo "<div class='col-sm-2'>";
-				  echo "<div class='form-group'>";
-					echo "<label>RT</label>";
-					echo "<input type='text' class='form-control' name='wali_rt'>";
-				  echo "</div>";
-				echo "</div>";
-				echo "<div class='col-sm-2'>";
-				  echo "<div class='form-group'>";
-					echo "<label>RW</label>";
-					echo "<input type='text' class='form-control' name='wali_rw'>";
-				  echo "</div>";
-				echo "</div>";
-				echo "<div class='col-sm-4'>";
-				  echo "<div class='form-group'>";
-					echo "<label>Nama Dusun</label>";
-					echo "<input type='text' class='form-control' name='wali_dusun'>";
-				  echo "</div>";
-				echo "</div>";
-				echo "<div class='col-sm-4'>";
-				  echo "<div class='form-group'>";
-					echo "<label>Kodepos</label>";
-					echo "<input type='text' class='form-control' name='wali_kodepos'>";
-				  echo "</div>";
-				echo "</div>";
-			echo "</div>";
+          echo "</div>";
+		  echo "<div class='card-body'>";
 			echo "<div class='row'>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Nama Kelurahan/ Desa</label>";
-					echo "<input type='text' class='form-control' name='wali_kelurahan'>";
+					echo "<label>Nama ibu kadung</label>";
+					echo "<input type='text' class='form-control' name='nama_ibu_kandung'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Kecamatan </label>";
-					echo "<input type='text' class='form-control' name='wali_kecamatan'>";
+					echo "<label>NIK</label>";
+					echo "<input type='text' class='form-control' name='nik_ibu'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Kabupaten </label>";
-					echo "<input type='text' class='form-control' name='wali_kota_kabupaten'>";
+					echo "<label>Tanggal Lahir</label>";
+					echo "<input type='date' class='form-control' name='tanggal_lahir_ibu'>";
 				  echo "</div>";
 				echo "</div>";
 			echo "</div>";
+			echo "<div class='row'>";
+				echo "<div class='col-sm-4'>";
+				  echo "<div class='form-group'>";
+					echo "<label>Pendidikan</label>";
+					echo "<select class='form-control' name='id_pendidikan_ibu'>";
+					foreach($GetJenjangPendidikan as $key=>$val){
+						echo "<option value='{$val->id_jenjang_didik}'";
+						if($this->request->getVar("id_pendidikan_ibu") == $val->id_jenjang_didik) echo " selected='selected'";
+						echo ">{$val->nama_jenjang_didik}</option>";
+					}
+					echo "</select>";
+				  echo "</div>";
+				echo "</div>";
+				echo "<div class='col-sm-4'>";
+				  echo "<div class='form-group'>";
+					echo "<label>Pekerjaan</label>";
+					echo "<select class='form-control' name='id_pekerjaan_ibu'>";
+					foreach($GetPekerjaan as $key=>$val){
+						echo "<option value='{$val->id_pekerjaan}'";
+						if($this->request->getVar("id_pekerjaan_ibu") == $val->id_pekerjaan) echo " selected='selected'";
+						echo ">{$val->nama_pekerjaan}</option>";
+					}
+					echo "</select>";
+				  echo "</div>";
+				echo "</div>";
+				echo "<div class='col-sm-4'>";
+					echo "<div class='form-group'>";
+						echo "<label>Penghasilan</label>";
+						echo "<select class='form-control' name='id_penghasilan_ibu'>";
+						foreach($GetPenghasilan as $key=>$val){
+							echo "<option value='{$val->id_penghasilan}'";
+							if($this->request->getVar("id_penghasilan_ibu") == $val->id_penghasilan) echo " selected='selected'";
+							echo ">{$val->nama_penghasilan}</option>";
+						}
+					echo "</select>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+		  echo "</div>";
+		echo "</div>";
+		//WALI
+		//DATA Orang Tua
+		echo "<div class='card'>";
+		  echo "<div class='card-header'>";
+			echo "<h3 class='card-title'>DATA ORANG TUA/WALI</h3>";
+            echo "<div class='card-tools'>";
+              echo "<button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-minus'></i></button>";
+              echo "<button type='button' class='btn btn-tool' data-card-widget='remove'><i class='fas fa-times'></i></button>";
+			echo "</div>";
+          echo "</div>";
+		  echo "<div class='card-body'>";
 			echo "<div class='row'>";
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Pendidikan Wali</label>";
-					echo "<input type='text' class='form-control' name='wali_pendidikan'>";
+					echo "<label>NIK</label>";
+					echo "<input type='text' class='form-control' name='nama_wali'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Pekerjaan Wali</label>";
-					echo "<input type='text' class='form-control' name='wali_pekerjaan'>";
+					echo "<label>Tanggal Lahir</label>";
+					echo "<input type='date' class='form-control' name='tanggal_lahir_wali'>";
 				  echo "</div>";
 				echo "</div>";
-			echo "</div>";			
+			echo "</div>";
+			echo "<div class='row'>";
+				echo "<div class='col-sm-4'>";
+				  echo "<div class='form-group'>";
+					echo "<label>Pendidikan</label>";
+					echo "<select class='form-control' name='id_pendidikan_wali'>";
+					foreach($GetJenjangPendidikan as $key=>$val){
+						echo "<option value='{$val->id_jenjang_didik}'";
+						if($this->request->getVar("id_pendidikan_wali") == $val->id_jenjang_didik) echo " selected='selected'";
+						echo ">{$val->nama_jenjang_didik}</option>";
+					}
+					echo "</select>";
+				  echo "</div>";
+				echo "</div>";
+				echo "<div class='col-sm-4'>";
+				  echo "<div class='form-group'>";
+					echo "<label>Pekerjaan</label>";
+					echo "<select class='form-control' name='id_pekerjaan_wali'>";
+					foreach($GetPekerjaan as $key=>$val){
+						echo "<option value='{$val->id_pekerjaan}'";
+						if($this->request->getVar("id_pekerjaan_wali") == $val->id_pekerjaan) echo " selected='selected'";
+						echo ">{$val->nama_pekerjaan}</option>";
+					}
+					echo "</select>";
+				  echo "</div>";
+				echo "</div>";
+				echo "<div class='col-sm-4'>";
+					echo "<div class='form-group'>";
+						echo "<label>Penghasilan</label>";
+						echo "<select class='form-control' name='id_penghasilan_wali'>";
+						foreach($GetPenghasilan as $key=>$val){
+							echo "<option value='{$val->id_penghasilan}'";
+							if($this->request->getVar("id_penghasilan_wali") == $val->id_penghasilan) echo " selected='selected'";
+							echo ">{$val->nama_penghasilan}</option>";
+						}
+					echo "</select>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
 		  echo "</div>";
 		echo "</div>";
 		//DATA Pekesrjaaan
@@ -764,7 +850,7 @@ class Mahasiswadaftar extends BaseController
 		
 		$validation =  \Config\Services::validation();   
 		if (!$this->validate([
-			'nama' => [
+			'nama_mahasiswa' => [
 				'rules' => 'required',
 				'errors' => [
 					'required' => 'Nama harus diisi.'
@@ -788,6 +874,12 @@ class Mahasiswadaftar extends BaseController
 				'errors' => [
 					'required' => 'Tanggal lahir harus dipilih.'
 				]
+			],
+			'nama_ibu_kandung'=>[
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Nama ibu kandung harus diisi.'
+				]
 			]
 		]))
 		{			
@@ -795,43 +887,7 @@ class Mahasiswadaftar extends BaseController
 				$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
 			}
 		}else{
-			/*
-			$semester 			= $this->request->getVar("semester");
-			$jenis_pendaftaran 	= $this->request->getVar("jenis_pendaftaran");
-			$jalur_pendaftaran	= $this->request->getVar("jalur_pendaftaran");
-			$kelas_pendaftaran	= $this->request->getVar("kelas_pendaftaran");
 			
-			$nama			= $this->request->getVar("nama");
-			$jenis_kelamin	= $this->request->getVar("jenis_kelamin");
-			$tempat_lahir	= $this->request->getVar("tempat_lahir");
-			$tanggal_lahir	= $this->request->getVar("tanggal_lahir");
-			$nik			= $this->request->getVar("nik");
-			$agama			= $this->request->getVar("agama");
-			$alamat			= $this->request->getVar("alamat");
-			$rt				= $this->request->getVar("rt");
-			$rw				= $this->request->getVar("rw");
-			$dusun			= $this->request->getVar("dusun");
-			$kelurahan		= $this->request->getVar("kelurahan");
-			$kecamatan		= $this->request->getVar("kecamatan");
-			$kota_kabupaten	= $this->request->getVar("kota_kabupaten");
-			$kodepos		= $this->request->getVar("kodepos");
-			$jenis_tinggal	= $this->request->getVar("jenis_tinggal");
-			$hp				= $this->request->getVar("hp");
-			$email			= $this->request->getVar("email");
-			$no_kis			= $this->request->getVar("no_kis");
-			$no_kip			= $this->request->getVar("no_kip");
-			$no_kps			= $this->request->getVar("no_kps");
-			$no_kks			= $this->request->getVar("no_kks");
-			$kewarganegaraan	= $this->request->getVar("kewarganegaraan");
-			$pend_terakhir	= $this->request->getVar("pend_terakhir");
-			$sekolah_asal	= $this->request->getVar("sekolah_asal");
-			$tahun_lulus	= $this->request->getVar("tahun_lulus");
-			$prestasi		= $this->request->getVar("prestasi");
-			
-			$wali_nama		= $this->request->getVar("wali_nama");
-			$wali_ktp		= $this->request->getVar("wali_ktp");
-			$no_kip			= $this->request->getVar("no_kip");
-			*/
 			$id_prodi	= $this->request->getVar("id_prodi");
 			$datain=array();
 			foreach($this->request->getVar() as $key=>$val){

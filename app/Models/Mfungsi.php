@@ -24,15 +24,7 @@ class Mfungsi extends Model
 		}
 		return (object)$array;
 	}
-	function jenis_pendaftaran($val=false){
-		$data = array("1"=>"Peserta didik Baru","2"=>"Pindahan");
-		if($val){
-			$ret = $data[$val];
-		}else{
-			$ret = $data;
-		}
-		return $ret;
-	}
+	
 	function jenis_semester($val=false){
 		$data = array("1"=>"Ganjil","2"=>"Genap");
 		if($val){
@@ -69,24 +61,7 @@ class Mfungsi extends Model
 		}
 		return $ret;
 	}
-	function agama($val=false){
-		$data = array("1"=>"Islam","2"=>"Kristen","3"=>"Katholik","4"=>"Hindu","5"=>"Budha","6"=>"Konghucu","99"=>"Lainnya");
-		if($val){
-			$ret = $data[$val];
-		}else{
-			$ret = $data;
-		}
-		return $ret;
-	}
-	function jenis_tinggal($val=false){
-		$data = array("1"=>"Bersama orang tua","2"=>"Wali","3"=>"Kost","4"=>"Asrama","5"=>"Panti asuhan");
-		if($val){
-			$ret = $data[$val];
-		}else{
-			$ret = $data;
-		}
-		return $ret;
-	}
+	
 	function kewarganegaraan($val=false){
 		$data = array("WNI"=>"Warga Negara Indonesia","WNA"=>"Warga Negara Asing");
 		if($val){
