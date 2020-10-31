@@ -6,6 +6,7 @@ class Biodata extends BaseController
 {
 	protected $siakad_mahasiswa = 'siakad_mahasiswa';
 	protected $feeder_biodatamahasiswa = 'feeder_biodatamahasiswa';
+	protected $siakad_mahasiswa_mendaftar = "siakad_mahasiswa_mendaftar";
 	
 	public function index()
 	{
@@ -35,13 +36,13 @@ class Biodata extends BaseController
 		$infoakun 			= $this->msiakad_akun->getakunmahasiswa(false,$this->session->username);
 		
 		$data 				= $this->msiakad_mahasiswa->getdata(false,$infoakun->id_mahasiswa);
-		//echo "<pre>";
-		//print_r($kebutuhankhusus);
-		//echo "</pre>";
+	
 		
 		echo "<form id='form_ubah' action='".base_url()."/mahasiswa/biodata/ubah' method='post'>";
 		echo "<input type='hidden' name='id_mahasiswa' value='{$data->id_mahasiswa}'>";
 		echo "<input type='hidden' name='kodept' value='{$profile->kodept}'>";
+		echo "<input type='hidden' name='id_prodi' value='{$infoakun->id_prodi}'>";
+		
 		echo csrf_field();
 		
 		
@@ -59,7 +60,7 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-5'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Nama</label>";
-					echo "<input type='text' name='nama' class='form-control' value='{$data->nama_mahasiswa}'>";
+					echo "<input type='text' name='nama_mahasiswa' class='form-control' value='{$data->nama_mahasiswa}'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-3'>";
@@ -139,7 +140,7 @@ class Biodata extends BaseController
 			echo "</div>";
 			echo "<div class='form-group'>";
 				echo "<label>Jalan</label>";
-				echo "<input type='text' name='alamat' class='form-control' value='{$data->jalan}'>";
+				echo "<input type='text' name='jalan' class='form-control' value='{$data->jalan}'>";
 			echo "</div>";
 			echo "<div class='row'>";
 				echo "<div class='col-sm-3'>";
@@ -171,7 +172,7 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Kode Pos</label>";
-					echo "<input type='text' name='kodepos' class='form-control' value='{$data->kode_pos}'>";
+					echo "<input type='text' name='kode_pos' class='form-control' value='{$data->kode_pos}'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
@@ -218,7 +219,7 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Nomor Handphone</label>";
-					echo "<input type='text' name='hp' class='form-control' value='{$data->handphone}'>";
+					echo "<input type='text' name='handphone' class='form-control' value='{$data->handphone}'>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
@@ -239,7 +240,7 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Nomor Kartu Keluarga Sejahtera (KKS) </label>";
-					echo "<input type='text' name='no_kks' class='form-control' value='{$data->no_kps}'>";
+					echo "<input type='text' name='no_kps' class='form-control' value='{$data->no_kps}'>";
 				  echo "</div>";
 				echo "</div>";
 				//kebutuhankhusus
@@ -453,10 +454,11 @@ class Biodata extends BaseController
 		  echo "</div>";
 		echo "</div>";
 		
-		echo "<hr><button class='btn btn-primary' name='kirim' type='submit'>Simpan data</button><br><br>";
+		echo "<hr><button class='btn btn-primary' name='kirim' type='submit' id='btnSubmit_form_ubah'>Simpan data</button><br><br>";
 		echo "</form>";
 	}
 	public function ubah(){
+		$infoakun 	= $this->msiakad_akun->getakunmahasiswa(false,$this->session->username);
 		if ($this->request->isAJAX()){
 			$ret=array("success"=>false,"messages"=>array());
 			$profile 	= $this->msiakad_setting->getdata(); 
@@ -464,7 +466,7 @@ class Biodata extends BaseController
 			
 			$validation =  \Config\Services::validation();   
 			if (!$this->validate([
-				'nama'=>[
+				'nama_mahasiswa'=>[
 					'rules' => 'required',
 					'errors' => [
 						'required' => 'Nama harus diisi.'
@@ -490,36 +492,24 @@ class Biodata extends BaseController
 				}
 			}else{
 				
+				$id_mahasiswa	= $infoakun->id_mahasiswa;
 				$datain=array();
 				foreach($this->request->getVar() as $key=>$val){
-					if(!in_array($key,array("csrf_test_name","id_prodi"))){
+					if(!in_array($key,array("csrf_test_name","id_mahasiswa","id_prodi"))){
 						$datain[$key] =  $this->request->getVar($key);
 					}
 				}
-				$datain["kodept"] = $profile->kodept;
-				$datain["id_prodi"] = $id_prodi;
+				$datain["kodept"] = $profile->kodept;		
 				
-				$semester = $this->mreferensi->GetSemester($id_semester);
-				if($semester){
-					$datain["semester_mulai_berlaku"] = $semester->nama_semester;
-				}
-				
-				$prodi = $this->msiakad_prodi->getdata($id_prodi,false,$profile->kodept);
-				if($prodi){
-					if(strlen($prodi->kode_prodi) > 0){
-						$datain["kode_prodi"] = $prodi->kode_prodi;
-					}
-					if(strlen($prodi->id_prodi_ws) > 0){
-						$datain["id_prodi_ws"] = $prodi->id_prodi_ws;
-					}
-				}
-				
-				$query = $this->db->table($this->siakad_kurikulum)->insert($datain);		
+				$builder = $this->db->table($this->siakad_mahasiswa);
+				$builder->where('id_mahasiswa', $id_mahasiswa);
+				$query = $builder->update($datain);
+					
 				if($query){	
-					$ret['messages'] = "Data berhasil dimasukan";
+					$ret['messages'] = "Data berhasil diupdate";
 					$ret['success'] = true;	
 				}else{
-					$ret['messages'] = "Data gagal dimasukan";
+					$ret['messages'] = "Data gagal diupdate";
 				}			
 			}	
 			echo json_encode($ret);

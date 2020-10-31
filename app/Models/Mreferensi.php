@@ -19,6 +19,8 @@ class Mreferensi extends Model
 	protected $GetJalurMasuk		= "ref_getjalurmasuk";
 	protected $GetJenisPendaftaran	= "ref_getjenispendaftaran";
 	protected $GetPembiayaan		= "ref_getpembiayaan";
+	protected $GetJenisTinggal		= "ref_getjenistinggal";
+	protected $GetJenisSubstansi	= "ref_getjenissubstansi";
 	
 	public function getlistreferensi(){
 		$data =array("GetJenjangPendidikan",
@@ -35,7 +37,9 @@ class Mreferensi extends Model
 					 "GetStatusMahasiswa",
 					 "GetJalurMasuk",
 					 "GetJenisPendaftaran",
-					 "GetPembiayaan");
+					 "GetPembiayaan",
+					 "GetJenisTinggal",
+					 "GetJenisSubstansi");
 		return $data;
 	}
 	public function GetJenjangPendidikan($id_jenjang_didik=false){
@@ -308,6 +312,43 @@ class Mreferensi extends Model
 			return FALSE;
 		}
 	}
+	public function GetJenisTinggal($id_jenis_tinggal=false){
+		$builder = $this->db->table($this->GetJenisTinggal);
+		if($id_jenis_tinggal){
+			$builder->where("id_jenis_tinggal",$id_jenis_tinggal);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResult();
+			if($id_jenis_tinggal){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}
+	}
+	public function GetJenisSubstansi($id_jenis_substansi=false){
+		$builder = $this->db->table($this->GetJenisSubstansi);
+		if($id_jenis_substansi){
+			$builder->where("id_jenis_substansi",$id_jenis_substansi);
+		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResult();
+			if($id_jenis_substansi){
+				$ret = $data[0];
+			}else{
+				$ret = $data;
+			}
+			return $ret;
+		}else{
+			return FALSE;
+		}
+	}
+	
 	
 	public function GetJenisMatakuliah($val=false){
 		$data = array("A"=>"Wajib","B"=>"Pilihan","C"=>"Wajib Peminatan","D"=>"Pilihan Peminatan","S"=>"Tugas akhir/Skripsi/Tesis/Disertasi");

@@ -332,12 +332,20 @@ class Mahasiswa extends BaseController
 			$data  = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa);
 			echo "<table class='table table-head-fixed text-nowrap'>";
 			echo "<tbody>";
-				echo "<tr><td>Nama</td><td>{$data->nama_mahasiswa}</td></tr>";
+				echo "<tr><td width='30%'>Nama</td><td>: {$data->nama_mahasiswa}</td></tr>";
+				echo "<tr><td>Jenis Kelamin</td><td>: {$this->mfungsi->jenis_kelamin($data->jenis_kelamin)}</td></tr>";
+				echo "<tr><td>Tempat, Tanggal Lahir</td><td>: {$data->tempat_lahir}, {$data->tanggal_lahir}</td></tr>";
+				echo "<tr><td>NIK</td><td>: {$data->nik}</td></tr>";
+				echo "<tr><td>Agama</td><td>: {$data->nama_agama}</td></tr>";
+				echo "<tr><td>Jenis Tinggal</td><td>: {$data->nama_jenis_tinggal}</td></tr>";
+				echo "<tr><td>Kewarganegaraan</td><td>: {$data->kewarganegaraan}</td></tr>";
+				echo "<tr><td>Alamat</td><td>: Jalan. {$data->jalan}, RT. {$data->rt}, RW. {$data->rw} </td></tr>";
+				echo "<tr><td>Dusun</td><td>: {$data->dusun}</td></tr>";
+				echo "<tr><td>Kelurahan</td><td>: {$data->kelurahan}</td></tr>";
+				echo "<tr><td>Kecamatan</td><td>: {$data->kecamatan}</td></tr>";
+				echo "<tr><td>Kodepos</td><td>: {$data->kode_pos}</td></tr>";
 			echo "</tbody>";
 			echo "</table>";
-			echo "<pre>";
-			print_r($data);
-			echo "</pre>";
 		}
 	}
 	

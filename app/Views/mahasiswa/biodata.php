@@ -9,18 +9,20 @@ $(function(){
 	$("body").on("submit","#form_ubah",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
+		var id = $(this).attr("id");
+		var btnHtml = $("#btnSubmit_"+id).html();
 		$.ajax({
 			type:'post',
 			dataType:'json',
 			url:action,
 			data:dString,
 			beforeSend:function(){
-				$("button[name='kirim']").prop("disabled",true);
-				$("button[name='kirim']").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				$("#btnSubmit_"+id).prop("disabled",true);
+				$("#btnSubmit_"+id).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
 			},
 			complete:function(){
-				$("button[name='kirim']").prop("disabled",false);
-				$("button[name='kirim']").html("<i class='fas fa-download'></i> Ambil dari PDDIKTI");	
+				$("#btnSubmit_"+id).prop("disabled",false);
+				$("#btnSubmit_"+id).html(btnHtml);	
 			},
 			success:function(ret){
 				if(ret.success == true){

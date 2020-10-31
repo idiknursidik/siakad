@@ -55,7 +55,7 @@ class Msiakad_akun extends Model
 		$builder->join("{$this->siakad_mahasiswa} c","b.id_mahasiswa = c.id_mahasiswa","left");
 		$builder->join("{$this->siakad_prodi} d","b.id_prodi = d.id_prodi","left");
 		$builder->join("{$this->ref_getjenjangpendidikan} e","d.id_jenjang = e.id_jenjang_didik","left");
-		$builder->select("a.*,b.id_periode_masuk,c.id_mahasiswa,c.nama_mahasiswa,d.nama_prodi,e.nama_jenjang_didik");
+		$builder->select("a.*,b.id_prodi,b.id_periode_masuk,c.id_mahasiswa,c.nama_mahasiswa,d.nama_prodi,e.nama_jenjang_didik");
 		
 		if($id){
 			$builder->where("a.id",$id);
