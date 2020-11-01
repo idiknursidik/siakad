@@ -22,22 +22,20 @@ class Biodata extends BaseController
 	public function viewdata()
 	{
 		$profile			= $this->msiakad_setting->getdata();
-		$dataprodi			= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+		$dataprodi			= $this->msiakad_prodi->getdata(false,false,$profile->kodept,FALSE);
 		$jenis_kelamin		= $this->mfungsi->jenis_kelamin();
 		$agama				= $this->mreferensi->GetAgama();
-		$jenis_tinggal		= $this->mfungsi->jenis_tinggal();
 		$kewarganegaraan	= $this->mreferensi->GetNegara();
 		$pend_terakhir		= $this->mreferensi->GetJenjangPendidikan();
 		$penghasilan		= $this->mreferensi->GetPenghasilan();
 		$alattransportasi	= $this->mreferensi->GetAlatTransportasi();
 		$kebutuhankhusus	= $this->mreferensi->GetKebutuhanKhusus();
+		$jenis_tinggal		= $this->mreferensi->GetJenisTinggal();
+		$GetPekerjaan		= $this->mreferensi->GetPekerjaan();
 		
-		
-		$infoakun 			= $this->msiakad_akun->getakunmahasiswa(false,$this->session->username);
-		
+		$infoakun 			= $this->msiakad_akun->getakunmahasiswa(false,$this->session->username);		
 		$data 				= $this->msiakad_mahasiswa->getdata(false,$infoakun->id_mahasiswa);
-	
-		
+				
 		echo "<form id='form_ubah' action='".base_url()."/mahasiswa/biodata/ubah' method='post'>";
 		echo "<input type='hidden' name='id_mahasiswa' value='{$data->id_mahasiswa}'>";
 		echo "<input type='hidden' name='kodept' value='{$profile->kodept}'>";
@@ -188,9 +186,9 @@ class Biodata extends BaseController
 						echo "<label>Jenis tinggal</label>";
 						echo "<select name='id_jenis_tinggal' class='custom-select'>";
 							foreach($jenis_tinggal as $key=>$val){
-								echo "<option value='{$key}'";
-								if($data->id_jenis_tinggal == $key) echo " selected='selected'";
-								echo ">{$val}</option>";
+								echo "<option value='{$val->id_jenis_tinggal}'";
+								if($data->id_jenis_tinggal == $val->id_jenis_tinggal) echo " selected='selected'";
+								echo ">{$val->nama_jenis_tinggal}</option>";
 							}				  
 						echo "</select>";
 					echo "</div>";
@@ -308,13 +306,25 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Pekerjaan</label>";
-					echo "<input type='text' class='form-control' name='id_pekerjaan_ayah' value='{$data->id_pekerjaan_ayah}'>";
+					echo "<select name='id_pekerjaan_ayah' class='custom-select'>";
+						foreach($GetPekerjaan as $key=>$val){
+							echo "<option value='{$val->id_pekerjaan}'";
+							if($data->id_pekerjaan_ayah == $val->id_pekerjaan) echo " selected='selected'";
+							echo ">{$val->nama_pekerjaan}</option>";
+						}			  
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
-					echo "<label>Penghasilan </label>";
-					echo "<input type='text' class='form-control' name='id_penghasilan_ayah' value='{$data->id_penghasilan_ayah}'>";
+					echo "<label>Penghasilan </label>";//penghasilan
+					echo "<select name='id_penghasilan_ayah' class='custom-select'>";
+						foreach($penghasilan as $key=>$val){
+							echo "<option value='{$val->id_penghasilan}'";
+							if($data->id_penghasilan_ayah == $val->id_penghasilan) echo " selected='selected'";
+							echo ">{$val->nama_penghasilan}</option>";
+						}			  
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
@@ -375,13 +385,25 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Pekerjaan</label>";
-					echo "<input type='text' class='form-control' name='id_pekerjaan_ibu' value='{$data->id_pekerjaan_ibu}'>";
+					echo "<select name='id_pekerjaan_ibu' class='custom-select'>";
+						foreach($GetPekerjaan as $key=>$val){
+							echo "<option value='{$val->id_pekerjaan}'";
+							if($data->id_pekerjaan_ibu == $val->id_pekerjaan) echo " selected='selected'";
+							echo ">{$val->nama_pekerjaan}</option>";
+						}			  
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Penghasilan </label>";
-					echo "<input type='text' class='form-control' name='id_penghasilan_ibu' value='{$data->id_penghasilan_ibu}'>";
+					echo "<select name='id_penghasilan_ibu' class='custom-select'>";
+						foreach($penghasilan as $key=>$val){
+							echo "<option value='{$val->id_penghasilan}'";
+							if($data->id_penghasilan_ibu == $val->id_penghasilan) echo " selected='selected'";
+							echo ">{$val->nama_penghasilan}</option>";
+						}			  
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-4'>";
@@ -441,13 +463,25 @@ class Biodata extends BaseController
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Pekerjaan</label>";
-					echo "<input type='text' class='form-control' name='id_pekerjaan_wali' value='{$data->id_pekerjaan_wali}'>";
+					echo "<select name='id_pekerjaan_wali' class='custom-select'>";
+						foreach($GetPekerjaan as $key=>$val){
+							echo "<option value='{$val->id_pekerjaan}'";
+							if($data->id_pekerjaan_wali == $val->id_pekerjaan) echo " selected='selected'";
+							echo ">{$val->nama_pekerjaan}</option>";
+						}			  
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 				echo "<div class='col-sm-6'>";
 				  echo "<div class='form-group'>";
 					echo "<label>Penghasilan </label>";
-					echo "<input type='text' class='form-control' name='id_penghasilan_wali' value='{$data->id_penghasilan_wali}'>";
+					echo "<select name='id_penghasilan_wali' class='custom-select'>";
+						foreach($penghasilan as $key=>$val){
+							echo "<option value='{$val->id_penghasilan}'";
+							if($data->id_penghasilan_wali == $val->id_penghasilan) echo " selected='selected'";
+							echo ">{$val->nama_penghasilan}</option>";
+						}			  
+					echo "</select>";
 				  echo "</div>";
 				echo "</div>";
 			echo "</div>";					
