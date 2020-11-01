@@ -39,7 +39,7 @@ class Prodi extends BaseController
 			echo "Kelola dahulu <b>Setting Profile</b> -> pada menu <b>Setting Sistem</ab> ";
 			exit();
 		}
-		$data 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+		$data 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept,false);
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th width='1'>No</th><th>Kode Prodi</th><th>Nama Prodi</th><th>Jenjang</th><th>Status</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
@@ -164,7 +164,7 @@ class Prodi extends BaseController
 	
 	public function ubah($id_prodi){
 		$profile 	= $this->msiakad_setting->getdata();
-		$data = $this->msiakad_prodi->getdata($id_prodi);
+		$data = $this->msiakad_prodi->getdata($id_prodi,false,false,false);
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();
 		echo "<form method='post' id='form_ubah' action='".base_url()."/akademik/prodi/update'>";
 		echo "<input type='hidden' name='id_prodi' value='{$id_prodi}'>";

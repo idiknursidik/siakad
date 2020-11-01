@@ -59,7 +59,7 @@ class Datauser extends BaseController
 		</script>
 		<?php
 		$profile 	= $this->msiakad_setting->getdata(); 			
-		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept,false);
 		$leveluser 	= $this->msiakad_akun->leveluser();
 		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datauser/create'>";
 		echo csrf_field(); 
@@ -210,7 +210,7 @@ class Datauser extends BaseController
 		<?php
 		$data 		= $this->msiakad_akun->getakun($id);
 		$profile 	= $this->msiakad_setting->getdata(); 			
-		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept);
+		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept,false);
 		$leveluser 	= $this->msiakad_akun->leveluser();
 		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datauser/update'>";
 		echo "<input type='hidden' name='id' value='{$data->id}'>";

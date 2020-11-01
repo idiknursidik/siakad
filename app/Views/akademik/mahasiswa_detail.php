@@ -2,10 +2,15 @@
 use App\Models\Mfungsi;
 $this->mfungsi	= new Mfungsi();
 
-$userimage = ($infoakun)?$infoakun->user_image:"noimage.png";
 
 echo $this->extend('layout/template');
 echo $this->section('content');
+if($infoakun){
+	$userimage = ($infoakun->user_image)?$infoakun->user_image:"noimage.png";
+}else{
+	$userimage = "noimage.png";
+}
+
 ?>
 <!-- Main content -->
 <section class="content">

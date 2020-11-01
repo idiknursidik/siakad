@@ -61,7 +61,7 @@ class Riwayatpendidikan extends BaseController
 		
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$data 		= $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept);
-		
+				
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Jenis Pendaftaran</th><th>Periode</th><th>Tanggal Masuk</th><th>Prodi</th><th>Status</th><th>Aksi</th></tr></thead>";
 		echo "<tbody>";
@@ -72,8 +72,6 @@ class Riwayatpendidikan extends BaseController
 			foreach($data as $key=>$val){
 				$no++;
 				$mahasiswa = $this->msiakad_mahasiswa->getdata(false,$val->id_mahasiswa,false,false,$profile->kodept);
-				$jenis_pendaftaran = $this->mfungsi->jenis_pendaftaran($val->id_jenis_daftar);
-				$dataprodi	= $this->msiakad_prodi->getdata($val->id_prodi,false,false,false);
 				$referensi 	= $this->mreferensi->GetJenisKeluar($val->id_jenis_keluar);
 				if(strlen($val->id_jenis_keluar) > 0){
 					$jeniskeluar = ($referensi)?$referensi->jenis_keluar:$val->id_jenis_keluar;
@@ -84,10 +82,10 @@ class Riwayatpendidikan extends BaseController
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nim}</td>";
 				echo "<td>{$mahasiswa->nama_mahasiswa}</td>";
-				echo "<td>{$jenis_pendaftaran}</td>";
+				echo "<td>{$val->nama_jenis_daftar}</td>";
 				echo "<td>{$val->id_periode_masuk}</td>";
 				echo "<td>{$val->tanggal_daftar}</td>";
-				echo "<td>{$dataprodi->nama_prodi} - {$dataprodi->nama_jenjang_didik}</td>";
+				echo "<td>{$val->nama_prodi} - {$val->nama_jenjang_didik}</td>";
 				echo "<td>{$jeniskeluar}</td>";
 				echo "<td><a href='".base_url()."/akademik/mahasiswa/detail/{$val->id_mahasiswa}'>detail</a></td>";
 				echo "</tr>";

@@ -58,7 +58,10 @@ class Mahasiswa extends BaseController
 				echo "<td>{$val->tanggal_lahir}</td>";
 				echo "<td>{$this->mfungsi->jenis_kelamin($val->jenis_kelamin)}</td>";
 				echo "<td>{$val->nik}</td>";
-				echo "<td><a href='".base_url()."/akademik/mahasiswa/detail/{$val->id_mahasiswa}'>detail</a></td>";
+				echo "<td>";
+					echo "<a href='".base_url()."/akademik/mahasiswa/detail/{$val->id_mahasiswa}'>detail</a>";
+					echo " - <a href='".base_url()."/akademik/mahasiswa/hapusdata/{$val->id_mahasiswa}'>Hapus</a>";
+				echo "</td>";
 				echo "</tr>";
 			}
 		}
@@ -69,6 +72,90 @@ class Mahasiswa extends BaseController
 			 echo "<a name='importmahasiswa' href='#modalku' data-toggle='modal' title='Import data Mahasiswa' data-src='".base_url()."/akademik/mahasiswa/importmahasiswa' class='btn btn-success modalButton'> Import</a>";
 			 echo "<a href='".base_url()."/akademik/mahasiswa/exportmahasiswa' class='btn btn-primary'> Exsport</a>";
 		echo "</div>";
+	}
+	public function hapusdata($id_mahasiswa){
+		$datamahasiswa = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa);
+		$data = [
+			'title' => 'Data Akademik',
+			'judul' => 'Hapus data Mahasiswa',
+			'mn_akademik' => true,
+			'mn_akademik_mahasiswa'=>true,
+			'id_mahasiswa'=>$id_mahasiswa,
+			'datamahasiswa'=>$datamahasiswa
+			
+			
+		];
+		return view('akademik/mahasiswa_hapus',$data);
+	}
+	public function hapusdata_detail($id_mahasiswa){
+		$datamahasiswa = $this->msiakad_mahasiswa->getdata(false,$id_mahasiswa);
+		
+		//biodata mahasiswa
+		echo "<div class='card'>";
+			echo "<div class='card-header'>";
+			echo "<h5 class='card-title'>Biodata Mahasiswa</h5>";
+			echo "</div>";
+			echo "<div class='card-body p-0'>";
+				echo "<table class='table table-condensed'>";
+					echo "<tbody>";
+					echo "<tr><th width='15%'>Nama</th><td>: {$datamahasiswa->nama_mahasiswa}</td><td colspan='2'>&nbsp;</td></tr>";
+					echo "<tr><th>Tempat Lahir</th><td>: {$datamahasiswa->tempat_lahir}</td><th width='13%'>Tanggal Lahir</th><td>: {$datamahasiswa->tanggal_lahir}</td></tr>";
+					echo "<tr><th>Jenis Kelamin</th><td>: {$datamahasiswa->jenis_kelamin}</td><th>Agamar</th><td>: {$datamahasiswa->nama_agama}</td></tr>";
+					echo "</tbody>";
+				echo "</table>";
+			echo "</div>";
+		echo "</div>";
+		//aktivitas kuliah
+		echo "<div class='card'>";
+			echo "<div class='card-header'>";
+			echo "<h5 class='card-title'>Aktivitas Kuliah Mahasiswa</h5>";
+			echo "</div>";
+			echo "<div class='card-body p-0'>";
+				echo "<table class='table table-condensed'>";
+					echo "<tbody>";
+					echo "<tr><th width='15%'>Nama</th><td>: {$datamahasiswa->nama_mahasiswa}</td><td colspan='2'>&nbsp;</td></tr>";
+					echo "<tr><th>Tempat Lahir</th><td>: {$datamahasiswa->tempat_lahir}</td><th width='13%'>Tanggal Lahir</th><td>: {$datamahasiswa->tanggal_lahir}</td></tr>";
+					echo "<tr><th>Jenis Kelamin</th><td>: {$datamahasiswa->jenis_kelamin}</td><th>Agamar</th><td>: {$datamahasiswa->nama_agama}</td></tr>";
+					echo "</tbody>";
+				echo "</table>";
+			echo "</div>";
+		echo "</div>";
+		//Krs dan nilai
+		echo "<div class='card'>";
+			echo "<div class='card-header'>";
+			echo "<h5 class='card-title'>Histori KRS dan Nilai</h5>";
+			echo "</div>";
+			echo "<div class='card-body p-0'>";
+				echo "<table class='table table-condensed'>";
+					echo "<tbody>";
+					echo "<tr><th width='15%'>Nama</th><td>: {$datamahasiswa->nama_mahasiswa}</td><td colspan='2'>&nbsp;</td></tr>";
+					echo "<tr><th>Tempat Lahir</th><td>: {$datamahasiswa->tempat_lahir}</td><th width='13%'>Tanggal Lahir</th><td>: {$datamahasiswa->tanggal_lahir}</td></tr>";
+					echo "<tr><th>Jenis Kelamin</th><td>: {$datamahasiswa->jenis_kelamin}</td><th>Agamar</th><td>: {$datamahasiswa->nama_agama}</td></tr>";
+					echo "</tbody>";
+				echo "</table>";
+			echo "</div>";
+		echo "</div>";
+		//Krs dan nilai
+		echo "<div class='card'>";
+			echo "<div class='card-header'>";
+			echo "<h5 class='card-title'>Histori Pendidikan</h5>";
+			echo "</div>";
+			echo "<div class='card-body p-0'>";
+				echo "<table class='table table-condensed'>";
+					echo "<tbody>";
+					echo "<tr><th width='15%'>Nama</th><td>: {$datamahasiswa->nama_mahasiswa}</td><td colspan='2'>&nbsp;</td></tr>";
+					echo "<tr><th>Tempat Lahir</th><td>: {$datamahasiswa->tempat_lahir}</td><th width='13%'>Tanggal Lahir</th><td>: {$datamahasiswa->tanggal_lahir}</td></tr>";
+					echo "<tr><th>Jenis Kelamin</th><td>: {$datamahasiswa->jenis_kelamin}</td><th>Agamar</th><td>: {$datamahasiswa->nama_agama}</td></tr>";
+					echo "</tbody>";
+				echo "</table>";
+			echo "</div>";
+		echo "</div>";
+		echo "<div class='card'>";
+		echo "<div class='card-body'>";
+			echo "<button class='btn btn-danger btn-flat'>Hapus data</button>";
+		echo "</div>";
+		echo "</div>";
+		
 	}
 	public function detail($id_mahasiswa){
 		$profile 	= $this->msiakad_setting->getdata();
@@ -165,9 +252,33 @@ class Mahasiswa extends BaseController
 	public function gethistoripendidikan($id_mahasiswa){
 		if($this->request->isAJAX()){
 			$data  = $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,false,false,$id_mahasiswa);
-			echo "<pre>";
-			print_r($data);
-			echo "</pre>";
+			echo "<table class='table table-striped'>";
+			echo "<thead class='thead-dark'>";
+			echo "<tr><th>No</th><th>NIM</th><th>Jenis Pendaftaran</th><th>Periode</th><th>Tanggal Masuk</th><th>Perguruan Tinggi</th><th>Program Studi</th><th>#</th></tr>";
+			echo "</thead>";
+			echo "<tbody>";
+			if(!$data){
+				echo "<tr><td colspan='7'>tidak ada data</td></tr>";
+			}else{
+				$no=0;
+				foreach($data as $key=>$val){
+					$no++;
+					echo "<tr>";
+					echo "<td>{$no}</td>";
+					echo "<td>{$val->nim}</td>";
+					echo "<td>{$val->nama_jenis_daftar}</td>";
+					echo "<td>{$val->id_periode_masuk}</td>";
+					echo "<td>{$val->tanggal_daftar}</td>";
+					echo "<td>{$val->kodept}</td>";
+					echo "<td>{$val->nama_prodi} {$val->nama_jenjang_didik}</td>";
+					echo "<td>";
+						echo "edit - hapus";
+					echo "</td>";
+					echo "</tr>";
+				}
+			}
+			echo "</tbody>";
+			echo "</table>";
 			echo "<hr>";
 			echo "<a href='#modalku' class='btn btn-primary modalButton' data-src='".base_url()."/akademik/mahasiswa/formhistorypendidikan/{$id_mahasiswa}' data-toggle='modal' title='Tambah riwayat pendidikan'>tambah data</a>";
 		}
