@@ -196,7 +196,8 @@ class Akm extends BaseController
 									"id_mahasiswa_ws"=>$val->id_mahasiswa,
 									"id_status_mahasiswa_ws"=>$val->id_status_mahasiswa,
 									"date_created"=>date("Y-m-d H:i:s")
-									);						
+									);
+				
 					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
 					if($prodi){				
 						$datain["kode_prodi"]=$prodi->kode_prodi;

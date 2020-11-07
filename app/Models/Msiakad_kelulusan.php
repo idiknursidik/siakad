@@ -16,7 +16,7 @@ class Msiakad_kelulusan extends Model
     {
 		$akses = explode(",",session()->akses);
 		$builder = $this->db->table("{$this->siakad_lulusan} a");
-		$builder->join("{$this->siakad_riwayatpendidikan} b","a.id_mahasiswa = b.id_mahasiswa","left");
+		$builder->join("{$this->siakad_riwayatpendidikan} b","a.nim = b.nim","left");
 		$builder->join("{$this->siakad_mahasiswa} c","b.id_mahasiswa = c.id_mahasiswa","left");
 		$builder->join("{$this->siakad_prodi} d","b.id_prodi = d.id_prodi","left");
 		$builder->join("{$this->ref_getjenjangpendidikan} e","d.id_jenjang = e.id_jenjang_didik","left");
@@ -28,7 +28,7 @@ class Msiakad_kelulusan extends Model
 			$builder->where("a.id_keluar",$id_keluar);
 		}
 		if($id_mahasiswa){
-			$builder->where("a.id_mahasiswa",$id_mahasiswa);
+			$builder->where("b.id_mahasiswa",$id_mahasiswa);
 		}
 			//akses only
 		$builder->whereIn("a.id_prodi",$akses);

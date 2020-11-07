@@ -195,7 +195,8 @@ class Kelulusan extends BaseController
 									"tanggal_keluar"=>$val->tanggal_keluar,
 									"tanggal_sk_yudisium"=>$val->tanggal_sk_yudisium,
 									"date_created"=>date("Y-m-d H:i:s")
-									);						
+									);
+					
 					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
 					if($prodi){				
 						$datain["kode_prodi"]=$prodi->kode_prodi;
