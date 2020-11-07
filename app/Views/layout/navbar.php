@@ -454,9 +454,27 @@ if($dataakun){
                 </a>
               </li>
 			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/feeder/lulusan" class="nav-link <?php echo isset($mn_lulusan)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Lulusan</p>
+                </a>
+              </li>
+			  <li class="nav-item">
                 <a href="<?php echo base_url();?>/feeder/akm" class="nav-link <?php echo isset($mn_akm)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>AKM Mahasiswa</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/feeder/kurikulum" class="nav-link <?php echo isset($mn_kurikulum)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kurikulum</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/feeder/kurikulummatakuliah" class="nav-link <?php echo isset($mn_kurikulum_matakuliah)?'active':'';?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kurikulum Matakuliah</p>
                 </a>
               </li>
 			  <li class="nav-item">
@@ -483,18 +501,7 @@ if($dataakun){
                   <p>Dosen Mengajar</p>
                 </a>
               </li>
-			  <li class="nav-item">
-                <a href="<?php echo base_url();?>/feeder/kurikulum" class="nav-link <?php echo isset($mn_kurikulum)?'active':'';?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kurikulum</p>
-                </a>
-              </li>
-			  <li class="nav-item">
-                <a href="<?php echo base_url();?>/feeder/kurikulummatakuliah" class="nav-link <?php echo isset($mn_kurikulum_matakuliah)?'active':'';?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kurikulum Matakuliah</p>
-                </a>
-              </li>
+			  
             </ul>
           </li>
 		  
