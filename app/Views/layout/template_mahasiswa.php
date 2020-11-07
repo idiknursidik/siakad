@@ -99,7 +99,8 @@ to get the desired effect
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="#" class="dropdown-item"><i class="fas fa-clock"></i> Jadwal Kuliah </a></li>
               <li><a href="<?php echo base_url();?>/mahasiswa/nilai" class="dropdown-item"><i class="fas fa-file-alt"></i> Nilai Kuliah</a></li>
-
+              <li><a href="<?php echo base_url();?>/mahasiswa/akm" class="dropdown-item"><i class="fas fa-file-alt"></i> Aktivitas Kuliah</a></li>
+              <li><a href="<?php echo base_url();?>/mahasiswa/aktmhs" class="dropdown-item"><i class="fas fa-file-alt"></i> Aktivitas Mahasiswa</a></li>
               <li class="dropdown-divider"></li>
               <li><a href="<?php echo base_url();?>/mahasiswa/perwalian" class="dropdown-item"><i class="fas fa-book"></i> Perwalian atau KRS</a></li>
          
