@@ -1,3 +1,15 @@
+<?php
+use \App\Models\Msiakad_setting;
+$msiakad_setting = new Msiakad_setting();
+$profil_setting = $msiakad_setting->getprofile();
+if($profil_setting){
+	$kodept = $profil_setting->kode_perguruan_tinggi;
+	$namapt = $profil_setting->nama_perguruan_tinggi;
+	$jalan = $profil_setting->jalan;
+}else{
+	$namapt = 'Perguruan Tinggi';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,6 +109,7 @@ to get the desired effect
   </div>
 </div>
 <!-- /.login-box -->
+<p class="text-white"><?php echo $namapt;?></p>
 	  
 
 <!-- REQUIRED SCRIPTS -->
