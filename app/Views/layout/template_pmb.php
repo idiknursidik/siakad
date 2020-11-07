@@ -1,3 +1,15 @@
+<?php
+use \App\Models\Msiakad_setting;
+$msiakad_setting = new Msiakad_setting();
+$profil_setting = $msiakad_setting->getprofile();
+if($profil_setting){
+	$kodept = $profil_setting->kode_perguruan_tinggi;
+	$namapt = $profil_setting->nama_perguruan_tinggi;
+	$jalan = $profil_setting->jalan;
+}else{
+	$namapt = 'Perguruan Tinggi';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,13 +61,13 @@ to get the desired effect
             <a href="<?php echo base_url();?>" class="nav-link btn btn-danger">SIAKAD</a> 
           </li>
           <li class="nav-item px-md-1">
-            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn btn-outline-info btn-flat">Buat akun</a>
+            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn btn-outline-info btn-flat <?php echo isset($mn_daftar)?'btn-info':'';?>">Buat akun</a>
           </li>
           <li class="nav-item px-md-1">
-            <a href="<?php echo base_url();?>/pmb/login" class="nav-link btn btn-outline-primary btn-flat">Login calon mahasiswa</a>
+            <a href="<?php echo base_url();?>/pmb/login" class="nav-link btn btn-outline-primary btn-flat <?php echo isset($mn_login)?'btn-primary':'';?>">Login calon mahasiswa</a>
           </li>
 		  <li class="nav-item px-md-1">
-            <a href="<?php echo base_url();?>/pmb/info" class="nav-link btn btn-outline-info btn-flat">Info penerimaan mahasiswa baru</a>
+            <a href="<?php echo base_url();?>/pmb/info" class="nav-link btn btn-outline-success btn-flat <?php echo isset($mn_info)?'btn-success':'';?>">Info penerimaan mahasiswa baru</a>
           </li>
         </ul>
 
@@ -78,7 +90,7 @@ to get the desired effect
   <div class="container-fluid">
 	  <div class="card" style="margin-top:-10px;">
 		<div class="card-body text-center">
-			<a class="text-info" style="font-size:20px;">Nama Perguruan Tinggi  - Penerimaan mahasiswa baru</a>
+			<a class="text-info" style="font-size:20px;"><?php echo $namapt;?>  - Penerimaan mahasiswa baru</a>
 		</div>
 	  </div>
   </div> 
