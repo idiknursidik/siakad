@@ -76,7 +76,7 @@ class Kelas extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata($val->id_prodi);				
+				$prodi = $this->msiakad_prodi->getdata($val->id_prodi,false,false,false);				
 				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
 				$pesertakuliah = $this->msiakad_nilai->getdata(false,false,false,false,$val->id_kelas);
 				$jumlahpeserta = ($pesertakuliah)?count($pesertakuliah):0;

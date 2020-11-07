@@ -61,6 +61,13 @@ class Dosenwali extends BaseController
 		echo "</table>";
 	}
 	public function kelolapeserta(){
-		
+		$data = [
+			'title' => 'Data dosen wali',
+			'judul' => 'Kurikulum',
+			'mn_akademik' => true,
+			'mn_akademik_dosenwali'=>true
+			
+		];
+		return view('akademik/dosenwali',$data);
 	}
 }

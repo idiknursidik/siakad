@@ -68,12 +68,12 @@ to get the desired effect
         </div>
         <div class="row">
           <div class="col-7">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
+           <!-- <div class="icheck-primary"> -->
+              <input type="checkbox" name="tampilkan_password" id="tampilkan_password">
               <label for="remember">
-                Remember Me
+                Lihat Password
               </label>
-            </div>
+             <!-- </div>-->
           </div>
           <!-- /.col -->
           <div class="col-5">
@@ -116,6 +116,7 @@ to get the desired effect
 
 <script>
 $(document).ready(function(){
+	
 	$("#form_login").on("submit",function(e){
 		e.preventDefault();
 		var id = $(this).attr("id");
@@ -169,6 +170,14 @@ $(document).ready(function(){
 	})
 })
 $(function() {
+	$("#tampilkan_password").on("change",function(){
+		if($(this).prop('checked')) {
+			$("input[name='password']").attr("type","text");
+		} else {
+			$("input[name='password']").attr("type","password");
+		}
+		//return false;
+	})
     $('body').vegas({
 		delay: 7000,
 		timer: false,
