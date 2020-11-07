@@ -251,7 +251,7 @@ class Mahasiswa extends BaseController
 	
 	public function gethistoripendidikan($id_mahasiswa){
 		if($this->request->isAJAX()){
-			$data  = $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,false,false,$id_mahasiswa);
+			$data  = $this->msiakad_riwayatpendidikan->getdata(false,$id_mahasiswa);
 			echo "<table class='table table-striped'>";
 			echo "<thead class='thead-dark'>";
 			echo "<tr><th>No</th><th>NIM</th><th>Jenis Pendaftaran</th><th>Periode</th><th>Tanggal Masuk</th><th>Perguruan Tinggi</th><th>Program Studi</th><th>#</th></tr>";
