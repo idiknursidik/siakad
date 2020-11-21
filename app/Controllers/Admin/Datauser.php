@@ -107,10 +107,12 @@ class Datauser extends BaseController
 			echo "<label for='akses'>Hak akses </label><hr>";
 			if($prodi){
 				foreach($prodi as $key=>$val){
+					
 					echo "<div class='icheck-primary d-inline'>";                      
 					echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}'>";
-					echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
+					echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik} | Status Prodi = {$val->status}</label>";
 					echo "</div>";
+					echo "<br>";
 				}
 			}else{
 				echo "Datakan dahulu prodi";
@@ -266,12 +268,14 @@ class Datauser extends BaseController
 						$checked = "checked";
 					}else{
 						$checked = "";
-					}					
+					}										
 					echo "<div class='icheck-primary d-inline'>";                      
 					echo " <input type='checkbox' name='akses[]' value='{$val->id_prodi}' id='akses_{$val->id_prodi}' {$checked}>";
-					echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}</label>";
+					echo " <label for='akses_{$val->id_prodi}'>{$val->nama_prodi} {$val->nama_jenjang_didik}  | Status Prodi = {$val->status} </label>";
 					echo "</div>";
+					echo "<br>";
 				}
+				
 			}else{
 				echo "Datakan dahulu prodi";
 			}

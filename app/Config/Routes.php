@@ -40,6 +40,9 @@ $routes->add('akademik/mahasiswadaftar', 'Akademik\Mahasiswadaftar::index', ['fi
 
 $routes->add('akademik/mahasiswa', 'Akademik\Mahasiswa::index', ['filter' => 'ceklogin']);
 
+
+//$routes->resource('rest/lulusan');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

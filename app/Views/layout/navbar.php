@@ -405,6 +405,9 @@ if($dataakun){
                   <p>Profile PT</p>
                 </a>
               </li>
+			  <?php
+			  if($profil_setting){ //jika sudah ambil data
+			  ?>
               <li class="nav-item">
                 <a href="<?php echo base_url();?>/feeder/dataprodi" class="nav-link <?php echo isset($mn_dataprodi)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
@@ -501,7 +504,9 @@ if($dataakun){
                   <p>Dosen Mengajar</p>
                 </a>
               </li>
-			  
+			  <?php
+			  } // jika sudah ambil data
+			  ?>
             </ul>
           </li>
 		  

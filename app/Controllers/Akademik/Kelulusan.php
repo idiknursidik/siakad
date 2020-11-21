@@ -70,16 +70,17 @@ class Kelulusan extends BaseController
 		echo "</table>";
 	}
 	public function tambah(){
-		echo "Tambah dari excel";
 		$profile 	= $this->msiakad_setting->getdata(); 		
-		
-		echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kelulusan/create'>";
-		echo csrf_field(); 
-		
-		
-					
-		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
-		echo "</form>";
+		if($this->request->isAJAX()){
+			echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kelulusan/create'>";
+			echo csrf_field(); 
+			echo "<table class='table table-striped'>";
+			echo "<tr><th width='30%'>Mahasiswa</th><td><input type='text' class='form-control' name='mahasiswa' ></td></tr>";
+			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
+			echo "</table>";
+			echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+			echo "</form>";
+		}
 	}
 	
 	public function create(){

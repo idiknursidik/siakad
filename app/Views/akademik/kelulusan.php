@@ -5,7 +5,7 @@ echo $this->section('content');
 <div class="row no-print">
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah Data Excel" data-src="<?php echo base_url();?>/akademik/kelulusan/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
+	  <a href="#modalku" data-toggle="modal" title="Tambah Data Lulusan" data-src="<?php echo base_url();?>/akademik/kelulusan/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
 	  <a href="#" name="getakmpddikti" data-src="<?php echo base_url();?>/akademik/kelulusan/getkelulusanpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil dari PDDIKTI
 	  </a>

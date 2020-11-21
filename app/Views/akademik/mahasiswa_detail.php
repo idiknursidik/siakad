@@ -111,7 +111,8 @@ $("body").on("submit","#form_tambahpendidikan",function(){
 			if(ret.success == true){
 				toastr.success(ret.messages);
 				$("#modalku").modal("hide");
-				$("#informasidata").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan/<?php echo $id_mahasiswa;?>");
+				$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan/<?php echo $id_mahasiswa;?>");
+
 			}else{
 				toastr.error("Data tidak valid");
 				$("div.invalid-feedback").remove();
@@ -136,6 +137,45 @@ $("body").on("click","input,select,textarea",function(){
 		.removeClass('is-invalid').find('.invalid-feedback').remove();
 		element.after(value="");
 })
+$("body").on("click","a[name='hapushistorypendidikan']",function(){
+	var action = $(this).attr("data-src");
+	var id_riwayatpendidikan = $(this).attr('id_riwayatpendidikan');
+	var id_mahasiswa = $(this).attr('id_mahasiswa');
+	var dString = 'id_riwayatpendidikan='+id_riwayatpendidikan+'&id_mahasiswa='+id_mahasiswa;
+	var id = $(this).attr("id");
+	var htmlbtn = $("#btnKirim_"+id).html();
+	if(confirm('Yakin data akan dihapus?')){
+		$.ajax({
+			dataType:'json',
+			type:'post',
+			url:action,
+			data:dString,
+			beforeSend:function(){
+				$("#btnKirim_"+id).prop("disabled",true);
+				$("#btnKirim_"+id).html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+			},
+			complete:function(){
+				$("#btnKirim_"+id).prop("disabled",false);
+				$("#btnKirim_"+id).html(htmlbtn);	
+			},
+			success:function(ret){
+				if(ret.success == true){
+					toastr.success(ret.messages);
+					$("#modalku").modal("hide");
+					$("#resultcontent").load("<?php echo base_url();?>/akademik/mahasiswa/gethistoripendidikan/<?php echo $id_mahasiswa;?>");
+
+				}else{
+					toastr.error("Data tidak valid");
+				}
+			},
+			error:function(xhr,ajaxOptions,thrownError){
+				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+			}
+		})
+	}
+})
+
+
 </script>
 <?php
 echo $this->endSection();

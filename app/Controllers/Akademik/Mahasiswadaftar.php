@@ -260,6 +260,8 @@ class Mahasiswadaftar extends BaseController
 										if($this->request->getVar('id_prodi') == $val->id_prodi) echo " selected='selected'";
 										echo ">{$val->nama_prodi} ({$val->nama_jenjang_didik})</option>";
 									}
+								}else{
+									echo "<option selected='selected'>--cek otorisasi akun--</option>";
 								}
 							}				  
 						echo "</select>";

@@ -14,7 +14,7 @@ $(function(){
 		$.get(action, function( data ) {
 			if(data.success == true){
 			   toastr.success(data.messages);
-			   $("#resultcontent").load("<?php echo base_url();?>/feeder/profilept/show");
+			   document.location = "<?php echo base_url();?>/feeder/profilept";
 			}else{
 				toastr.error(data.messages);
 			}
