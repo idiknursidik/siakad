@@ -48,7 +48,7 @@ to get the desired effect
 
 <div class="login-box">
   <div class="login-logo">
-    <a class="text-white" style="font-size:40px; text-shadow:1px 1px 1px #000;">SIAKAD</a>
+    <a class="text-white" style="font-size:40px; text-shadow:1px 1px 1px #000;">SIAKAD<sup>+ Simtendik</sup></a>
   </div>
   <!-- /.login-logo -->
   <a href="<?php echo base_url();?>/pmb/daftar" class="btn btn-danger" style="margin-left:5px; margin-bottom:-4px; padding-bottom:10px;">Pendaftaran Mahasiswa Baru</a>

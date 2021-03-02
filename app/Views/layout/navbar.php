@@ -135,6 +135,12 @@ if($dataakun){
               </p>
             </a>
             <ul class="nav nav-treeview">
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/admin/profilpt" class="nav-link <?php echo isset($mn_setting_profile)?'active':'';?>">
+                  <i class="fas fa-sign nav-icon"></i>
+                  <p>Setting Profile</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="<?php echo base_url();?>/admin/datauser" class="nav-link <?php echo isset($mn_setting_datauser)?'active':'';?>">
                   <i class="fas fa-user-cog nav-icon"></i>
@@ -153,12 +159,7 @@ if($dataakun){
                   <p>Kelola User Dosen</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="<?php echo base_url();?>/admin/profilpt" class="nav-link <?php echo isset($mn_setting_profile)?'active':'';?>">
-                  <i class="fas fa-sign nav-icon"></i>
-                  <p>Setting Profile</p>
-                </a>
-              </li>
+              
 			  <li class="nav-item">
                 <a href="<?php echo base_url();?>/admin/perkuliahan" class="nav-link <?php echo isset($mn_setting_perkuliahan)?'active':'';?>">
                   <i class="fas fa-sign nav-icon"></i>

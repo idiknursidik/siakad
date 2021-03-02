@@ -199,8 +199,9 @@ class Datauser extends BaseController
 		echo json_encode($ret);
 	}
 	public function ubah($id=false){
-		if(!$id){
-			echo "eRR"; exit();
+		$profile 	= $this->msiakad_setting->getdata();
+		if(!$id || !$profile){
+			echo "eRR ID atau KODEPT - Setting profile terlebih dahulu"; exit();
 		}
 		?>
 		<script>
@@ -210,8 +211,7 @@ class Datauser extends BaseController
 		})
 		</script>
 		<?php
-		$data 		= $this->msiakad_akun->getakun($id);
-		$profile 	= $this->msiakad_setting->getdata(); 			
+		$data 		= $this->msiakad_akun->getakun($id);	
 		$prodi 		= $this->msiakad_prodi->getdata(false,false,$profile->kodept,false);
 		$leveluser 	= $this->msiakad_akun->leveluser();
 		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datauser/update'>";
