@@ -93,9 +93,12 @@ echo $this->section('content');
 	<div class="card-body">
 	
 	<?php
-		echo "<pre>";
-		print_r($session->get());
-		echo "</pre>";
+		$userinfo = $session->get();
+		if($userinfo){
+			echo "Username : {$userinfo['username']}<hr>";
+			echo "Nama : {$userinfo['nama']}<hr>";
+		}
+		
 	?>
 	</div>
 </div>
