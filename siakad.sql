@@ -3,15 +3,15 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100411
- Source Host           : 127.0.0.1:3306
+ Source Server Version : 100417
+ Source Host           : localhost:3306
  Source Schema         : siakad
 
  Target Server Type    : MySQL
- Target Server Version : 100411
+ Target Server Version : 100417
  File Encoding         : 65001
 
- Date: 07/11/2020 19:45:30
+ Date: 07/03/2021 18:58:22
 */
 
 SET NAMES utf8mb4;
@@ -486,180 +486,16 @@ CREATE TABLE `pmb_akun`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ref_getagama
+-- Table structure for setting_mail
 -- ----------------------------
-DROP TABLE IF EXISTS `ref_getagama`;
-CREATE TABLE `ref_getagama`  (
-  `id_agama` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_agama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_agama`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getalattransportasi
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getalattransportasi`;
-CREATE TABLE `ref_getalattransportasi`  (
-  `id_alat_transportasi` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_alat_transportasi` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_alat_transportasi`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjalurmasuk
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjalurmasuk`;
-CREATE TABLE `ref_getjalurmasuk`  (
-  `id_jalur_masuk` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_jalur_masuk` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_jalur_masuk`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjenisevaluasi
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjenisevaluasi`;
-CREATE TABLE `ref_getjenisevaluasi`  (
-  `id_jenis_evaluasi` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_jenis_evaluasi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_jenis_evaluasi`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjeniskeluar
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjeniskeluar`;
-CREATE TABLE `ref_getjeniskeluar`  (
-  `id_jenis_keluar` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `jenis_keluar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
-  `apa_mahasiswa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_jenis_keluar`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjenispendaftaran
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjenispendaftaran`;
-CREATE TABLE `ref_getjenispendaftaran`  (
-  `id_jenis_daftar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_jenis_daftar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `untuk_daftar_sekolah` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_jenis_daftar`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjenissubstansi
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjenissubstansi`;
-CREATE TABLE `ref_getjenissubstansi`  (
-  `id_jenis_substansi` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_jenis_substansi` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_jenis_substansi`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjenistinggal
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjenistinggal`;
-CREATE TABLE `ref_getjenistinggal`  (
-  `id_jenis_tinggal` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_jenis_tinggal` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_jenis_tinggal`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getjenjangpendidikan
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getjenjangpendidikan`;
-CREATE TABLE `ref_getjenjangpendidikan`  (
-  `id_jenjang_didik` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_jenjang_didik` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_jenjang_didik`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getkebutuhankhusus
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getkebutuhankhusus`;
-CREATE TABLE `ref_getkebutuhankhusus`  (
-  `id_kebutuhan_khusus` int(5) NOT NULL,
-  `nama_kebutuhan_khusus` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_kebutuhan_khusus`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getnegara
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getnegara`;
-CREATE TABLE `ref_getnegara`  (
-  `id_negara` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_negara` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_negara`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getpekerjaan
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getpekerjaan`;
-CREATE TABLE `ref_getpekerjaan`  (
-  `id_pekerjaan` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_pekerjaan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_pekerjaan`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getpembiayaan
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getpembiayaan`;
-CREATE TABLE `ref_getpembiayaan`  (
-  `id_pembiayaan` int(11) NOT NULL,
-  `nama_pembiayaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_pembiayaan`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getpenghasilan
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getpenghasilan`;
-CREATE TABLE `ref_getpenghasilan`  (
-  `id_penghasilan` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_penghasilan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_penghasilan`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getsemester
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getsemester`;
-CREATE TABLE `ref_getsemester`  (
-  `a_periode_aktif` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `id_semester` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `id_tahun_ajaran` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `nama_semester` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `semester` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `tanggal_mulai` date NULL DEFAULT NULL,
-  `tanggal_selesai` date NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getstatusmahasiswa
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getstatusmahasiswa`;
-CREATE TABLE `ref_getstatusmahasiswa`  (
-  `id_status_mahasiswa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `nama_status_mahasiswa` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_status_mahasiswa`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for ref_getwilayah
--- ----------------------------
-DROP TABLE IF EXISTS `ref_getwilayah`;
-CREATE TABLE `ref_getwilayah`  (
-  `id_wilayah` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `id_negara` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
-  `nama_wilayah` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id_wilayah`) USING BTREE
+DROP TABLE IF EXISTS `setting_mail`;
+CREATE TABLE `setting_mail`  (
+  `protocol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `smtp_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `smtp_port` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `smtp_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `smtp_pass` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `encryption` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -709,7 +545,7 @@ CREATE TABLE `siakad_akun`  (
   `date_create` datetime(0) NULL DEFAULT NULL,
   `date_update` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for siakad_akun_dosen
