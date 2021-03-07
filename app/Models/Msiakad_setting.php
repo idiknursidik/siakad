@@ -13,6 +13,7 @@ class Msiakad_setting extends Model
 	
 	protected $siakad_profil = 'siakad_profil';
 	protected $siakad_perkuliahan = 'siakad_perkuliahan';
+	protected $setting_mail = 'setting_mail';
 	
     public function getdata($kodept=false)
     {
@@ -45,6 +46,17 @@ class Msiakad_setting extends Model
 		if($status){
 			$builder->where("status",$status);
 		}
+		$query = $builder->get();
+		if($query->getRowArray() > 0){
+			$data = $query->getResultObject();
+			$ret = $data[0];
+			return $ret;
+		}else{
+			return FALSE;
+		}	
+	}
+	public function getmailsetting(){
+		$builder = $this->db->table($this->setting_mail);
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();

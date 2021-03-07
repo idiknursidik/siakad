@@ -136,6 +136,12 @@ if($dataakun){
             </a>
             <ul class="nav nav-treeview">
 			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/admin/mailsetting" class="nav-link <?php echo isset($mn_setting_mail)?'active':'';?>">
+                  <i class="fas fa-mail-bulk nav-icon"></i>
+                  <p>Setting Mail</p>
+                </a>
+              </li>
+			  <li class="nav-item">
                 <a href="<?php echo base_url();?>/admin/profilpt" class="nav-link <?php echo isset($mn_setting_profile)?'active':'';?>">
                   <i class="fas fa-sign nav-icon"></i>
                   <p>Setting Profile</p>
