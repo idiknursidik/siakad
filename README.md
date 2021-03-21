@@ -56,3 +56,5 @@ Silahkan menggunakan XAMPP terbaru
 - Cari ;extension=php_intl.dll
 - hapus ;
 - Restart Apache
+
+# Tampilan 
