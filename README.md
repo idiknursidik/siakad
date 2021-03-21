@@ -59,3 +59,4 @@ Silahkan menggunakan XAMPP terbaru
 
 # Tampilan 
 ![Screenshot](screenshot/screenshot.png)
+![Screenshot](screenshot/dosen.png)
