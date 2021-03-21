@@ -53,8 +53,8 @@ Silahkan menggunakan XAMPP terbaru
 
 # Mengaktifkan extension php_intl.dll
 - Masuk ke folder xampp/php/php.ini
-- Cari ;extension=php_intl.dll
-- hapus ;
+- Cari ";extension=php_intl.dll"
+- hapus ";"
 - Restart Apache
 
 # Tampilan 
