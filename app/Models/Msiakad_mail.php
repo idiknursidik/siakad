@@ -59,8 +59,6 @@ class Msiakad_mail extends Model
 		$email->clear();
 		$email->setFrom($from, 'Siakad+');
 		$email->setTo($to);
-		//$email->setCC('another@another-example.com');
-		//$email->setBCC('them@their-example.com');
 
 		$email->setSubject($subjectinfo);
 		$email->setMessage($content);
