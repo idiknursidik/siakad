@@ -58,4 +58,4 @@ Silahkan menggunakan XAMPP terbaru
 - Restart Apache
 
 # Tampilan 
-![Alt text](relative/path/to/img.jpg?raw=true "Title")
+![Alt text](https://github.com/github/{repository}/blob/assets/cat.png  "Title")
