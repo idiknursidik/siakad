@@ -27,7 +27,7 @@ class Mailsetting extends BaseController
 	}
 	public function form()
 	{
-		$data = $this->msiakad_setting->getmailsetting();
+		$data = $this->msiakad_mail->getmailsetting();
 		if($data){
 			$host = $data->smtp_host;
 			$port = $data->smtp_port;
@@ -66,8 +66,24 @@ class Mailsetting extends BaseController
 		echo "</div>";
 		echo "<hr><button type='submit' name='kirim' id='btnSubmit_form_mail' class='btn bg-primary'>Simpan data</button>";
 		echo " <a href='".base_url()."' class='btn btn-warning'>Batal</a>";
-		echo "</form>";		
+		echo "</form>";	
+		
+		echo "<hr>";
+		echo "<form method='post' id='form_testmail' action='".base_url()."/admin/mailsetting/testmail' class='d-inline'>";
+		echo csrf_field();	
+		echo "<div class='form-group'>";
+			echo "<label for='emailto'>Test mail</label>";
+			echo "<div class='input-group mb-3'>";
+				echo "<input name='emailto' type='text' class='form-control' id='emailto' placeholder='masukan email yang akan dikirim'>";
+				echo "<div class='input-group-append'>";
+					echo "<button type='submit' id='btnSubmit_form_testmail' class='btn btn-success'>Kirim mail</button>";
+				echo "</div>";
+			echo "</div>";
+		echo "</div>";
+		echo "</form>";
+		
 	}
+	
 	public function simpan(){
 		
 		$ret=array("success"=>false,"messages"=>array());
@@ -119,7 +135,7 @@ class Mailsetting extends BaseController
 							"smtp_user"=>$smtp_user,
 							"smtp_pass"=>$smtp_pass,
 							"encryption"=>$encryption);
-			$datalama = $this->msiakad_setting->getmailsetting();				
+			$datalama = $this->msiakad_mail->getmailsetting();				
 			if(!$datalama){				
 				$this->db->table($this->setting_mail)->insert($datain);
 				$ret['messages'] = "Data berhasil dimasukan";
@@ -130,6 +146,19 @@ class Mailsetting extends BaseController
 			$ret['success'] = true;		
 		}
 		
+		echo json_encode($ret);
+	}
+	public function testmail(){
+		$ret=array("success"=>false,"messages"=>array());
+		$emailto = $this->request->getVar('emailto');
+		if(!$emailto){
+			$ret["messages"] = "Email harus diisi";
+		}else{
+			$mailsetting = $this->msiakad_mail->getmailsetting();
+			$content = "TEST - Mail server\n Sistem Informasi Akademik+";
+			$kirimemail = $this->msiakad_mail->sendmailcoice($mailsetting->smtp_user,$emailto,$content,'Test mail');
+			$ret["messages"] = $kirimemail;
+		}
 		echo json_encode($ret);
 	}
 }

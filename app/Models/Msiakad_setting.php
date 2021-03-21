@@ -55,15 +55,5 @@ class Msiakad_setting extends Model
 			return FALSE;
 		}	
 	}
-	public function getmailsetting(){
-		$builder = $this->db->table($this->setting_mail);
-		$query = $builder->get();
-		if($query->getRowArray() > 0){
-			$data = $query->getResultObject();
-			$ret = $data[0];
-			return $ret;
-		}else{
-			return FALSE;
-		}	
-	}
+	
 }

@@ -16,6 +16,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\Msiakad_setting;
+use App\Models\Msiakad_mail;
 use App\Models\Msiakad_akun;
 use App\Models\Msiakad_prodi;
 use App\Models\Msiakad_kelas;
@@ -66,6 +67,7 @@ class BaseController extends Controller
 		$this->db      		= \Config\Database::connect();
 		$this->msiakad_akun = new Msiakad_akun();
 		$this->msiakad_setting = new Msiakad_setting();
+		$this->msiakad_mail = new Msiakad_mail();
 		$this->msiakad_prodi = new Msiakad_prodi();
 		$this->msiakad_kelas = new Msiakad_kelas();
 		$this->msiakad_nilai = new Msiakad_nilai();
