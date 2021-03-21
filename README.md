@@ -58,4 +58,4 @@ Silahkan menggunakan XAMPP terbaru
 - Restart Apache
 
 # Tampilan 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot/screenshot.png)
