@@ -300,8 +300,8 @@ if($dataakun){
 		  }
 		  if(session()->get("level") == 4){
 		  ?>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview <?php echo isset($mn_kepegawaian)?'menu-open':'';?>">
+            <a href="#" class="nav-link <?php echo isset($mn_kepegawaian)?'active':'';?>">
               <i class="nav-icon fas fa-users-cog"></i>
               <p>
                 Data Kepegawaian
@@ -310,7 +310,7 @@ if($dataakun){
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="<?php echo base_url();?>/kepegawaian/pendidik" class="nav-link <?php echo isset($mn_kepegawaian_pendidik)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Pendidik</p>
                 </a>

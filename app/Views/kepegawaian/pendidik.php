@@ -5,14 +5,12 @@ echo $this->section('content');
 <div class="row no-print">
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah dosen mengajar" data-src="<?php echo base_url();?>/akademik/dosenmengajar/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
+	  <a href="#modalku" data-toggle="modal" title="Tambah dosen mengajar" data-src="<?php echo base_url();?>/kepegawaian/pendidik/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
 	  <?php
-		if(session()->level == 1){
+		if(session()->level == 4){
 	  ?>
-	  <a href="#" name="getdosenmengajarpddikti" id="btnGetdatamengarar" data-src="<?php echo base_url();?>/akademik/dosenmengajar/getdosenmengajarpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
-		<i class="fas fa-download"></i> Ambil dosen mengajar dari PDDIKTI
-	  </a>
-	  <a href="#" name="getdatadosenpddikti" id="btnGetdatadosen" data-src="<?php echo base_url();?>/akademik/dosenmengajar/getdatadosenpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
+	 
+	  <a href="#" name="getdatadosenpddikti" id="btnGetdatadosen" data-src="<?php echo base_url();?>/kepegawaian/pendidik/getdatadosenpddikti" class="btn btn-primary float-right" style="margin-right: 5px;">
 		<i class="fas fa-download"></i> Ambil Daftar Dosen dari PDDIKTI
 	  </a>
 		<?php
@@ -26,9 +24,13 @@ echo $this->section('content');
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/akademik/dosenmengajar/listdata");	
-		
-	$("a[name='getdosenmengajarpddikti'],a[name='getdatadosenpddikti']").on("click",function(){
+	$("#resultcontent").load("<?php echo base_url();?>/kepegawaian/pendidik/listdata");
+	
+	$("a[name='tambahdata']").on("click",function(e){
+		e.preventDefault();
+		$(".modal-dialog").removeClass("modal-lg").addClass("modal-xl");
+	})
+	$("a[name='getdatadosenpddikti']").on("click",function(){
 		var action = $(this).attr("data-src");
 		var btnGet = $(this).attr("id");
 		var htmlbtn = $(this).html();
@@ -46,7 +48,7 @@ $(function(){
 			success:function(ret){
 				if(ret.success == true){
 					toastr.success(ret.messages);
-					$("#resultcontent").load("<?php echo base_url();?>/akademik/dosenmengajar/listdata");
+					$("#resultcontent").load("<?php echo base_url();?>/kepegawaian/pendidik/listdata");
 				}else{
 					toastr.error(ret.messages);
 				}
@@ -70,7 +72,7 @@ $(function(){
 				if(ret.success == true){
 					toastr.success(ret.messages);
 					$("#modalku").modal("hide");
-					$("#resultcontent").load("<?php echo base_url();?>/akademik/dosenmengajar/listdata");
+					$("#resultcontent").load("<?php echo base_url();?>/kepegawaian/pendidik/listdata");
 				}else{
 					if(ret.error_feeder==true){
 						toastr.error(ret.messages);
@@ -95,26 +97,6 @@ $(function(){
 			element.closest("input.form-control")
 			.removeClass('is-invalid').find('.invalid-feedback').remove();
 			element.after(value="");
-	})
-	$("body").on("a[name='hapusdata']",function(e){
-		e.prevenDefault();
-		var dString = "id_dosenmengajar="+$(this).attr("id_dosenmengajar");
-		var action = $(this).attr("action");
-		$.ajax({
-			type:'post',
-			dataType:'json',
-			url:action,
-			data:dString,
-			success:function(ret){
-				if(ret.success == true){
-					toastr.success(ret.messages);
-					$("#resultcontent").load("<?php echo base_url();?>/akademik/dosenmengajar/listdata");
-				}else{
-					toastr.success(ret.messages);
-				}
-			}
-		})
-		return false;	
 	})
 })
 </script>

@@ -99,7 +99,7 @@ class Datauserdosen extends BaseController
 		echo "<form method='post' id='form_tambah' action='".base_url()."/admin/datauserdosen/create'>";
 		echo csrf_field();
 		echo "<table class='table' id='datatable_tambah'>";
-		echo "<thead><th>No</th><th>Nim</th><th>Nama</th><th>Buat Akun</th></thead>";
+		echo "<thead><th>No</th><th>NIP</th><th>Nama</th><th>Buat Akun</th></thead>";
 		echo "<tbody>";		
 		if($query->getRowArray() == 0){
 			echo "<tr><td colspan='4'>tidak ada data</td></tr>";
@@ -119,6 +119,8 @@ class Datauserdosen extends BaseController
 		echo "</table>";
 		echo "<hr><div><button type='submit' id='btnSubmit_form_tambah' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
+		echo "<div class='clearfix'></div><hr>";
+		echo "<div class='alert alert-info'>Dosen yang dapat dibuatkan user jika sudah punya NIP, Akun default NIP</div>";
 	}
 	public function create(){
 		$ret=array("success"=>false,"messages"=>array());

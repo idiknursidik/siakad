@@ -24,6 +24,7 @@ if($profil_setting){
 	$logopt = "logo.png";
 }
 $infoakun = $msiakad_akun->getakundosen(false,$session->username);
+$userimage = ($infoakun->user_image)?$infoakun->user_image:"noimage.png";
 
 $uri = current_url(true);
 ?>
@@ -75,7 +76,7 @@ to get the desired effect
       <a href="#" class="navbar-brand">
         <img src="<?php echo base_url();?>/public/gambar/<?php echo $logopt;?>" alt="SIAKAD Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light"><img src="<?php echo base_url();?>/public/adminlte/dist/img/user1-128x128.jpg" class="brand-image img-circle elevation-3"></span>
+        <span class="brand-text font-weight-light"><img src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" class="brand-image img-circle elevation-3"></span>
       </a>
       
       <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -183,11 +184,11 @@ to get the desired effect
     <div class="p-3">      
 		<div class="text-center">
 			<h5>Info Akun</h5>
-			<img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/adminlte/dist/img/user4-128x128.jpg" alt="User profile picture">
+			<img class="profile-user-img img-fluid img-circle" src="<?php echo base_url();?>/public/gambar/<?php echo $userimage;?>" alt="User profile picture">
 			<p><?php echo $infoakun->nama_dosen;?></p>
 		</div>
 	  <hr>
-      <p><a href="<?php echo base_url();?>/login/logout">Profile</a><br>
+      <p><a href="<?php echo base_url();?>/dosen/profile">Profile</a><br>
       <a href="<?php echo base_url();?>/login/logout">Logout</a></p>
 	  
     </div>

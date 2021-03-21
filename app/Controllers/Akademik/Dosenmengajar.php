@@ -447,6 +447,7 @@ class Dosenmengajar extends BaseController
 										"nama_status_aktif"=>$val->nama_status_aktif,
 										"nidn"=>$val->nidn,
 										"nip"=>$val->nip,
+										"sumberdata"=>'pddikti',
 										"tanggal_lahir"=>$val->tanggal_lahir,
 										"date_created"=>date("Y-m-d H:i:s")
 										);
