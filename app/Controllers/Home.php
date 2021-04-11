@@ -22,8 +22,10 @@ class Home extends BaseController
 			return view('welcome_message',$data);
 		}else if(session()->type == 'dosen'){
 			return view('dosen/home',$data);
-		}else{
+		}else if(session()->type == 'mahasiswa'){
 			return view('mahasiswa/home',$data);
+		}else{
+			return view('pmb/biodata',$data);
 		}
 	}
 

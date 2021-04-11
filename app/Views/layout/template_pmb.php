@@ -8,6 +8,7 @@ if($profil_setting){
 	$jalan = $profil_setting->jalan;
 }else{
 	$namapt = 'Perguruan Tinggi';
+	$kodept = 'kodept';
 }
 ?>
 <!DOCTYPE html>
@@ -60,15 +61,26 @@ to get the desired effect
           <li class="nav-item px-md-1">
             <a href="<?php echo base_url();?>" class="nav-link btn btn-danger">SIAKAD</a> 
           </li>
-          <li class="nav-item px-md-1">
-            <a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn btn-outline-info btn-flat <?php echo isset($mn_daftar)?'btn-info':'';?>">Buat akun</a>
-          </li>
-          <li class="nav-item px-md-1">
-            <a href="<?php echo base_url();?>/pmb/login" class="nav-link btn btn-outline-primary btn-flat <?php echo isset($mn_login)?'btn-primary':'';?>">Login calon mahasiswa</a>
-          </li>
+		  <?php
+		  if(session()->login){
+			   echo "<li class='nav-item px-md-1'>";
+			   echo "<a href='".base_url()."/pmb/biodata' class='nav-link btn btn-outline-info btn-flat'>Isi biodata</a>";
+			   echo "</li>";
+		  }else{
+		  ?>
+			  <li class="nav-item px-md-1">
+				<a href="<?php echo base_url();?>/pmb/daftar" class="nav-link btn btn-outline-info btn-flat <?php echo isset($mn_daftar)?'btn-info':'';?>">Buat akun</a>
+			  </li>
+			  <li class="nav-item px-md-1">
+				<a href="<?php echo base_url();?>/pmb/login" class="nav-link btn btn-outline-primary btn-flat <?php echo isset($mn_login)?'btn-primary':'';?>">Login calon mahasiswa</a>
+			  </li>
+		  <?php
+		  }
+		  ?>
 		  <li class="nav-item px-md-1">
             <a href="<?php echo base_url();?>/pmb/info" class="nav-link btn btn-outline-success btn-flat <?php echo isset($mn_info)?'btn-success':'';?>">Info penerimaan mahasiswa baru</a>
           </li>
+		  
         </ul>
 
        
@@ -76,7 +88,11 @@ to get the desired effect
 
       <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-        
+        <?php
+		if(session()->login){
+			echo "<li class='nav-item'><a class='nav-link' href='".base_url()."/pmb/login/logout'>Logout</a></li>";
+		}
+		?>
        
         <li class="nav-item">
           <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i

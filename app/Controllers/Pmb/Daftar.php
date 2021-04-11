@@ -18,7 +18,7 @@ class Daftar extends BaseController
 		];
 		return view('pmb/daftar',$data);
 	}
-	public function formdaftar(){
+	public function formdaftar(){		
 		$data = [
 			'title' => 'Halaman Pendaftaran Mahasiswa Baru'
 		];
@@ -27,6 +27,12 @@ class Daftar extends BaseController
 		}
 	}
 	public function prosesdaftar(){
+		$profile 	= $this->msiakad_setting->getprofile(); 
+		if($profile){
+			$kodept = $profile->kode_perguruan_tinggi;
+		}else{
+			$kodept = "";
+		}
 		if($this->request->isAJAX()){
 			$ret=array("success"=>false,"messages"=>array());
 			$username 	= $this->request->getVar("username");
@@ -86,6 +92,7 @@ class Daftar extends BaseController
 								"nik_nisn"=>$nik_nisn,
 								"hp"=>$hp,
 								"verification"=>$kodeverifikasi,
+								"kodept"=>$kodept,
 								"date_create"=>date('Y-m-d H:i:s'));
 				$query = $this->db->table($this->pmb_akun)->insert($datain);		
 				if($query){

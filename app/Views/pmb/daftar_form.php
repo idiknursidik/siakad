@@ -1,3 +1,4 @@
+
 <script type='text/javascript'>
 $(function(){
 	$("#form_daftar").on("submit",function(){

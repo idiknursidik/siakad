@@ -13,6 +13,7 @@ $(function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
 		var id = $(this).attr("id");
+		var btnHtml = $("#btnSubmit_"+id).html();
 		$.ajax({
 			type:'post',
 			dataType:'json',
@@ -24,13 +25,12 @@ $(function(){
 			},
 			complete:function(){
 				$("#btnSubmit_"+id+"").prop("disabled",false);
-				$("#btnSubmit_"+id+"").html("Proses update");	
+				$("#btnSubmit_"+id+"").html(btnHtml);	
 			},
 			success:function(ret){
 				if(ret.success == true){
-					toastr.success(ret.messages);	
-					$("#resultcontent").load("<?php echo base_url();?>/profile/show");
-
+					toastr.success(ret.messages);					
+					window.location=ret.link;
 				}else{
 					if(ret.error_feeder==true){
 						toastr.error(ret.messages);
