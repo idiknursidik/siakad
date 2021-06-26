@@ -147,16 +147,20 @@ class Prodi extends BaseController
 			}
 			
 		}else{
-			$datain = array("kodept"=>$kodept,
-							"kode_prodi"=>$kode_prodi,
-							"nama_prodi"=>$nama_prodi,
-							"id_jenjang"=>$id_jenjang);
-			$query = $this->db->table($this->siakad_prodi)->insert($datain);
-			if($query){
-				$ret['success'] = true;
-				$ret['messages'] = "Data berhasil ditambahkan";
+			if(!$kodept){
+				$ret['messages'] = "Data gagal ditambahkan kodept belum di set";
 			}else{
-				$ret['messages'] = "Data gagal ditambahkan";
+				$datain = array("kodept"=>$kodept,
+								"kode_prodi"=>$kode_prodi,
+								"nama_prodi"=>$nama_prodi,
+								"id_jenjang"=>$id_jenjang);
+				$query = $this->db->table($this->siakad_prodi)->insert($datain);
+				if($query){
+					$ret['success'] = true;
+					$ret['messages'] = "Data berhasil ditambahkan";
+				}else{
+					$ret['messages'] = "Data gagal ditambahkan";
+				}
 			}
 		}
 		echo json_encode($ret);
