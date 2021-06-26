@@ -653,7 +653,7 @@ class Mahasiswa extends BaseController
 	
 	public function proses_importmahasiswa(){
 		$ret=array("success"=>false,"messages"=>array());
-		$validation =  \Config\Services::validation();	 
+		$validation =  \Config\Services::validation();   
 		$file = $this->request->getFile('trx_file');	 
 		$data = array(
 			'trx_file'           => $file,
@@ -665,7 +665,7 @@ class Mahasiswa extends BaseController
 		} else {	 
 			// ambil extension dari file excel
 			$extension = $file->getClientExtension();
-			 
+			
 			// format excel 2007 ke bawah
 			if('xls' == $extension){
 				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
@@ -673,10 +673,9 @@ class Mahasiswa extends BaseController
 			} else {
 				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 			}
-			 
-			$spreadsheet = $reader->load($file);
-			print_r($file);
-			exit();
+			  
+			$spreadsheet = $reader->load($file->getPathName());
+			
 			$data = $spreadsheet->getActiveSheet()->toArray();
 			
 			
