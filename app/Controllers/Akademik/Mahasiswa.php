@@ -675,6 +675,8 @@ class Mahasiswa extends BaseController
 			}
 			 
 			$spreadsheet = $reader->load($file);
+			print_r($file);
+			exit();
 			$data = $spreadsheet->getActiveSheet()->toArray();
 			
 			
@@ -759,19 +761,24 @@ class Mahasiswa extends BaseController
 					->setCellValue('D1', 'Nik');
 		// define kolom dan nomor
 		$kolom = 2;
-		$nomor = 1;
-		// tambahkan data transaction ke dalam file excel
-		foreach($data as $key=>$val) {
-	 
+		$nomor = 1;			
+		if(!$data){
 			$spreadsheet->setActiveSheetIndex(0)
-						->setCellValue('A' . $kolom, $nomor)
-						->setCellValue('B' . $kolom, $val->nama_mahasiswa)
-						->setCellValueExplicit('C' . $kolom, $val->nik,\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING)
-						->setCellValueExplicit('D' . $kolom, $val->nik,\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-	 
-			$kolom++;
-			$nomor++;
-	 
+					->mergeCells('A2:D2')->setCellValue('A2','Tidak ada data');
+		}else{			
+			// tambahkan data transaction ke dalam file excel
+			foreach($data as $key=>$val) {
+		 
+				$spreadsheet->setActiveSheetIndex(0)
+							->setCellValue('A' . $kolom, $nomor)
+							->setCellValue('B' . $kolom, $val->nama_mahasiswa)
+							->setCellValueExplicit('C' . $kolom, $val->nik,\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING)
+							->setCellValueExplicit('D' . $kolom, $val->nik,\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+		 
+				$kolom++;
+				$nomor++;
+		 
+			}
 		}
 		$styleArray = [
 			'borders' => [
