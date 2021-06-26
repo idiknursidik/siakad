@@ -114,8 +114,7 @@ class Prodi extends BaseController
 		$ret=array("success"=>false,"messages"=>array());
 		$validation =  \Config\Services::validation();
 		$profile 	= $this->msiakad_setting->getdata();
-		
-		$kodept	= $profile->kodept;
+		$kodept	= ($profile)?$profile->kodept:false;
 		$kode_prodi	= $this->request->getVar("kodeprodi");
 		$nama_prodi	= $this->request->getVar("namaprodi");
 		$id_jenjang	= $this->request->getVar("jenjang");
@@ -148,7 +147,7 @@ class Prodi extends BaseController
 			
 		}else{
 			if(!$kodept){
-				$ret['messages'] = "Data gagal ditambahkan kodept belum di set";
+				$ret['messages']['kodeprodi'] = "<div class='invalid-feedback'>Data gagal ditambahkan kodept belum di set</div>";
 			}else{
 				$datain = array("kodept"=>$kodept,
 								"kode_prodi"=>$kode_prodi,
