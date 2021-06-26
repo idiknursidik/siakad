@@ -44,13 +44,13 @@ class Mreferensi extends Model
 	}
 	public function GetJenjangPendidikan($id_jenjang_didik=false){
 		$builder = $this->db->table($this->GetJenjangPendidikan);
-		if(isset($id_jenjang_didik)){
+		if(isset($id_jenjang_didik) && $id_jenjang_didik !== false){
 			$builder->where("id_jenjang_didik",$id_jenjang_didik);
 		}
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResultObject();
-			if(isset($id_jenjang_didik)){
+			if(isset($id_jenjang_didik) && $id_jenjang_didik !== false){
 				$ret = $data[0];
 			}else{
 				$ret = $data;

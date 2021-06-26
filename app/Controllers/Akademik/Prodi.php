@@ -86,7 +86,7 @@ class Prodi extends BaseController
 		echo json_encode($ret);	
 	}
 	public function tambah(){
-		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();
+		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan(false);
 		echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/prodi/create'>";
 		echo csrf_field(); 		
 		echo "<div class='form-group'>";
@@ -169,6 +169,8 @@ class Prodi extends BaseController
 		$profile 	= $this->msiakad_setting->getdata();
 		$data = $this->msiakad_prodi->getdata($id_prodi,false,false,false);
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();
+		$statusprodi = $this->mfungsi->status();
+
 		echo "<form method='post' id='form_ubah' action='".base_url()."/akademik/prodi/update'>";
 		echo "<input type='hidden' name='id_prodi' value='{$id_prodi}'>";
 		echo csrf_field(); 		
@@ -192,6 +194,18 @@ class Prodi extends BaseController
 			}
 			echo "</select>";
 		echo "</div>";
+		echo "<div class='form-group'>";
+			echo "<label for='statusprodi'>Status Prodi</label>";
+			echo "<select name='statusprodi' class='form-control' id='statusprodi'>";
+			if($statusprodi){
+				foreach($statusprodi as $key=>$val){
+					echo "<option value='{$key}'";
+					if($data->status == $key) echo " selected='selected'";
+					echo ">{$val}</option>";
+				}
+			}
+			echo "</select>";
+		echo "</div>";
 		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
@@ -205,6 +219,7 @@ class Prodi extends BaseController
 		$kode_prodi	= $this->request->getVar("kodeprodi");
 		$nama_prodi	= $this->request->getVar("namaprodi");
 		$id_jenjang	= $this->request->getVar("jenjang");
+		$statusprodi = $this->request->getVar("statusprodi");
 		//cek data dulu
 		$cekdata = $this->db->table($this->siakad_prodi)->getWhere(['id_prodi' => $id_prodi,'kodept'=>$kodept]);
 		if($cekdata->getRowArray() > 0){
@@ -249,7 +264,8 @@ class Prodi extends BaseController
 			$datain = array("kodept"=>$kodept,
 							"kode_prodi"=>$kode_prodi,
 							"nama_prodi"=>$nama_prodi,
-							"id_jenjang"=>$id_jenjang);
+							"id_jenjang"=>$id_jenjang,
+							"status"=>$statusprodi);
 			$query = $this->db->table($this->siakad_prodi)->update($datain, array('id_prodi' => $id_prodi,'kodept'=>$kodept));
 			if($query){
 				$ret['success'] = true;

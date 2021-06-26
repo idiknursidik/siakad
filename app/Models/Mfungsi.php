@@ -80,4 +80,13 @@ class Mfungsi extends Model
 		}
 		return $ret;
 	}
+	function status($val=false){
+		$data = array("A"=>"Aktif","N"=>"Non Aktif");
+		if($val){
+			$ret = $data[$val];
+		}else{
+			$ret = $data;
+		}
+		return $ret;
+	}
 }
