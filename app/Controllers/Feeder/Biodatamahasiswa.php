@@ -72,13 +72,14 @@ class Biodatamahasiswa extends BaseController
 		$dataptws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetProfilPT','',false,'1','0');
 		//dd($dataptws);
 		$databiodatamahasiswaws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetBiodataMahasiswa');		
-		
+		//print_r($databiodatamahasiswaws);
 		$dataptws = $this->mfungsi->object_to_array($dataptws->data[0]);
 	
 		foreach($databiodatamahasiswaws->data as $key=>$val){
 			$datain = $this->mfungsi->object_to_array($val);
 			$datain['id_perguruan_tinggi'] = $dataptws['id_perguruan_tinggi'];
 			$datain['kode_perguruan_tinggi'] = $dataptws['kode_perguruan_tinggi'];
+			$datain['tanggal_lahir'] = date("Y-m-d",strtotime($val->tanggal_lahir));
 			
 			$cekdata = $this->mfeeder_data->getbiodatadatamahasiswa($val->id_mahasiswa);
 			if(!$cekdata){

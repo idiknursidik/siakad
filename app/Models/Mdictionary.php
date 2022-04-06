@@ -7,93 +7,95 @@ class Mdictionary extends Model
 	public function InsertBiodataMahasiswa()
     {
 		/*
-		$data=array("nama_mahasiswa",
-					"jenis_kelamin",
-					"jalan",
-					"rt",
-					"rw",
-					"dusun",
-					"kelurahan",
-					"kode_pos",
-					"nisn",
-					"nik",
-					"tempat_lahir",
-					"tanggal_lahir",
-					"nama_ayah",
-					"tanggal_lahir_ayah",
-					"nik_ayah",
-					"id_jenjang_pendidikan_ayah",
-					"id_pekerjaan_ayah",
-					"id_penghasilan_ayah",
-					"id_kebutuhan_khusus_ayah",
-					"nama_ibu_kandung",
-					"tanggal_lahir_ibu",
-					"nik_ibu",
-					"id_jenjang_pendidikan_ibu",
-					"id_pekerjaan_ibu",
-					"id_penghasilan_ibu",
-					"id_kebutuhan_khusus_ibu",
-					"nama_wali",
-					"tanggal_lahir_wali",
-					"id_jenjang_pendidikan_wali",
-					"id_pekerjaan_wali",
-					"id_penghasilan_wali",
-					"id_kebutuhan_khusus_mahasiswa",
-					"telepon","handphone",
-					"email",
-					"penerima_kps",
-					"no_kps",
-					"npwp",
-					"id_wilayah",
-					"id_jenis_tinggal",
-					"id_agama",
-					"id_alat_transportasi",
-					"kewarganegaraan"
+		$data=array("
+		nama_mahasiswa": "Pangeran Ridwan",
+		"jenis_kelamin": "L",
+		"tempat_lahir": "Banggai",
+		"tanggal_lahir": "2001-03-03",
+		"id_agama": 1,
+		"nik": "8208060305400002",
+		"nisn": null,
+		"npwp": null,
+		"kewarganegaraan": "ID",
+		"jalan": "Jl. Raya tanjung situ",
+		"dusun": null,
+		"rt": 5,
+		"rw": 0,
+		"kelurahan": "Kelurahan Tanjung Situ",
+		"kode_pos": null,
+		"id_wilayah": 999999,
+		"id_jenis_tinggal": 1,
+		"id_alat_transportasi": null,
+		"telepon": null,
+		"handphone": null,
+		"email": null,
+		"penerima_kps": 0,
+		"nomor_kps": null,
+		"nik_ayah": "8208060305400001",
+		"nama_ayah": "Ayahku",
+		"tanggal_lahir_ayah": "1980-10-01",
+		"id_pendidikan_ayah": 35,
+		"id_pekerjaan_ayah": 6,
+		"id_penghasilan_ayah": 13,
+		"nik_ibu": "8208060305400001",
+		"nama_ibu_kandung": "Ibuku",
+		"tanggal_lahir_ibu": "1982-01-04",
+		"id_pendidikan_ibu": 20,
+		"id_pekerjaan_ibu": 9,
+		"id_penghasilan_ibu": 14,
+		"nama_wali": null,
+		"tanggal_lahir_wali": null,
+		"id_pendidikan_wali": null,
+		"id_pekerjaan_wali": null,
+		"id_penghasilan_wali": null,
+		"id_kebutuhan_khusus_mahasiswa": 0,
+		"id_kebutuhan_khusus_ayah": 0,
+		"id_kebutuhan_khusus_ibu": 0
 					);*/
-		$data = array(
-				"nama_mahasiswa",
-				"jenis_kelamin",
-				"tempat_lahir",
-				"tanggal_lahir",
-				"id_agama",
-				"nik",
-				"nisn",
-				"npwp",
-				"kewarganegaraan",
-				"jalan",
-				"dusun",
-				"rt",
-				"rw",
-				"kelurahan",
-				"kode_pos",
-				"id_wilayah",
-				"id_jenis_tinggal",
-				"id_alat_transportasi",
-				"telepon",
-				"handphone",
-				"email",
-				"penerima_kps",
-				"nomor_kps",
-				"nik_ayah",
-				"nama_ayah",
-				"tanggal_lahir_ayah",
-				"id_pendidikan_ayah",
-				"id_pekerjaan_ayah",
-				"id_penghasilan_ayah",
-				"nik_ibu",
-				"nama_ibu_kandung",
-				"tanggal_lahir_ibu",
-				"id_pendidikan_ibu",
-				"id_pekerjaan_ibu",
-				"id_penghasilan_ibu",
-				"nama_wali",
-				"tanggal_lahir_wali",
-				"id_pendidikan_wali",
-				"id_pekerjaan_wali",
-				"id_penghasilan_wali",
-				"id_kebutuhan_khusus_mahasiswa",
-				"id_kebutuhan_khusus_ayah",
-				"id_kebutuhan_khusus_ibu");			
+			$data = array(
+				"nama_mahasiswa",//
+				"jenis_kelamin",//
+				"tempat_lahir",//
+				"tanggal_lahir",//
+				"id_agama",//
+				"nik",//
+				"nisn",//
+				"npwp",//
+				"kewarganegaraan",//
+				"jalan",//
+				"dusun",//
+				"rt",//
+				"rw",//
+				"kelurahan",//
+				"kode_pos",//
+				"id_wilayah",//
+				"id_jenis_tinggal",//
+				"id_alat_transportasi",//
+				"telepon",//
+				"handphone",//
+				"email",//
+				"penerima_kps",//
+				"nomor_kps",//
+				"nik_ayah",//
+				"nama_ayah",//
+				"tanggal_lahir_ayah",//
+				"id_pendidikan_ayah",//
+				"id_pekerjaan_ayah",//
+				"id_penghasilan_ayah",//
+				"nik_ibu",//
+				"nama_ibu_kandung",//
+				"tanggal_lahir_ibu",//
+				"id_pendidikan_ibu",//
+				"id_pekerjaan_ibu",//
+				"id_penghasilan_ibu",//
+				"nama_wali",//
+				"tanggal_lahir_wali",//
+				"id_pendidikan_wali",//
+				"id_pekerjaan_wali",//
+				"id_penghasilan_wali",//
+				"id_kebutuhan_khusus_mahasiswa",//
+				"id_kebutuhan_khusus_ayah",//
+				"id_kebutuhan_khusus_ibu");	//				
 		return $data;	
 	}
 	

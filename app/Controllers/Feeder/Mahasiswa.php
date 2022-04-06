@@ -84,7 +84,7 @@ class Mahasiswa extends BaseController
 		$dataptws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetProfilPT','',false,'1','0');
 		$datamahasiswaws = $this->mfeeder_ws->getrecordset($feeder_akun->token,'GetListMahasiswa');
 		
-		
+		//print_r($datamahasiswaws);
 		$dataptws = $this->mfungsi->object_to_array($dataptws->data[0]);
 		
 		$i=0;

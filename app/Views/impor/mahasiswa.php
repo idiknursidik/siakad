@@ -11,8 +11,8 @@ $(function(){
 	$("body").on("click","a[name^='impormahasiswa_']",function(){
 		$(this).html("loading....mohon tunggu!").addClass("disabled");
 		var action = $(this).attr("data-src");
-		var idpendaftaran = $(this).attr("idpendaftaran");
-		var dString = "idpendaftaran="+idpendaftaran;
+		var id_mahasiswa = $(this).attr("id_mahasiswa");
+		var dString = "id_mahasiswa="+id_mahasiswa;
 		$.ajax({
 			type:'post',
 			dataType:'json',
@@ -25,7 +25,7 @@ $(function(){
 				}else{
 					toastr.error(ret.messages);
 				}
-				$("a[name='impormahasiswa_"+idpendaftaran+"']").html("Kirim ke Feeder").removeClass("disabled");
+				$("a[name='impormahasiswa_"+id_mahasiswa+"']").html("Kirim ke Feeder").removeClass("disabled");
 			}
 			
 		})

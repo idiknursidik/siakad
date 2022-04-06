@@ -634,7 +634,7 @@ class Mahasiswa extends BaseController
 	
 	public function importmahasiswa(){
 		if($this->request->isAJAX()){
-			echo "<div class='alert alert-info'><a href='".base_url()."/public/template/sample_mhs_baru.xlsx'>Contoh File</a></div>";
+			echo "<div class='alert alert-info'><a href='".base_url()."/public/template/sample_mhs_baru.xls'>Contoh File</a></div>";
 			echo form_open_multipart(base_url().'/akademik/mahasiswa/proses_importmahasiswa',array('id'=>'form_importmahasiswa'));
 				
 			echo form_label('File Excel');
@@ -654,7 +654,7 @@ class Mahasiswa extends BaseController
 	public function proses_importmahasiswa(){
 		$ret=array("success"=>false,"messages"=>array());
 		$validation =  \Config\Services::validation();   
-		$file = $this->request->getFile('trx_file');	 
+		$file = $this->request->getFile('trx_file');	
 		$data = array(
 			'trx_file'           => $file,
 		);	 
@@ -673,75 +673,44 @@ class Mahasiswa extends BaseController
 			} else {
 				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 			}
-			  
 			$spreadsheet = $reader->load($file->getPathName());
 			
 			$data = $spreadsheet->getActiveSheet()->toArray();
-			
-			
+			$InsertBiodataMahasiswa = $this->mdictionary->InsertBiodataMahasiswa();
+			//print_r($InsertBiodataMahasiswa);
+			$profile 	= $this->msiakad_setting->getdata();
+			$simpan=false;
 			foreach($data as $idx => $val){				 
 				// lewati baris ke 0 pada file excel
 				// dalam kasus ini, array ke 0 adalahpara title
 				if($idx == 0) {
 					continue;
 				}
-				$datain = array("kodept"=>$val->kode_perguruan_tinggi,
-					"id_mahasiswa_ws"=>$val->id_mahasiswa,
-					"nama_mahasiswa"=>$val->nama_mahasiswa,
-					"jenis_kelamin"=>$val->jenis_kelamin,
-					"jalan"=>$val->jalan,
-					"rt"=>$val->rt,
-					"rw"=>$val->rw,
-					"dusun"=>$val->dusun,
-					"kelurahan"=>$val->kelurahan,
-					"kode_pos"=>$val->kode_pos,
-					"nisn"=>$val->nisn,
-					"nik"=>$val->nik,
-					"tempat_lahir"=>$val->tempat_lahir,
-					"tanggal_lahir"=>$val->tanggal_lahir,
-					"nama_ayah"=>$val->nama_ayah,
-					"tanggal_lahir_ayah"=>$val->tanggal_lahir_ayah,
-					"nik_ayah"=>$val->nik_ayah,
-					"id_pendidikan_ayah"=>$val->id_pendidikan_ayah,
-					"id_pekerjaan_ayah"=>$val->id_pekerjaan_ayah,
-					"id_penghasilan_ayah"=>$val->id_penghasilan_ayah,
-					"id_kebutuhan_khusus_ayah"=>$val->id_kebutuhan_khusus_ayah,//
-					"nama_ibu_kandung"=>$val->nama_ibu,
-					"tanggal_lahir_ibu"=>$val->tanggal_lahir_ibu,
-					"nik_ibu"=>$val->nik_ibu,
-					"id_pendidikan_ibu"=>$val->id_pendidikan_ibu,
-					"id_pekerjaan_ibu"=>$val->id_pekerjaan_ibu,
-					"id_penghasilan_ibu"=>$val->id_penghasilan_ibu,
-					"id_kebutuhan_khusus_ibu"=>$val->id_kebutuhan_khusus_ibu,//
-					"nama_wali"=>$val->nama_wali,
-					"tanggal_lahir_wali"=>$val->tanggal_lahir_wali,
-					"id_pendidikan_wali"=>$val->id_pendidikan_wali,
-					"id_pekerjaan_wali"=>$val->id_pekerjaan_wali,
-					"id_penghasilan_wali"=>$val->id_penghasilan_wali,
-					"id_kebutuhan_khusus_mahasiswa"=>$val->id_kebutuhan_khusus_mahasiswa,
-					"telepon"=>$val->telepon,
-					"handphone"=>$val->handphone,
-					"email"=>$val->email,
-					"penerima_kps"=>$val->penerima_kps,
-					"no_kps"=>$val->nomor_kps,
-					"npwp"=>$val->npwp,
-					"id_wilayah"=>$val->id_wilayah,
-					"id_jenis_tinggal"=>$val->id_jenis_tinggal,
-					"id_agama"=>$val->id_agama,
-					"id_alat_transportasi"=>$val->id_alat_transportasi,
-					"kewarganegaraan"=>$val->id_negara,
-					"penerima_kps"=>$val->penerima_kps);
-				//cek data
-				$cekmhs = $this->db->table($this->siakad_mahasiswa,array("nama_mahasiswa"=>$val[1],"nik"=>$val[5]))->get();
-				if($cekmhs->getRowArray() == 0){
-					$simpan = $this->db->table($this->siakad_mahasiswa)->insert($datain);
-				}				
+				
+				if(strlen($val[0]) > 0){
+					$datain=array();
+					foreach($InsertBiodataMahasiswa as $keyi=>$vali){
+						$datain[$vali]=$val["".$keyi.""];
+					}
+					$datain['kodept']=$profile->kodept;
+					//cek data
+					$builder = $this->db->table($this->siakad_mahasiswa);
+					$builder->where(array("kodept"=>$profile->kodept,"nama_mahasiswa"=>$val[0],"nik"=>$val[5],"nama_ibu_kandung"=>$val[30]));
+					$cekmhs = $builder->get();
+					
+					if(count($cekmhs->getResult()) == 0){
+						$simpan = $this->db->table($this->siakad_mahasiswa)->insert($datain);
+					}
+				}
+					
 			}
 	 
 			if($simpan)
 			{
 				$ret = array('success'=>true,'messages'=>'Imported Transaction successfully');
 				 
+			}else{
+				$ret = array('messages'=>'Data sudah ada');
 			}
 		}
 		echo json_encode($ret);
