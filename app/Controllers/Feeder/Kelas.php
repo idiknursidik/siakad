@@ -52,9 +52,9 @@ class Kelas extends BaseController
 		
 		$data = $this->mfeeder_data->getkelaskuliah(false,false,$dataptws->data[0]->id_perguruan_tinggi);
 		if(!$data){
-			echo "<a class='btn btn-primary' href='#' id='ambildata' data-src='".base_url()."/feeder/kelas/inputdata'>Ambil data</a>";
+			echo "<a class='btn btn-primary' href='#' name='ambildata' id='btnSubmit_ambildata' data-src='".base_url()."/feeder/kelas/inputdata'>Ambil data</a>";
 		}else{
-			echo "<a class='btn btn-primary' id='ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/kelas/inputdata'>Update data</a>";
+			echo "<a class='btn btn-primary' name='ambildata' id='btnSubmit_ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/kelas/inputdata'>Update data</a>";
 			echo "<div class='clearfix'></div><hr>";
 			echo "<table class='table' id='datatable'>";
 			echo "<thead><tr><th width='1'>No</th><th>Program Studi</th><th>KodeMK</th><th>Matakuliah</th><th>Semester</th><th>Kelas Kuliah</th></tr></thead>";

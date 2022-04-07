@@ -62,9 +62,9 @@ class Dosenmengajar extends BaseController
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nama_dosen}</td>";
-				echo "<td>{$val->id_kelas_kuliah}</td>";
-				echo "<td>{$val->rencana_tatap_muka}</td>";
-				echo "<td>{$val->realisasi_tatap_muka}</td>";
+				echo "<td>{$val->nama_kelas_kuliah}</td>";
+				echo "<td>{$val->rencana_minggu_pertemuan}</td>";
+				echo "<td>{$val->realisasi_minggu_pertemuan}</td>";
 				echo "</tr>";
 			}
 			echo "</tbody>";

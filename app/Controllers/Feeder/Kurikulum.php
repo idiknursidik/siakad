@@ -52,9 +52,9 @@ class Kurikulum extends BaseController
 		
 		$data = $this->mfeeder_data->getkurikulum(false,false,$dataptws->data[0]->id_perguruan_tinggi);
 		if(!$data){
-			echo "<a class='btn btn-primary' href='#' id='ambildata' data-src='".base_url()."/feeder/kurikulum/inputdata'>Ambil data</a>";
+			echo "<a class='btn btn-primary' href='#' name='ambildata' id='btnSubmit_ambildata' data-src='".base_url()."/feeder/kurikulum/inputdata'>Ambil data</a>";
 		}else{
-			echo "<a class='btn btn-primary' id='ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/kurikulum/inputdata'>Update data</a>";
+			echo "<a class='btn btn-primary' name='ambildata' id='btnSubmit_ambildata'style='float:right' href='#' data-src='".base_url()."/feeder/kurikulum/inputdata'>Update data</a>";
 			echo "<div class='clearfix'></div><hr>";
 			echo "<table class='table' id='datatable'>";
 			echo "<thead><tr><th width='1'>No</th><th>Program Studi</th><th>Kurikulum</th><th>SK Wajib</th><th>Semester</th></tr></thead>";
@@ -102,13 +102,11 @@ class Kurikulum extends BaseController
 				$cekdata = $this->mfeeder_data->getkurikulum($val->id_kurikulum);
 				if(!$cekdata){
 					$query = $this->db->table('feeder_kurikulum')->insert($datain);
-					$ret['messages'] = "Data berhasil dimasukan";
-					$ret['success'] = true;
+					$ret=array('success'=>true,'messages'=>"Data berhasil dimasukan");
 				}else{
 					//update
 					$query = $this->db->table('feeder_kurikulum')->update($datain, array("id_kurikulum"=>$val->id_kurikulum));
-					$ret['messages'] = "Data berhasil diupdate";
-					$ret['success'] = true;
+					$ret=array('success'=>true,'messages'=>"Data berhasil diupdate");
 				}
 				
 			}

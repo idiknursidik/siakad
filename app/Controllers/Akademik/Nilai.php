@@ -243,6 +243,8 @@ class Nilai extends BaseController
 			foreach($data_nilai_feeder as $key=>$val){
 				//cek data dulu
 				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
+				//print_r($matakuliah->kode_matakuliah);
+				//exit();
 				//cek data dulu
 				$arraywhere = ['nim' => $val->nim, 'id_matkul_ws' => $val->id_matkul, 'id_kelas_ws' => $val->id_kelas,'id_periode_ws'=>$val->id_periode];
 				$builder = $this->db->table($this->siakad_nilai);

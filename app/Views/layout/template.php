@@ -44,6 +44,7 @@ $uri = current_url(true);
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>/public/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
    <!-- jQuery -->
   <script src="<?php echo base_url();?>/public/adminlte/plugins/jquery/jquery.min.js"></script>
 	
@@ -58,7 +59,7 @@ to get the desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
   <?php echo $this->include('layout/navbar');?>
 
@@ -159,6 +160,9 @@ to get the desired effect
 <script src="<?php echo base_url();?>/public/adminlte/plugins/select2/js/select2.full.min.js"></script>
 
 <script src="<?php echo base_url();?>/public/adminlte/dist/js/demo.js"></script>
+
+<!-- overlayScrollbars -->
+<script src="<?php echo base_url();?>/public/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script>
 
 $('body').on("click", "a.modalButton,button.modalButton", function() {

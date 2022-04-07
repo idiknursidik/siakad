@@ -12,7 +12,7 @@ class Kurikulummatakuliah extends BaseController
 			'title' => 'Kurikulummatakuliah PDDIKTI',
 			'judul' => 'Kurikulummatakuliah PDDIKTI',
 			'mn_feeder_a'=>true,
-			'mn_Kurikulummatakuliah'=>true
+			'mn_kurikulum_matakuliah'=>true
 		];
 		return view('feeder/kurikulummatakuliah',$data);
 	}
@@ -52,9 +52,9 @@ class Kurikulummatakuliah extends BaseController
 		
 		$data = $this->mfeeder_data->getkurikulummatakuliah(false,false,false,$dataptws->data[0]->id_perguruan_tinggi);
 		if(!$data){
-			echo "<a class='btn btn-primary' href='#' id='ambildata' data-src='".base_url()."/feeder/kurikulummatakuliah/inputdata'>Ambil data</a>";
+			echo "<a class='btn btn-primary' href='#' name='ambildata' id='btnSubmit_ambildata' data-src='".base_url()."/feeder/kurikulummatakuliah/inputdata'>Ambil data</a>";
 		}else{
-			echo "<a class='btn btn-primary' id='ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/kurikulummatakuliah/inputdata'>Update data</a>";
+			echo "<a class='btn btn-primary' name='ambildata' id='btnSubmit_ambildata' style='float:right' href='#' data-src='".base_url()."/feeder/kurikulummatakuliah/inputdata'>Update data</a>";
 			echo "<div class='clearfix'></div><hr>";
 			echo "<table class='table' id='datatable'>";
 			echo "<thead><tr><th width='1'>No</th><th>Kurikulum</th><th>Semester</th><th>Matakuliah</th></tr></thead>";
@@ -103,13 +103,11 @@ class Kurikulummatakuliah extends BaseController
 				//dd($datain);
 				if(!$cekdata){
 					$query = $this->db->table('feeder_kurikulummatakuliah')->insert($datain);
-					$ret['messages'] = "Data berhasil dimasukan";
-					$ret['success'] = true;
+					$ret=array('success'=>true,'messages'=> "Data berhasil dimasukan");
 				}else{
 					//update
 					$query = $this->db->table('feeder_kurikulummatakuliah')->update($datain, array("id_kurikulum"=>$val->id_kurikulum,"id_matkul"=>$val->id_matkul,"id_semester"=>$val->id_semester));
-					$ret['messages'] = "Data berhasil diupdate";
-					$ret['success'] = true;
+					$ret=array('success'=>true,'messages'=> "Data berhasil diupdate");
 				}
 				
 			}
