@@ -63,7 +63,7 @@ class Akun extends BaseController
 			echo csrf_field();
 			 echo "<div class='form-group'>";
 				echo "<label for='url'>Url</label>";
-				echo "<input name='url' type='url' class='form-control' id='url' placeholder='masukan url PDDIKTI contoh : http://localhost:8082/' value='".old('url')."'>";
+				echo "<input name='url' type='url' class='form-control' id='url' placeholder='masukan url PDDIKTI contoh : http://localhost:8100/' value='".old('url')."'>";
 			  echo "</div>";
 			  echo "<div class='form-group'>";
 				echo "<label for='username'>Username</label>";
