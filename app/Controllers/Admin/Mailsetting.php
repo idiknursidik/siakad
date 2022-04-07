@@ -151,10 +151,13 @@ class Mailsetting extends BaseController
 	public function testmail(){
 		$ret=array("success"=>false,"messages"=>array());
 		$emailto = $this->request->getVar('emailto');
+		$mailsetting = $this->msiakad_mail->getmailsetting();
 		if(!$emailto){
 			$ret["messages"] = "Email harus diisi";
+		}else if(!$mailsetting){
+			$ret["messages"] = "Konfigurasi Mail belum diisi";
 		}else{
-			$mailsetting = $this->msiakad_mail->getmailsetting();
+			
 			$content = "TEST - Mail server\n Sistem Informasi Akademik+";
 			$kirimemail = $this->msiakad_mail->sendmailcoice($mailsetting->smtp_user,$emailto,$content,'Test mail');
 			$ret["messages"] = $kirimemail;
