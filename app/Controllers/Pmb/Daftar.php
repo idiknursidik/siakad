@@ -97,6 +97,10 @@ class Daftar extends BaseController
 				$query = $this->db->table($this->pmb_akun)->insert($datain);		
 				if($query){
 					//kirim email
+					$from = "idik@lldikti4.or.id";
+					$content = "Username : ".$email."<br> Password : ".$generate.$email;
+					$subjectinfo = "Akun - Siakad+";
+					$this->msiakad_mail->sendmailcoice($from,$email,$content='None',$subjectinfo='Test mail');
 					
 					$ret['messages'] = "Akun berhasil dibuat silahkan cek email";
 					$ret['success'] = true;	

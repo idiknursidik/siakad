@@ -44,12 +44,14 @@ class Msiakad_mail extends Model
 		$config['SMTPPort'] = $mailsetting->smtp_port;
 		$config['SMTPUser'] = $mailsetting->smtp_user;
 		$config['SMTPPass'] = $mailsetting->smtp_pass;
+		$config['SMTPCrypto'] = $mailsetting->encryption;
 		$config['mailtype'] = 'html';
 		$config['charset'] = 'utf-8';
 		$config['newline'] = "\r\n";
 		$config['wordwrap'] = TRUE;
 		$config['SMTPTimeout'] = 30;
 		$email->initialize($config);
+
 	}
 	public function sendmailcoice($from,$to,$content='None',$subjectinfo='Test mail'){
 		$email = \Config\Services::email();
