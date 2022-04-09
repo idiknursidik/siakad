@@ -5,7 +5,6 @@ echo $this->section('content');
 <div class="row no-print">
 	<div class="col-12">
 	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah dosen mengajar" data-src="<?php echo base_url();?>/akademik/dosenmengajar/tambah" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah data</a>
 	  <?php
 		if(session()->level == 1){
 	  ?>

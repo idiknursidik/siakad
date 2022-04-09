@@ -235,7 +235,6 @@ class Nilai extends BaseController
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata();
 		$data_nilai_feeder = $this->msiakad_nilai->getdatapddikti(false,false,false,false,$profile->kodept);
-		
 		if(!$data_nilai_feeder){
 			$ret["messages"] = "Tidak ada data PDDIKTI";
 		}else{
@@ -256,7 +255,6 @@ class Nilai extends BaseController
 									"kodept"=>$val->kode_perguruan_tinggi,									
 									"semester"=>$val->id_periode,
 									"kelas"=>$val->nama_kelas_kuliah,
-									"id_prodi"=>$val->id_prodi,
 									"nilai_huruf"=>$val->nilai_huruf,
 									"nilai_indeks"=>$val->nilai_indeks,
 									"id_kelas_ws"=>$val->id_kelas,
@@ -274,12 +272,14 @@ class Nilai extends BaseController
 					
 					if($mahasiswa){
 						$datain["id_riwayatpendidikan"]=$mahasiswa->id_riwayatpendidikan;
+						
+						$prodi = $this->msiakad_prodi->getdata(false,$mahasiswa->id_prodi_ws,$profile->kodept,false);
+						if($prodi){				
+							$datain["kode_prodi"]=$prodi->kode_prodi;
+							$datain["id_prodi"]=$prodi->id_prodi;
+						}
 					}						
-					$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
-					if($prodi){				
-						$datain["kode_prodi"]=$prodi->kode_prodi;
-						$datain["id_prodi"]=$prodi->id_prodi;
-					}
+					
 					
 					$query = $this->db->table($this->siakad_nilai)->insert($datain);
 					if($query){
