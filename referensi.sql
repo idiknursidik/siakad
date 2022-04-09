@@ -3,15 +3,15 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100411
- Source Host           : 127.0.0.1:3306
+ Source Server Version : 100417
+ Source Host           : localhost:3306
  Source Schema         : siakad
 
  Target Server Type    : MySQL
- Target Server Version : 100411
+ Target Server Version : 100417
  File Encoding         : 65001
 
- Date: 07/11/2020 19:46:06
+ Date: 09/04/2022 22:00:14
 */
 
 SET NAMES utf8mb4;
@@ -25,17 +25,17 @@ CREATE TABLE `ref_getagama`  (
   `id_agama` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_agama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_agama`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getagama
 -- ----------------------------
 INSERT INTO `ref_getagama` VALUES ('1', 'Islam');
 INSERT INTO `ref_getagama` VALUES ('2', 'Kristen');
-INSERT INTO `ref_getagama` VALUES ('3', 'Katholik');
+INSERT INTO `ref_getagama` VALUES ('3', 'Katolik');
 INSERT INTO `ref_getagama` VALUES ('4', 'Hindu');
 INSERT INTO `ref_getagama` VALUES ('5', 'Budha');
-INSERT INTO `ref_getagama` VALUES ('6', 'Konghucu');
+INSERT INTO `ref_getagama` VALUES ('6', 'Khonghucu');
 INSERT INTO `ref_getagama` VALUES ('99', 'Lainnya');
 
 -- ----------------------------
@@ -46,7 +46,7 @@ CREATE TABLE `ref_getalattransportasi`  (
   `id_alat_transportasi` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_alat_transportasi` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_alat_transportasi`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getalattransportasi
@@ -72,7 +72,7 @@ CREATE TABLE `ref_getjalurmasuk`  (
   `id_jalur_masuk` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_jalur_masuk` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_jalur_masuk`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjalurmasuk
@@ -96,7 +96,7 @@ CREATE TABLE `ref_getjenisevaluasi`  (
   `id_jenis_evaluasi` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_jenis_evaluasi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_jenis_evaluasi`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjenisevaluasi
@@ -112,7 +112,7 @@ CREATE TABLE `ref_getjeniskeluar`  (
   `jenis_keluar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `apa_mahasiswa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_jenis_keluar`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjeniskeluar
@@ -137,7 +137,7 @@ CREATE TABLE `ref_getjenispendaftaran`  (
   `nama_jenis_daftar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `untuk_daftar_sekolah` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_jenis_daftar`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjenispendaftaran
@@ -163,7 +163,7 @@ CREATE TABLE `ref_getjenissubstansi`  (
   `id_jenis_substansi` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_jenis_substansi` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_jenis_substansi`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjenissubstansi
@@ -180,7 +180,7 @@ CREATE TABLE `ref_getjenistinggal`  (
   `id_jenis_tinggal` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_jenis_tinggal` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_jenis_tinggal`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjenistinggal
@@ -200,7 +200,7 @@ CREATE TABLE `ref_getjenjangpendidikan`  (
   `id_jenjang_didik` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nama_jenjang_didik` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_jenjang_didik`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getjenjangpendidikan
@@ -236,10 +236,10 @@ INSERT INTO `ref_getjenjangpendidikan` VALUES ('99', 'Lainnya');
 -- ----------------------------
 DROP TABLE IF EXISTS `ref_getkebutuhankhusus`;
 CREATE TABLE `ref_getkebutuhankhusus`  (
-  `id_kebutuhan_khusus` int(5) NOT NULL,
+  `id_kebutuhan_khusus` int NOT NULL,
   `nama_kebutuhan_khusus` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_kebutuhan_khusus`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getkebutuhankhusus
@@ -271,7 +271,7 @@ CREATE TABLE `ref_getnegara`  (
   `id_negara` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_negara` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_negara`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getnegara
@@ -536,7 +536,7 @@ CREATE TABLE `ref_getpekerjaan`  (
   `id_pekerjaan` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_pekerjaan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_pekerjaan`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getpekerjaan
@@ -545,6 +545,11 @@ INSERT INTO `ref_getpekerjaan` VALUES ('1', 'Tidak bekerja');
 INSERT INTO `ref_getpekerjaan` VALUES ('10', 'Wirausaha');
 INSERT INTO `ref_getpekerjaan` VALUES ('11', 'Buruh');
 INSERT INTO `ref_getpekerjaan` VALUES ('12', 'Pensiunan');
+INSERT INTO `ref_getpekerjaan` VALUES ('13', 'Peneliti');
+INSERT INTO `ref_getpekerjaan` VALUES ('14', 'Tim Ahli / Konsultan');
+INSERT INTO `ref_getpekerjaan` VALUES ('15', 'Magang');
+INSERT INTO `ref_getpekerjaan` VALUES ('16', 'Tenaga Pengajar / Instruktur / Fasiltator');
+INSERT INTO `ref_getpekerjaan` VALUES ('17', 'Pimpinan / Manajerial');
 INSERT INTO `ref_getpekerjaan` VALUES ('2', 'Nelayan');
 INSERT INTO `ref_getpekerjaan` VALUES ('3', 'Petani');
 INSERT INTO `ref_getpekerjaan` VALUES ('4', 'Peternak');
@@ -561,10 +566,10 @@ INSERT INTO `ref_getpekerjaan` VALUES ('99', 'Lainnya');
 -- ----------------------------
 DROP TABLE IF EXISTS `ref_getpembiayaan`;
 CREATE TABLE `ref_getpembiayaan`  (
-  `id_pembiayaan` int(11) NOT NULL,
+  `id_pembiayaan` int NOT NULL,
   `nama_pembiayaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_pembiayaan`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getpembiayaan
@@ -582,12 +587,12 @@ CREATE TABLE `ref_getpenghasilan`  (
   `id_penghasilan` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_penghasilan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_penghasilan`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getpenghasilan
 -- ----------------------------
-INSERT INTO `ref_getpenghasilan` VALUES ('0', ' -');
+INSERT INTO `ref_getpenghasilan` VALUES ('0', '');
 INSERT INTO `ref_getpenghasilan` VALUES ('11', 'Kurang dari Rp. 500,000');
 INSERT INTO `ref_getpenghasilan` VALUES ('12', 'Rp. 500,000 - Rp. 999,999');
 INSERT INTO `ref_getpenghasilan` VALUES ('13', 'Rp. 1,000,000 - Rp. 1,999,999');
@@ -607,7 +612,7 @@ CREATE TABLE `ref_getsemester`  (
   `semester` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `tanggal_mulai` date NULL DEFAULT NULL,
   `tanggal_selesai` date NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getsemester
@@ -747,7 +752,7 @@ CREATE TABLE `ref_getstatusmahasiswa`  (
   `id_status_mahasiswa` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `nama_status_mahasiswa` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_status_mahasiswa`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getstatusmahasiswa
@@ -766,7 +771,7 @@ CREATE TABLE `ref_getwilayah`  (
   `id_negara` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `nama_wilayah` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_wilayah`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ref_getwilayah
