@@ -51,9 +51,9 @@ class Kurikulum extends BaseController
 				echo "<td>{$val->nama_kurikulum}</td>";
 				echo "<td>{$val->nama_prodi} {$val->id_jenjang}</td>";
 				echo "<td>{$val->semester_mulai_berlaku}</td>";
-				echo "<td>{$val->jumlah_sks_lulus}</td>";
-				echo "<td>{$val->jumlah_sks_pilihan}</td>";
+				echo "<td>".($val->jumlah_sks_wajib+$val->jumlah_sks_pilihan)."</td>";
 				echo "<td>{$val->jumlah_sks_wajib}</td>";
+				echo "<td>{$val->jumlah_sks_pilihan}</td>";
 				if($val->id_kurikulum_ws == ""){
 					echo "<td><a href='#' name='imporkurikulum_{$val->id_kurikulum}' data-src='".base_url()."/impor/kurikulum/prosesimpor' id_kurikulum='{$val->id_kurikulum}'>Kirim ke Feeder</a></td>";
 				}else{
