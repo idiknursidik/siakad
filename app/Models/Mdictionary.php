@@ -98,6 +98,17 @@ class Mdictionary extends Model
 				"id_kebutuhan_khusus_ibu");	//				
 		return $data;	
 	}
+	public function InsertKurikulum()
+    {
+		$data=array("nama_kurikulum"=>"nama_kurikulum",
+					"id_prodi"=>"id_prodi_ws",
+					"id_semester"=>"id_semester",
+					"jumlah_sks_lulus"=>"jumlah_sks_lulus",
+					"jumlah_sks_wajib"=>"jumlah_sks_wajib",
+					"jumlah_sks_pilihan"=>"jumlah_sks_pilihan",
+					);
+		return $data;
+	}
 	
 	public function dictionaryFunction($function=false){
 		if(!$function){

@@ -7,24 +7,26 @@ class Msiakad_kurikulum extends Model
 	
 	
 	protected $siakad_kurikulum = 'siakad_kurikulum';
+	protected $siakad_prodi = 'siakad_prodi';
 	protected $feeder_kurikulum = 'feeder_kurikulum';
 	
     public function getdata($id_kurikulum=false,$id_kurikulum_ws=false,$kodept=false)
     {
 		$akses = explode(",",session()->akses);
-		$builder = $this->db->table($this->siakad_kurikulum);
-		$builder->select("*");
+		$builder = $this->db->table("{$this->siakad_kurikulum} a");
+		$builder->join("{$this->siakad_prodi} b","a.id_prodi_ws = b.id_prodi_ws");
+		$builder->select("a.*,b.*");
 		if($kodept){
-			$builder->where("kodept",$kodept);
+			$builder->where("a.kodept",$kodept);
 		}
 		if($id_kurikulum){
-			$builder->where("id_kurikulum",$id_kurikulum);
+			$builder->where("a.id_kurikulum",$id_kurikulum);
 		}
 		if($id_kurikulum_ws){
-			$builder->where("id_kurikulum_ws",$id_kurikulum_ws);
+			$builder->where("a.id_kurikulum_ws",$id_kurikulum_ws);
 		}
 		//akses only
-		$builder->whereIn("id_prodi",$akses);
+		$builder->whereIn("a.id_prodi",$akses);
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();
