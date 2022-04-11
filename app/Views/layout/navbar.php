@@ -533,15 +533,39 @@ if($dataakun){
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url();?>/feeder/dataprodi" class="nav-link">
+                <a href="<?php echo base_url();?>/impor/kurikulum" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Data Prodi</p>
+                  <p>Kurikulum</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/impor/kelas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kelas Kuliah</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/impor/krs" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>KRS</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/impor/dosenajar" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dosen Ajar</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/mailbox/read-mail.html" class="nav-link">
+                <a href="<?php echo base_url();?>/impor/nilai" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Read</p>
+                  <p>Nilai</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="<?php echo base_url();?>/impor/akm" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>AKM</p>
                 </a>
               </li>
             </ul>

@@ -35,15 +35,16 @@ $(function(){
 						toastr.error(ret.messages);
 					}else{
 						toastr.error('Data isian tidak valid');
+						$("div.invalid-feedback").remove();
+						$.each(ret.messages, function(key, value){
+							var element = $("input[name="+key+"],select[name="+key+"],textarea[name="+key+"]");
+								element.closest("input.form-control")
+								.removeClass('is-invalid')
+								.addClass(value.length > 0 ? 'is-invalid' : '').find('.invalid-feedback').remove();
+							element.after(value);
+						})
 					}
-					$("div.invalid-feedback").remove();
-					$.each(ret.messages, function(key, value){
-						var element = $("input[name="+key+"],select[name="+key+"],textarea[name="+key+"]");
-							element.closest("input.form-control")
-							.removeClass('is-invalid')
-							.addClass(value.length > 0 ? 'is-invalid' : '').find('.invalid-feedback').remove();
-						element.after(value);
-					})
+					
 				}
 			},
 			error:function(xhr,ajaxOptions,thrownError){
