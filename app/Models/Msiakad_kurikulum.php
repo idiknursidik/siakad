@@ -9,13 +9,15 @@ class Msiakad_kurikulum extends Model
 	protected $siakad_kurikulum = 'siakad_kurikulum';
 	protected $siakad_prodi = 'siakad_prodi';
 	protected $feeder_kurikulum = 'feeder_kurikulum';
-	
+	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
+
     public function getdata($id_kurikulum=false,$id_kurikulum_ws=false,$kodept=false)
     {
 		$akses = explode(",",session()->akses);
 		$builder = $this->db->table("{$this->siakad_kurikulum} a");
 		$builder->join("{$this->siakad_prodi} b","a.id_prodi_ws = b.id_prodi_ws");
-		$builder->select("a.*,b.*");
+		$builder->join("{$this->ref_getjenjangpendidikan} c","b.id_jenjang = c.id_jenjang_didik");
+		$builder->select("a.*,b.nama_prodi,c.nama_jenjang_didik");
 		if($kodept){
 			$builder->where("a.kodept",$kodept);
 		}

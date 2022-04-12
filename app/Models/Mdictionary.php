@@ -109,7 +109,18 @@ class Mdictionary extends Model
 					);
 		return $data;
 	}
-	
+	public function InsertPerkuliahanMahasiswa(){
+		$data=array("id_registrasi_mahasiswa"=>"id_registrasi_mahasiswa",
+					"id_semester"=>"id_semester",
+					"id_status_mahasiswa"=>"id_status_mahasiswa",
+					"ips"=>"ips",
+					"ipk"=>"ipk",
+					"sks_semester"=>"sks_semester",
+					"total_sks"=>"sks_total",
+					"biaya_kuliah_smt"=>"biaya_kuliah_smt"
+					);
+		return $data;
+	}
 	public function dictionaryFunction($function=false){
 		if(!$function){
 			$data = array("getdic","insertdic","updatedic","deletedic");

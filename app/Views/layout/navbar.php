@@ -533,7 +533,7 @@ if($dataakun){
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url();?>/impor/kurikulum" class="nav-link">
+                <a href="<?php echo base_url();?>/impor/kurikulum" class="nav-link <?php echo isset($mn_b_kurikulum)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kurikulum</p>
                 </a>
@@ -563,7 +563,7 @@ if($dataakun){
                 </a>
               </li>
 			  <li class="nav-item">
-                <a href="<?php echo base_url();?>/impor/akm" class="nav-link">
+                <a href="<?php echo base_url();?>/impor/akm" class="nav-link <?php echo isset($mn_b_akm)?'active':'';?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>AKM</p>
                 </a>

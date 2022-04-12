@@ -19,7 +19,7 @@ class Kurikulum extends BaseController
 	public function show()
 	{
 		$profile 	= $this->msiakad_setting->getdata(); 
-		$data 		= $this->msiakad_kurikulum->getdata();
+		$data 		= $this->msiakad_kurikulum->getdata(false,false,$profile->kodept);
 		?>
 		<script>
 		  $(function () {
@@ -49,7 +49,7 @@ class Kurikulum extends BaseController
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nama_kurikulum}</td>";
-				echo "<td>{$val->nama_prodi} {$val->id_jenjang}</td>";
+				echo "<td>{$val->nama_prodi} {$val->nama_jenjang_didik}</td>";
 				echo "<td>{$val->semester_mulai_berlaku}</td>";
 				echo "<td>".($val->jumlah_sks_wajib+$val->jumlah_sks_pilihan)."</td>";
 				echo "<td>{$val->jumlah_sks_wajib}</td>";
