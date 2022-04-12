@@ -80,41 +80,41 @@ class Akm extends BaseController
 		echo "<div class='row'>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Mahasiswa</label>";
-				echo "<input type='text' name='nama' class='form-control'>";
+				echo "<input type='text' name='nim' class='form-control'>";
 			echo "</div>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Semester</label>";
-				echo "<input type='text' name='semester' class='form-control'>";
+				echo "<input type='text' name='id_semester' class='form-control'>";
 			echo "</div>";
 		echo "</div>";
 		echo "<div class='row'>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Status Mahasiswa</label>";
-				echo "<input type='text' name='nama' class='form-control'>";
+				echo "<input type='text' name='id_status_mahasiswa' class='form-control'>";
 			echo "</div>";
 			echo "<div class='col-md-6'>";
 				echo "<label>IPS</label>";
-				echo "<input type='text' name='semester' class='form-control'>";
+				echo "<input type='text' name='ips' class='form-control'>";
 			echo "</div>";
 		echo "</div>";
 		echo "<div class='row'>";
 			echo "<div class='col-md-6'>";
 				echo "<label>IPK</label>";
-				echo "<input type='text' name='nama' class='form-control'>";
+				echo "<input type='text' name='ipk' class='form-control'>";
 			echo "</div>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Jumlah SKS Semester</label>";
-				echo "<input type='text' name='semester' class='form-control'>";
+				echo "<input type='text' name='sks_semester' class='form-control'>";
 			echo "</div>";
 		echo "</div>";
 		echo "<div class='row'>";
 			echo "<div class='col-md-6'>";
 				echo "<label>SKS Total</label>";
-				echo "<input type='text' name='nama' class='form-control'>";
+				echo "<input type='text' name='sks_total' class='form-control'>";
 			echo "</div>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Biaya Kuliah (semester)</label>";
-				echo "<input type='text' name='semester' class='form-control'>";
+				echo "<input type='text' name='biaya_kuliah_smt' class='form-control'>";
 			echo "</div>";
 		echo "</div>";
 		echo "<hr>";			
@@ -157,7 +157,7 @@ class Akm extends BaseController
 			}				
 			$query = $this->db->table($this->siakad_akm)->insert($datain));		
 			if($query){	
-				$ret['messages'] = "Data berhasil dimasuk";
+				$ret['messages'] = "Data berhasil dimasukan";
 				$ret['success'] = true;	
 			}else{
 				$ret['messages'] = "Data gagal dimasukan";
