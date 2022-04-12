@@ -87,13 +87,13 @@ class Akm extends BaseController
 		}
 		/*
 		$ok= json_decode('{
-        "id_registrasi_mahasiswa":"5ff62275-980a-4675-b2be-afb5eab4a6fb",
-        "id_semester":"20211",
-        "id_status_mahasiswa":"A",
+        "id_registrasi_mahasiswa":"75E2E249-D4E5-4843-AC58-462DFEACE163",
+        "id_semester":"20192",
+        "id_status_mahasiswa":"C",
         "ips":0.0,
         "ipk":0.0,
-        "sks_semester":2,
-        "total_sks":20,
+        "sks_semester":0,
+        "total_sks":108,
         "biaya_kuliah_smt":0
     }');
 		$cek= (array)$ok;
@@ -107,7 +107,7 @@ class Akm extends BaseController
 			$ret["messages"] = $insertdataws->error_desc;
 		}else{
 			//update mahasiswa di local
-			$dataup = array("id_registrasi_mahasiswa"=>$insertdataws->data->id_registrasi_mahasiswa);
+			$dataup = array("id_registrasi_mahasiswa_ws"=>$insertdataws->data->id_registrasi_mahasiswa);
 			$this->db->table('siakad_akm')->update($dataup, array('id_akm' => $id_akm));
 			$ret["success"] = true;
 			$ret["messages"] = "Data berhasil dimasukan.";

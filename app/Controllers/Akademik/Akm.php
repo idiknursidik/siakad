@@ -73,14 +73,51 @@ class Akm extends BaseController
 		echo "</table>";
 	}
 	public function tambah(){
-		echo "Tambah dari excel";
 		$profile 	= $this->msiakad_setting->getdata(); 		
 		
 		echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/nilai/create'>";
 		echo csrf_field(); 
-		
-		
-					
+		echo "<div class='row'>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Mahasiswa</label>";
+				echo "<input type='text' name='nama' class='form-control'>";
+			echo "</div>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Semester</label>";
+				echo "<input type='text' name='semester' class='form-control'>";
+			echo "</div>";
+		echo "</div>";
+		echo "<div class='row'>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Status Mahasiswa</label>";
+				echo "<input type='text' name='nama' class='form-control'>";
+			echo "</div>";
+			echo "<div class='col-md-6'>";
+				echo "<label>IPS</label>";
+				echo "<input type='text' name='semester' class='form-control'>";
+			echo "</div>";
+		echo "</div>";
+		echo "<div class='row'>";
+			echo "<div class='col-md-6'>";
+				echo "<label>IPK</label>";
+				echo "<input type='text' name='nama' class='form-control'>";
+			echo "</div>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Jumlah SKS Semester</label>";
+				echo "<input type='text' name='semester' class='form-control'>";
+			echo "</div>";
+		echo "</div>";
+		echo "<div class='row'>";
+			echo "<div class='col-md-6'>";
+				echo "<label>SKS Total</label>";
+				echo "<input type='text' name='nama' class='form-control'>";
+			echo "</div>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Biaya Kuliah (semester)</label>";
+				echo "<input type='text' name='semester' class='form-control'>";
+			echo "</div>";
+		echo "</div>";
+		echo "<hr>";			
 		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 		echo "</form>";
 	}
@@ -88,7 +125,44 @@ class Akm extends BaseController
 	public function create(){
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata(); 
-		
+		//cek dulu apakah sudah ada
+		$id_nilai = $this->request->getVar("id_nilai");
+				
+		$validation =  \Config\Services::validation();   
+		if (!$this->validate([
+			'id_status_mahasiswa' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Status mahasiswa huruf harus diisi.'
+				]
+			],
+			'nim' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Nim indeks harus diisi.'
+				]
+			]
+		]))
+		{			
+			foreach($validation->getErrors() as $key=>$value){
+				$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
+			}
+		}else{
+			
+			$datain=array();
+			foreach($this->request->getVar() as $key=>$val){
+				if(!in_array($key,array("csrf_test_name"))){
+					$datain[$key] =  $this->request->getVar($key);
+				}
+			}				
+			$query = $this->db->table($this->siakad_akm)->insert($datain));		
+			if($query){	
+				$ret['messages'] = "Data berhasil dimasuk";
+				$ret['success'] = true;	
+			}else{
+				$ret['messages'] = "Data gagal dimasukan";
+			}			
+		}	
 		echo json_encode($ret);
 	}
 	
