@@ -11,7 +11,7 @@
  Target Server Version : 100417
  File Encoding         : 65001
 
- Date: 09/04/2022 22:00:14
+ Date: 12/04/2022 14:30:25
 */
 
 SET NAMES utf8mb4;
@@ -757,10 +757,11 @@ CREATE TABLE `ref_getstatusmahasiswa`  (
 -- ----------------------------
 -- Records of ref_getstatusmahasiswa
 -- ----------------------------
-INSERT INTO `ref_getstatusmahasiswa` VALUES ('A', 'AKTIF                                   ');
-INSERT INTO `ref_getstatusmahasiswa` VALUES ('C', 'CUTI                                    ');
-INSERT INTO `ref_getstatusmahasiswa` VALUES ('G', 'SEDANG DOUBLE DEGREE                    ');
-INSERT INTO `ref_getstatusmahasiswa` VALUES ('N', 'NON-AKTIF                               ');
+INSERT INTO `ref_getstatusmahasiswa` VALUES ('A', 'Aktif');
+INSERT INTO `ref_getstatusmahasiswa` VALUES ('C', 'Cuti');
+INSERT INTO `ref_getstatusmahasiswa` VALUES ('G', 'Sedang Double Degree');
+INSERT INTO `ref_getstatusmahasiswa` VALUES ('M', 'Kampus Merdeka');
+INSERT INTO `ref_getstatusmahasiswa` VALUES ('N', 'Non-Aktif                           ');
 
 -- ----------------------------
 -- Table structure for ref_getwilayah
