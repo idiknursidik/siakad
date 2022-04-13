@@ -62,12 +62,8 @@ $(function(){
 					toastr.success(ret.messages);
 					$("#modalku").modal("hide");
 					$("#resultcontent").load("<?php echo base_url();?>/akademik/akm/listdata");
-				}else{
-					if(ret.error_feeder==true){
-						toastr.error(ret.messages);
-					}else{
-						toastr.error('Data isian tidak valid');
-					}
+				}else{					
+					toastr.error('Data isian tidak valid');					
 					$("div.invalid-feedback").remove();
 					$.each(ret.messages, function(key, value){
 						var element = $("input[name="+key+"],select[name="+key+"],textarea[name="+key+"]");
@@ -86,6 +82,39 @@ $(function(){
 			element.closest("input.form-control")
 			.removeClass('is-invalid').find('.invalid-feedback').remove();
 			element.after(value="");
+	})
+	//hapus data
+	$("body").on("click","a[name^='hapusdata_']",function(){
+		var id_akm = $(this).attr("id_akm");
+		var action = $(this).attr("href");
+		var dString = "id_akm="+id_akm;
+		var btnHtml = $(this).html();
+		$.ajax({
+			dataType:'json',
+			url:action,
+			data:dString,
+			beforeSend:function(){
+				$("a[name='hapusdata_"+id_akm+"']").prop("disabled",true);
+				$("a[name='hapusdata_"+id_akm+"']").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+			},
+			complete:function(){
+				$("a[name='hapusdata_"+id_akm+"']").prop("disabled",false);
+				$("a[name='hapusdata_"+id_akm+"']").html(btnHtml);	
+			},
+			success:function(ret){
+				if(ret.success == true){
+					toastr.success(ret.messages);	
+					$("#resultcontent").load("<?php echo base_url();?>/akademik/akm/listdata");
+
+				}else{
+					toastr.error(ret.messages);
+				}
+			},
+			error:function(xhr,ajaxOptions,thrownError){
+				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+			}
+		})
+		return false;
 	})
 })
 </script>

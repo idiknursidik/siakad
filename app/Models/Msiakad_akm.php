@@ -34,7 +34,7 @@ class Msiakad_akm extends Model
 		if($semester){
 			$builder->where("a.id_semester",$semester);
 		}
-		
+		$builder->orderBy("a.nim");
 		//akses only
 		$builder->whereIn("a.id_prodi",$akses);
 		$query = $builder->get();
