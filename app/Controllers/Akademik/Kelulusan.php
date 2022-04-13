@@ -59,8 +59,8 @@ class Kelulusan extends BaseController
 				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";				
 				echo "<td>{$val->jenis_keluar}</td>";
 				echo "<td>";
-					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/nilai/edit/{$val->id_keluar}' title='Edit data nilai'>edit</a>";
-					echo " - <a>hapus</a>";
+					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/kelulusan/edit/{$val->id_keluar}' title='Edit Status Keluar'>edit</a>";
+					echo " - <a href='".base_url()."/akademik/kelulusan/destroy' id_keluar='{$val->id_keluar}' name='hapusdata_{$val->id_keluar}'>hapus</a>";
 				echo "</td>";
 				echo "</tr>";
 			}
@@ -68,15 +68,68 @@ class Kelulusan extends BaseController
 		echo "</tbody>";
 		echo "</table>";
 	}
+	public function destroy(){
+		$ret=array("success"=>false,"messages"=>array());
+		$profile 	= $this->msiakad_setting->getdata(); 
+		$id_keluar = $this->request->getVar("id_keluar");
+		
+		$res =$this->db->table($this->siakad_lulusan)->delete(['id_keluar'=>$id_keluar]);
+		if($res){
+			$ret=array("success"=>true,"messages"=>"Data berhasil dihapus");
+		}else{
+			$ret['messages'] = "Data tidak dapat dihapus";
+		}
+		echo json_encode($ret);
+	}
 	public function tambah(){
-		$profile 	= $this->msiakad_setting->getdata(); 		
+		$profile 	= $this->msiakad_setting->getdata();
+		$GetJenisKeluar = $this->mreferensi->GetJenisKeluar();
 		if($this->request->isAJAX()){
 			echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kelulusan/create'>";
 			echo csrf_field(); 
-			echo "<table class='table table-striped'>";
-			echo "<tr><th width='30%'>Mahasiswa</th><td><input type='text' class='form-control' name='mahasiswa' ></td></tr>";
-			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
-			echo "</table>";
+			echo "<div class='row'>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Mahasiswa</label>";
+				echo "<input type='text' name='nim' class='form-control'>";
+				echo "</div>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Jenis Keluar</label>";
+				echo "<select name='id_jenis_keluar' class='form-control'>";
+				if($GetJenisKeluar){
+					foreach($GetJenisKeluar as $key=>$val){
+						echo "<option value='{$val->id_jenis_keluar}'";
+						if($this->request->getVar('id_jenis_keluar') == $val->id_jenis_keluar) echo " selected=selected";
+						echo ">{$val->jenis_keluar}</option>";
+					}
+				}
+				echo "</select>";
+				echo "</div>";
+			echo "</div>";
+			echo "<div class='row'>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Tanggal Keluar</label>";
+				echo "<input type='date' name='tanggal_keluar' class='form-control'>";
+				echo "</div>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Periode Keluar</label>";
+				echo "<input type='text' name='id_periode_keluar' class='form-control'>";
+				echo "</div>";
+			echo "</div>";			
+			echo "<div class='row'>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Nomor SK</label>";
+				echo "<input type='text' name='nomor_sk_yudisium' class='form-control'>";
+				echo "</div>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Tanggal SK</label>";
+				echo "<input type='date' name='tanggal_sk_yudisium' class='form-control'>";
+				echo "</div>";
+			echo "</div>";			
+			echo "<div >";
+				echo "<label>IPK</label>";
+				echo "<input type='text' name='ipk' class='form-control'>";
+			echo "</div>";
+			echo "<br>";
 			echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
 			echo "</form>";
 		}
@@ -85,7 +138,49 @@ class Kelulusan extends BaseController
 	public function create(){
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata(); 
-		
+				
+		$validation =  \Config\Services::validation();   
+		if (!$this->validate([
+			'nim' => [
+				'rules' => 'required|is_unique[siakad_lulusan.nim]',
+				'errors' => [
+					'required' => 'Nim harus diisi.',
+					'is_unique'=>'Data sudah ada',
+				]
+			],
+			'id_jenis_keluar' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Jenis keluar harus diisi.'
+				]
+			]
+		]))
+		{			
+			foreach($validation->getErrors() as $key=>$value){
+				$ret['messages'][$key]="<div class='invalid-feedback'>{$value}</div>";
+			}
+		}else{
+			$mahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept,false,$nim);
+			$datain=array();
+			foreach($this->request->getVar() as $key=>$val){
+				if(!in_array($key,array("csrf_test_name"))){
+					$datain[$key] =  $this->request->getVar($key);
+				}
+			}
+			$datain['kodept']=$profile->kodept;
+			$datain['kode_prodi']=$mahasiswa->kode_prodi;
+			$datain['id_prodi']=$mahasiswa->id_prodi;
+			$datain['date_created']=date('Y-m-d H:i:s');
+			
+			
+			$query = $this->db->table($this->siakad_lulusan)->insert($datain);		
+			if($query){	
+				$ret['messages'] = "Data berhasil dimasukan";
+				$ret['success'] = true;	
+			}else{
+				$ret['messages'] = "Data gagal dimasukan";
+			}			
+		}	
 		echo json_encode($ret);
 	}
 	
@@ -96,46 +191,76 @@ class Kelulusan extends BaseController
 		}
 		$data	= $this->msiakad_kelulusan->getdata($id_keluar,false,$profile->kodept);
 				
-		echo "<form method='post' id='form_ubah' action='".base_url()."/akademik/kelulusan/update'>";
-		echo "<input type='hidden' name='id_keluar' value='{$data->id_keluar}'";
-		echo csrf_field(); 
-		
-		echo "<div class='row'>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='nilai_huruf'>Nilai Huruf</label>";
-					echo "<input type='text' class='form-control' name='nilai_huruf' id='nilai_huruf' value='{$data->nilai_huruf}'>";
+		$GetJenisKeluar = $this->mreferensi->GetJenisKeluar();
+		if($this->request->isAJAX()){
+			echo "<form method='post' id='form_tambah' action='".base_url()."/akademik/kelulusan/update'>";
+			echo "<input type='hidden' name='id_keluar' value='{$id_keluar}'>";
+			echo csrf_field(); 
+			echo "<div class='row'>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Mahasiswa</label>";
+				echo "<input type='text' name='nim' value='{$data->nim}' readonly class='form-control'>";
+				echo "</div>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Jenis Keluar</label>";
+				echo "<select name='id_jenis_keluar' class='form-control'>";
+				if($GetJenisKeluar){
+					foreach($GetJenisKeluar as $key=>$val){
+						echo "<option value='{$val->id_jenis_keluar}'";
+						if($data->id_jenis_keluar == $val->id_jenis_keluar) echo " selected=selected";
+						echo ">{$val->jenis_keluar}</option>";
+					}
+				}
+				echo "</select>";
 				echo "</div>";
 			echo "</div>";
-			echo "<div class='col-sm-6'>";
-				echo "<div class='form-group'>";
-					echo "<label for='nilai_indeks'>Nilai Indeks </label>";
-					echo "<input type='text' class='form-control' name='nilai_indeks' id='nilai_indeks' value='{$data->nilai_indeks}'>";
+			echo "<div class='row'>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Tanggal Keluar</label>";
+				echo "<input type='date' name='tanggal_keluar' value='{$data->tanggal_keluar}' class='form-control'>";
 				echo "</div>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Periode Keluar</label>";
+				echo "<input type='text' name='id_periode_keluar' value='{$data->id_periode_keluar}' class='form-control'>";
+				echo "</div>";
+			echo "</div>";			
+			echo "<div class='row'>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Nomor SK</label>";
+				echo "<input type='text' name='nomor_sk_yudisium' value='{$data->nomor_sk_yudisium}' class='form-control'>";
+				echo "</div>";
+				echo "<div class='col-md-6'>";
+				echo "<label>Tanggal SK</label>";
+				echo "<input type='date' name='tanggal_sk_yudisium' value='{$data->tanggal_sk_yudisium}' class='form-control'>";
+				echo "</div>";
+			echo "</div>";			
+			echo "<div >";
+				echo "<label>IPK</label>";
+				echo "<input type='text' name='ipk' value='{$data->ipk}' class='form-control'>";
 			echo "</div>";
-		echo "</div>";
-			
-		echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
-		echo "</form>";
+			echo "<br>";
+			echo "<div><button type='submit' class='btn btn-success' style='float:right;'><i class='fas fa-save'></i> Simpan</button></div>";
+			echo "</form>";
+		}
 	}
 	public function update(){
 		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata(); 
 		//cek dulu apakah sudah ada
-		$id_nilai = $this->request->getVar("id_nilai");
+		$id_keluar = $this->request->getVar("id_keluar");
 				
 		$validation =  \Config\Services::validation();   
 		if (!$this->validate([
-			'nilai_huruf' => [
+			'nim' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => 'Nilai huruf harus diisi.'
+					'required' => 'Nim harus diisi.'
 				]
 			],
-			'nilai_indeks' => [
+			'id_jenis_keluar' => [
 				'rules' => 'required',
 				'errors' => [
-					'required' => 'Nilai indeks harus diisi.'
+					'required' => 'Jenis keluar harus diisi.'
 				]
 			]
 		]))
@@ -150,13 +275,14 @@ class Kelulusan extends BaseController
 				if(!in_array($key,array("csrf_test_name"))){
 					$datain[$key] =  $this->request->getVar($key);
 				}
-			}				
-			$query = $this->db->table($this->siakad_nilai)->update($datain,array("id_nilai"=>$id_nilai));		
+			}	
+			
+			$query = $this->db->table($this->siakad_lulusan)->update($datain,array("id_keluar"=>$id_keluar));		
 			if($query){	
-				$ret['messages'] = "Data berhasil diupdate";
+				$ret['messages'] = "Data berhasil dimasukan";
 				$ret['success'] = true;	
 			}else{
-				$ret['messages'] = "Data gagal diupdate";
+				$ret['messages'] = "Data gagal dimasukan";
 			}			
 		}	
 		echo json_encode($ret);

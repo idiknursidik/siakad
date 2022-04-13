@@ -87,6 +87,39 @@ $(function(){
 			.removeClass('is-invalid').find('.invalid-feedback').remove();
 			element.after(value="");
 	})
+	//hapus data
+	$("body").on("click","a[name^='hapusdata_']",function(){
+		var id_keluar = $(this).attr("id_keluar");
+		var action = $(this).attr("href");
+		var dString = "id_keluar="+id_keluar;
+		var btnHtml = $(this).html();
+		$.ajax({
+			dataType:'json',
+			url:action,
+			data:dString,
+			beforeSend:function(){
+				$("a[name='hapusdata_"+id_keluar+"']").prop("disabled",true);
+				$("a[name='hapusdata_"+id_keluar+"']").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+			},
+			complete:function(){
+				$("a[name='hapusdata_"+id_keluar+"']").prop("disabled",false);
+				$("a[name='hapusdata_"+id_keluar+"']").html(btnHtml);	
+			},
+			success:function(ret){
+				if(ret.success == true){
+					toastr.success(ret.messages);	
+					$("#resultcontent").load("<?php echo base_url();?>/akademik/kelulusan/listdata");
+
+				}else{
+					toastr.error(ret.messages);
+				}
+			},
+			error:function(xhr,ajaxOptions,thrownError){
+				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
+			}
+		})
+		return false;
+	})
 })
 </script>
 <?php
