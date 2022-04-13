@@ -56,9 +56,8 @@ class Kelulusan extends BaseController
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nim}</td>";
 				echo "<td>{$val->nama_mahasiswa}</td>";
-				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";
-				
-				echo "<td>{$val->id_jenis_keluar}</td>";
+				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";				
+				echo "<td>{$val->jenis_keluar}</td>";
 				echo "<td>";
 					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/nilai/edit/{$val->id_keluar}' title='Edit data nilai'>edit</a>";
 					echo " - <a>hapus</a>";
