@@ -862,5 +862,17 @@ class Kelas extends BaseController
 		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
 		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
 		echo "<hr>";
+		echo "<div class='row'>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Pilih Angkatan</label>";
+				echo "<select class='form-control' name='angkatan'>";
+				echo "</select>";
+			echo "</div>";
+			echo "<div class='col-md-6'>";
+				echo "<label>Prodi</label>";
+				echo "<select class='form-control' name='prodi'>";
+				echo "</select>";
+			echo "</div>";
+		echo "</div>";
 	}
 }
