@@ -857,22 +857,70 @@ class Kelas extends BaseController
 			echo "error ID kelas"; exit();
 		}
 		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
+		$dataprodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept,"A");
 		echo "Prodi : {$datakelas->nama_prodi} - {$datakelas->nama_jenjang_didik}<br>"; 
 		echo "Semester : {$datakelas->id_semester}<br>"; 
 		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
 		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
 		echo "<hr>";
+		echo "<form id='formperangkatan' action='".base_url()."/akademik/kelas/listpesertakolektif'>";
 		echo "<div class='row'>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Pilih Angkatan</label>";
 				echo "<select class='form-control' name='angkatan'>";
+				echo "<option value='null'>--pilih--</option>";
+				for($angkatan='1980';$angkatan<=date('Y');$angkatan++){
+					echo "<option value='{$angkatan}'";
+					if($this->request->getVar('angkatan') == $angkatan) echo " selected='selected'";
+					echo ">{$angkatan}</option>";
+				}
 				echo "</select>";
 			echo "</div>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Prodi</label>";
 				echo "<select class='form-control' name='prodi'>";
+				echo "<option value='null'>--pilih--</option>";
+				if($dataprodi){
+					foreach($dataprodi as $key=>$val){
+						echo "<option value='{$val->id_prodi}'";
+						if($this->request->getVar('prodi') == $val->id_prodi) echo " selected='selected'";
+						echo ">{$val->nama_prodi} [{$val->nama_jenjang_didik}]</option>";
+					}
+				}
 				echo "</select>";
 			echo "</div>";
 		echo "</div>";
+		echo "</form>";
+		echo "<br>";
+		echo "<div id='resultsperangkatan' class='container-fluid'>--</div>";
+	}
+	public function listpesertakolektif(){
+		$profile 	= $this->msiakad_setting->getdata(); 
+		$angkatan = $this->request->getVar('angkatan');
+		$prodi = $this->request->getVar('prodi');
+		if($angkatan != 'null' && $prodi != 'null'){
+			$data = $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept,false,false,$prodi,$angkatan);
+			echo "<table class='table'>";
+			echo "<thead><tr><th><input type='checkbox'></th><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th></tr></thead>";
+			echo "<tbody>";
+			if(!$data){
+				echo "<tr><td colspan='6'>tidak ada data</td></tr>";
+			}else{
+				$no=0;
+				foreach($data as $key=>$val){
+					$no++;
+					echo "<tr>";
+					echo "<td><input type='checkbox' name='id_mahasiswa'></td>";
+					echo "<td>{$no}</td>";
+					echo "<td>{$val->nim}</td>";
+					echo "<td>{$val->nama_mahasiswa}</td>";
+					echo "<td>{$val->nama_prodi} {$val->nama_jenjang_didik}</td>";
+					echo "<td>".substr($val->id_periode_masuk,0,4)."</td>";
+					echo "</tr>";
+				}
+			}
+			echo "</tbody>";
+			echo "</table>";
+		}
 	}
 }
