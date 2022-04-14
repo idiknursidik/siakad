@@ -863,7 +863,9 @@ class Kelas extends BaseController
 		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
 		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
 		echo "<hr>";
+		echo "<a href='".base_url()."/akademik/kelas/peserta/{$id_kelas}'>Kembali</a>";
 		echo "<form id='formperangkatan' action='".base_url()."/akademik/kelas/listpesertakolektif'>";
+		echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'>";
 		echo "<div class='row'>";
 			echo "<div class='col-md-6'>";
 				echo "<label>Pilih Angkatan</label>";
@@ -896,10 +898,12 @@ class Kelas extends BaseController
 	}
 	public function listpesertakolektif(){
 		$profile 	= $this->msiakad_setting->getdata(); 
+		$id_kelas = $this->request->getVar('id_kelas');
 		$angkatan = $this->request->getVar('angkatan');
 		$prodi = $this->request->getVar('prodi');
 		if($angkatan != 'null' && $prodi != 'null'){
-			echo "<div>Simpan | Kembali</div>";
+			echo "<form method='post' action=''>";
+			echo "<div><button type='submit' class='btn btn-primary'>Simpan</button></div><br>";
 			$data = $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept,false,false,$prodi,$angkatan);
 			echo "<table class='table'>";
 			echo "<thead><tr><th><input type='checkbox'></th><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th></tr></thead>";
@@ -922,6 +926,7 @@ class Kelas extends BaseController
 			}
 			echo "</tbody>";
 			echo "</table>";
+			echo "</form>";
 		}
 	}
 }
