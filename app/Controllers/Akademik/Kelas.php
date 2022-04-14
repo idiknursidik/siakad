@@ -899,6 +899,7 @@ class Kelas extends BaseController
 		$angkatan = $this->request->getVar('angkatan');
 		$prodi = $this->request->getVar('prodi');
 		if($angkatan != 'null' && $prodi != 'null'){
+			echo "<div>Simpan | Kembali</div>";
 			$data = $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept,false,false,$prodi,$angkatan);
 			echo "<table class='table'>";
 			echo "<thead><tr><th><input type='checkbox'></th><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th></tr></thead>";
