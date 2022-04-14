@@ -356,8 +356,8 @@ class Mahasiswa extends BaseController
 			echo "</select></td></tr>";
 			echo "<tr><th colspan='2'>Selain jenis pendaftaran peserta didik baru, Silakan lengkapi data berikut </th></tr>";
 			echo "<tr><th>Jumlah sks di akui</th><td><input type='text' class='form-control' name='sksdiakui' value='{$data->sks_diakui}'></td></tr>";
-			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='ptasal' value='{$data->nama_perguruan_tinggi}'></td></tr>";
-			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='prodiasal' value='{$data->nama_program_studi}'></td></tr>";
+			echo "<tr><th>Asal Perguruan Tinggi</th><td><input type='text' class='form-control' name='ptasal'></td></tr>";
+			echo "<tr><th>Asal Program Studi </th><td><input type='text' class='form-control' name='prodiasal'></td></tr>";
 			echo "</table>";
 			echo "<div class='float-right'> <button class='btn bg-maroon pull-right' type='submit' id='btnKirim_form_tambahpendidikan'>Simpan</button></div>";
 			echo "</form>";

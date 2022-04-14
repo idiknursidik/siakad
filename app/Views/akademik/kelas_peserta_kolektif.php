@@ -3,22 +3,14 @@ echo $this->extend('layout/template');
 echo $this->section('content');
 
 ?>
-<div class="row no-print">
-	<div class="col-12">
-	  <a href="#" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah Peserta" data-src="<?php echo base_url();?>/akademik/kelas/tambahpeserta/<?php echo $id_kelas;?>" class="btn btn-success float-right modalButton"><i class="far fa-credit-card"></i> Tambah Peserta</a>
-	  <a href="<?php echo base_url();?>/akademik/kelas/pesertakolektif/<?php echo $id_kelas;?>" class="btn btn-default float-right" style="margin-right: 5px;"><i class="fas fa-plus"></i> Tambah peserta kolektif</a>
-	  <a href="#modalku" data-toggle="modal" title="Tambah Dosen Mengajar" data-src="<?php echo base_url();?>/akademik/kelas/tambahdosen/<?php echo $id_kelas;?>" class="btn btn-info float-right modalButton" style="margin-right: 5px;"><i class="fas fa-plus"></i> Tambah Dosen Mengajar</a>
-	</div>
-</div>
-<br>
+
 <div class="card card-solid">
 	<div class="card-body" id="resultcontent">Loading data....</div>
 </div>
 <script>
 $(function(){
-	$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/listpeserta/<?php echo $id_kelas;?>");
-	$("body").on("submit","#form_tambah_peserta,#form_tambah_dosenmengajar",function(){
+	$("#resultcontent").load("<?php echo base_url();?>/akademik/kelas/formpeserta/<?php echo $id_kelas;?>");
+	$("body").on("submit","#form_tambah_peserta",function(){
 		var dString = $(this).serialize();
 		var action = $(this).attr("action");
 		$.ajax({

@@ -18,7 +18,7 @@ class Msiakad_kelas extends Model
     {
 		$akses = explode(",",session()->akses);
 		$builder = $this->db->table("{$this->siakad_kelas} a");
-		$builder->join("{$this->siakad_kurikulummatakuliah} b","a.id_matakuliah = b.id_matakuliah AND a.id_semester = b.id_semester AND a.id_prodi = b.id_prodi","left");
+		$builder->join("{$this->siakad_kurikulummatakuliah} b","a.id_kurikulummatakuliah = b.id_kurikulummatakuliah","left");
 		$builder->join("{$this->siakad_kurikulum} c","b.id_kurikulum = c.id_kurikulum","left");
 		$builder->join("{$this->siakad_matakuliah} d","a.id_matakuliah = d.id_matakuliah","left");
 		$builder->join("{$this->siakad_prodi} e","a.id_prodi = e.id_prodi","left");

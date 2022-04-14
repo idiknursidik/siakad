@@ -485,11 +485,13 @@ class Kelas extends BaseController
 				$kurikulummatakuliah = $this->msiakad_kurikulummatakuliah->getdata(false,false,false,$val->id_prodi,$val->id_matkul,$val->id_semester);
 				if($kurikulummatakuliah){
 					$datain['id_kurikulummatakuliah'] = $kurikulummatakuliah->id_kurikulummatakuliah;
+					
 				}
 				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
 				if($matakuliah){
 					$datain['id_matakuliah'] = $matakuliah->id_matakuliah;
 				}
+				
 				//cek data dulu
 				$cekdata = $this->msiakad_kelas->getdata(false,$val->id_kelas_kuliah,$val->id_semester,$profile->kodept);			 
 				if($cekdata){// jika data belum ada				
@@ -539,7 +541,7 @@ class Kelas extends BaseController
 		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
 		echo "Prodi : {$datakelas->nama_prodi} - {$datakelas->nama_jenjang_didik}<br>"; 
 		echo "Semester : {$datakelas->id_semester}<br>"; 
-		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah}<br>";
+		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
 		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
 		echo "<hr>";
 		echo "<h4 class='text-primary'>Dosen Penganjar</h4>";
@@ -622,7 +624,7 @@ class Kelas extends BaseController
 		})
 		</script>
 		<?php
-		$mahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,false,array(" "));
+		$mahasiswa = $this->msiakad_riwayatpendidikan->getdata();
 		echo "<form method='post' id='form_tambah_peserta' action='".base_url()."/akademik/kelas/prosestambahpeserta'>";
 		echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'";
 		echo csrf_field(); 
@@ -832,5 +834,33 @@ class Kelas extends BaseController
 		}else{
 			echo "Tidak diizinkan..!!!!";
 		}
+	}
+	public function pesertakolektif($id_kelas=false){
+		$profile 	= $this->msiakad_setting->getdata(); 
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		$data = [
+			'title' => 'Data Akademik',
+			'judul' => 'kelas',
+			'mn_akademik' => true,
+			'mn_akademik_perkuliahan' => true,
+			'mn_akademik_kelas'=>true,
+			'id_kelas'=>$id_kelas
+			
+		];
+		return view('akademik/kelas_peserta_kolektif',$data);
+	}
+	public function formpeserta($id_kelas=false){
+		$profile 	= $this->msiakad_setting->getdata(); 
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
+		echo "Prodi : {$datakelas->nama_prodi} - {$datakelas->nama_jenjang_didik}<br>"; 
+		echo "Semester : {$datakelas->id_semester}<br>"; 
+		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
+		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
+		echo "<hr>";
 	}
 }
