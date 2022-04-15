@@ -272,7 +272,7 @@ if($dataakun){
 				  <li class="nav-item">
                     <a href="<?php echo base_url();?>/akademik/nilai" class="nav-link <?php echo isset($mn_akademik_nilai)?'active':'';?>">
                       <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Nilai</p>
+                      <p>Nilai Perkuliahan</p>
                     </a>
                   </li>
 				  <li class="nav-item">

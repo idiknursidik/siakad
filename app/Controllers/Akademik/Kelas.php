@@ -9,6 +9,16 @@ class Kelas extends BaseController
 	protected $feeder_kelas = 'feeder_kelas';
 	protected $siakad_nilai = 'siakad_nilai';
 	protected $siakad_dosenmengajar = 'siakad_dosenmengajar';
+	
+	
+	
+	protected $siakad_riwayatpendidikan = 'siakad_riwayatpendidikan';
+	protected $siakad_mahasiswa = 'siakad_mahasiswa';
+	protected $feeder_riwayatpendidikan = 'feeder_riwayatpendidikan';
+	protected $ref_getjenispendaftaran = 'ref_getjenispendaftaran';
+	protected $siakad_prodi = 'siakad_prodi';
+	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
+	
 	public function __construct()
     {
         $this->msiakad_kelas = new Msiakad_kelas();
@@ -589,7 +599,7 @@ class Kelas extends BaseController
 				echo "<td>{$val->nim}</td>";
 				echo "<td>{$val->nama_mahasiswa}</td>";
 				echo "<td>{$prodi->nama_prodi} {$prodi->nama_jenjang_didik}</td>";
-				echo "<td>{$val->id_periode_masuk}</td>";
+				echo "<td>".substr($val->id_periode_masuk,0,4)."</td>";
 				echo "<td>";
 					echo "<a href='#' name='hapuspeserta' data-src='".base_url()."/akademik/kelas/hapuspeserta' id_nilai='{$val->id_nilai}'>hapus</a>";
 				echo "</td>";
@@ -902,20 +912,42 @@ class Kelas extends BaseController
 		$angkatan = $this->request->getVar('angkatan');
 		$prodi = $this->request->getVar('prodi');
 		if($angkatan != 'null' && $prodi != 'null'){
-			echo "<form method='post' action=''>";
-			echo "<div><button type='submit' class='btn btn-primary'>Simpan</button></div><br>";
-			$data = $this->msiakad_riwayatpendidikan->getdata(false,false,$profile->kodept,false,false,$prodi,$angkatan);
+			echo "<form method='post' id='form-prosespesertakolektif' action='".base_url()."/akademik/kelas/prosespesertakolektif'>";
+			echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'>";
+			echo "<input type='hidden' name='angkatan' value='{$angkatan}'>";
+			echo "<input type='hidden' name='prodi' value='{$prodi}'>";
+			echo "<div><button type='submit' id='btnSubmit' class='btn btn-primary'>Simpan</button></div><br>";
+			
+			$builder = $this->db->table("{$this->siakad_riwayatpendidikan} a");
+			$builder->join("{$this->siakad_mahasiswa} b","a.id_mahasiswa = b.id_mahasiswa");
+			$builder->join("{$this->ref_getjenispendaftaran} c","a.id_jenis_daftar = c.id_jenis_daftar");
+			$builder->join("{$this->siakad_prodi} d","a.id_prodi = d.id_prodi");
+			$builder->join("{$this->ref_getjenjangpendidikan} e","d.id_jenjang = e.id_jenjang_didik");
+			$builder->join("{$this->siakad_nilai} f","a.nim = f.nim AND f.id_kelas = '{$id_kelas}'","left");
+			
+			$builder->select("a.*,b.nama_mahasiswa,c.nama_jenis_daftar,d.nama_prodi,e.nama_jenjang_didik,f.nim as ceknim");
+			$builder->where("a.kodept",$profile->kodept);
+			$builder->where("SUBSTR(a.id_periode_masuk,1,4)",$angkatan);
+			$builder->where("a.id_prodi",$prodi);
+			$query = $builder->get();
+			
 			echo "<table class='table'>";
-			echo "<thead><tr><th><input type='checkbox'></th><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th></tr></thead>";
+			echo "<thead><tr><th><input type='checkbox' id='parent'></th><th>No</th><th>NIM</th><th>Nama</th><th>Prodi</th><th>Angkatan</th></tr></thead>";
 			echo "<tbody>";
-			if(!$data){
+			if($query->getRowArray() == 0){
 				echo "<tr><td colspan='6'>tidak ada data</td></tr>";
 			}else{
 				$no=0;
-				foreach($data as $key=>$val){
+				foreach($query->getResult() as $key=>$val){
 					$no++;
 					echo "<tr>";
-					echo "<td><input type='checkbox' name='id_mahasiswa'></td>";
+					echo "<td>";
+						if($val->ceknim){
+							echo "<input type='checkbox' checked disabled>";
+						}else{
+						echo "<input type='checkbox' name='mahasiswa[][{$val->id_mahasiswa_ws}]' value='{$val->nim}' class='child'>";
+						}
+					echo "</td>";
 					echo "<td>{$no}</td>";
 					echo "<td>{$val->nim}</td>";
 					echo "<td>{$val->nama_mahasiswa}</td>";
@@ -927,6 +959,35 @@ class Kelas extends BaseController
 			echo "</tbody>";
 			echo "</table>";
 			echo "</form>";
+		}
+	}
+	public function prosespesertakolektif(){
+		$profile 	= $this->msiakad_setting->getdata(); 
+		$id_kelas = $this->request->getVar('id_kelas');
+		$angkatan = $this->request->getVar('angkatan');
+		$prodi = $this->request->getVar('prodi');
+		$mahasiswa = $this->request->getVar('mahasiswa');
+	
+		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
+		if(count($mahasiswa) > 0){
+			foreach($mahasiswa as $key=>$val){
+				foreach($val as $id_registrasi_mahasiswa=>$nim){
+				$datain = array("kodept"=>$profile->kodept,
+						"nim"=>$nim,
+						"kode_matakuliah"=>$datakelas->kode_mata_kuliah,
+						"semester"=>$datakelas->id_semester,
+						"kelas"=>$datakelas->nama_kelas_kuliah,
+						"id_kelas"=>$datakelas->id_kelas,
+						"kode_prodi"=>$datakelas->kode_prodi,
+						"id_prodi"=>$datakelas->id_prodi,
+						"id_kelas_ws"=>$datakelas->id_kelas_kuliah_ws,
+						"id_matkul_ws"=>$datakelas->id_matkul_ws,
+						"id_periode_ws"=>$datakelas->id_semester,
+						"id_registrasi_mahasiswa"=>$id_registrasi_mahasiswa,
+						"date_created"=>date("Y-m-d H:i:s"));
+				$this->db->table($this->siakad_nilai)->insert($datain);
+				}
+			}
 		}
 	}
 }
