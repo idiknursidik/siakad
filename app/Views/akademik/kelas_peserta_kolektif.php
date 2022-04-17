@@ -18,10 +18,10 @@ $(function(){
 			url:action,
 			data:dString,
 			beforeSend:function(){
-				$("#resultsperangkatan").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+				$("#resultsperangkatan").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...").show();			
 			},
 			success:function(ret){
-				$("#resultsperangkatan").html(ret);
+				$("#resultsperangkatan").html(ret).show();
 			},
 			error:function(xhr,ajaxOptions,thrownError){
 				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				
@@ -50,17 +50,23 @@ $(function(){
 				$("#btnSubmit").html("<i class='fas fa-save'></i> Simpan</button>");	
 			},
 			success:function(ret){
-				$.ajax({
-					type:'post',
-					url:action,
-					data:'id_kelas'+id_kelas+'&angkatan='+angkatan+'&prodi='+prodi,
-					beforeSend:function(){
-						$("#resultsperangkatan").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
-					},
-					success:function(ret){
-						$("#resultsperangkatan").html(ret);
-					}
-				})
+				if(ret.success == true){
+					toastr.success(ret.messages);
+					$.ajax({
+						type:'post',
+						url:"<?php echo base_url();?>/akademik/kelas/listpesertakolektif",
+						data:'id_kelas='+id_kelas+'&angkatan='+angkatan+'&prodi='+prodi,
+						beforeSend:function(){
+							$("#resultsperangkatan").html("<i class='fa fa-spin fa-spinner'></i> mohon tunggu...");			
+						},
+						success:function(ret){
+							$("#resultsperangkatan").html(ret);
+						}
+					})
+				}else{
+					toastr.error(ret.messages);
+				}
+				
 			},
 			error:function(xhr,ajaxOptions,thrownError){
 				alert(xhr.status+"\n"+xhr.responseText+"\n"+thrownError);				

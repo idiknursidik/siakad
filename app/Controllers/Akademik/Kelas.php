@@ -581,6 +581,7 @@ class Kelas extends BaseController
 		echo "</table>";
 		echo "<hr>";
 		$data = $this->msiakad_nilai->getdata(false,false,false,false,$id_kelas,$profile->kodept);
+		//print_r($data);
 		echo "<h4 class='text-primary'>Peserta kelas</h4>";
 		echo "<table class='table' id='datatable'>";
 		echo "<thead><tr><th>No</th><th>Nim</th><th>Nama</th><th>Jurusan</th><th>Angkatan</th><th width='10%'>Aksi</th></tr></thead>";
@@ -591,14 +592,14 @@ class Kelas extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata($val->id_prodi);				
-				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
+				//$prodi = $this->msiakad_prodi->getdata($val->id_prodi);				
+				//$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
 				
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td>{$val->nim}</td>";
 				echo "<td>{$val->nama_mahasiswa}</td>";
-				echo "<td>{$prodi->nama_prodi} {$prodi->nama_jenjang_didik}</td>";
+				echo "<td>{$val->nama_prodi} {$val->nama_jenjang_didik}</td>";
 				echo "<td>".substr($val->id_periode_masuk,0,4)."</td>";
 				echo "<td>";
 					echo "<a href='#' name='hapuspeserta' data-src='".base_url()."/akademik/kelas/hapuspeserta' id_nilai='{$val->id_nilai}'>hapus</a>";
@@ -872,8 +873,9 @@ class Kelas extends BaseController
 		echo "Semester : {$datakelas->id_semester}<br>"; 
 		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
 		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
+		
+		echo "<a href='".base_url()."/akademik/kelas/peserta/{$id_kelas}' class='btn btn-info float-right flex'>Kembali</a>";
 		echo "<hr>";
-		echo "<a href='".base_url()."/akademik/kelas/peserta/{$id_kelas}'>Kembali</a>";
 		echo "<form id='formperangkatan' action='".base_url()."/akademik/kelas/listpesertakolektif'>";
 		echo "<input type='hidden' name='id_kelas' value='{$id_kelas}'>";
 		echo "<div class='row'>";
@@ -904,7 +906,7 @@ class Kelas extends BaseController
 		echo "</div>";
 		echo "</form>";
 		echo "<br>";
-		echo "<div id='resultsperangkatan' class='container-fluid'>--</div>";
+		echo "<div id='resultsperangkatan' class='container-fluid' style='display:none'>loading...</div>";
 	}
 	public function listpesertakolektif(){
 		$profile 	= $this->msiakad_setting->getdata(); 
@@ -962,6 +964,7 @@ class Kelas extends BaseController
 		}
 	}
 	public function prosespesertakolektif(){
+		$ret=array("success"=>false,"messages"=>array());
 		$profile 	= $this->msiakad_setting->getdata(); 
 		$id_kelas = $this->request->getVar('id_kelas');
 		$angkatan = $this->request->getVar('angkatan');
@@ -969,25 +972,37 @@ class Kelas extends BaseController
 		$mahasiswa = $this->request->getVar('mahasiswa');
 	
 		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
-		if(count($mahasiswa) > 0){
-			foreach($mahasiswa as $key=>$val){
-				foreach($val as $id_registrasi_mahasiswa=>$nim){
-				$datain = array("kodept"=>$profile->kodept,
-						"nim"=>$nim,
-						"kode_matakuliah"=>$datakelas->kode_mata_kuliah,
-						"semester"=>$datakelas->id_semester,
-						"kelas"=>$datakelas->nama_kelas_kuliah,
-						"id_kelas"=>$datakelas->id_kelas,
-						"kode_prodi"=>$datakelas->kode_prodi,
-						"id_prodi"=>$datakelas->id_prodi,
-						"id_kelas_ws"=>$datakelas->id_kelas_kuliah_ws,
-						"id_matkul_ws"=>$datakelas->id_matkul_ws,
-						"id_periode_ws"=>$datakelas->id_semester,
-						"id_registrasi_mahasiswa"=>$id_registrasi_mahasiswa,
-						"date_created"=>date("Y-m-d H:i:s"));
-				$this->db->table($this->siakad_nilai)->insert($datain);
+		if($mahasiswa){
+			$jumin=0;
+			if(count($mahasiswa) > 0){
+				foreach($mahasiswa as $key=>$val){
+					foreach($val as $id_registrasi_mahasiswa=>$nim){
+					$datamahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,false,false,$nim);
+					$datain = array("kodept"=>$profile->kodept,
+							"nim"=>$nim,
+							"kode_matakuliah"=>$datakelas->kode_mata_kuliah,
+							"semester"=>$datakelas->id_semester,
+							"kelas"=>$datakelas->nama_kelas_kuliah,
+							"id_kelas"=>$datakelas->id_kelas,
+							"kode_prodi"=>$datakelas->kode_prodi,
+							"id_prodi"=>$datakelas->id_prodi,
+							"id_matkul"=>$datakelas->id_matakuliah,
+							"id_kelas_ws"=>$datakelas->id_kelas_kuliah_ws,
+							"id_matkul_ws"=>$datakelas->id_matkul_ws,
+							"id_periode_ws"=>$datakelas->id_semester,
+							"id_registrasi_mahasiswa"=>$id_registrasi_mahasiswa,
+							"id_riwayatpendidikan"=>$datamahasiswa->id_riwayatpendidikan,
+							"date_created"=>date("Y-m-d H:i:s"));
+						if($this->db->table($this->siakad_nilai)->insert($datain)){
+							$jumin++;
+						}
+					}
 				}
 			}
+			$ret=array("success"=>true,"messages"=>"{$jumin} data berhasil dimasukan.");
+		}else{
+			$ret=array("messages"=>"Tidak ada mahasiswa yang dipilih");
 		}
+		echo json_encode($ret);
 	}
 }

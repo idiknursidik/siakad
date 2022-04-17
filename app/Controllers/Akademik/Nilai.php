@@ -9,6 +9,9 @@ class Nilai extends BaseController
 {
 	protected $siakad_nilai = 'siakad_nilai';
 	protected $feeder_nilai = 'feeder_nilai';
+	protected $siakad_kelas = 'siakad_kelas';
+	protected $siakad_matakuliah = 'siakad_matakuliah';
+
 	protected $siakad_riwayatpendidikan = 'siakad_riwayatpendidikan';
 	protected $siakad_mahasiswa = 'siakad_mahasiswa';
 	public function __construct()
@@ -26,18 +29,17 @@ class Nilai extends BaseController
 			'mn_akademik_nilai'=>true
 			
 		];
-		return view('akademik/nilai',$data);
+		return view('akademik/nilai_kelas',$data);
 	}
 	public function listdataserverside(){
-		$datatables = new Datatables;
 		
+		$datatables = new Datatables;	
+		$datatables->table("{$this->siakad_kelas} a");		
+		$datatables->select("a.id_semester,a.nama_kelas_kuliah,b.kode_matakuliah,b.nama_matakuliah,b.sks_matakuliah,(SELECT COUNT(c.nim) FROM `siakad_nilai` c WHERE c.id_kelas = a.id_kelas GROUP BY c.id_kelas) as jumpeserta,(SELECT COUNT(d.nim) FROM `siakad_nilai` d WHERE (d.id_kelas = a.id_kelas AND BIT_LENGTH(d.nilai_huruf) > 0) GROUP BY d.id_kelas) as jumpesertanilai ");		
+		$datatables->join("{$this->siakad_matakuliah} b", 'a.id_matakuliah = b.id_matakuliah','LEFT JOIN');
 		
-		$datatables->table("{$this->siakad_nilai} a");
-		$datatables->select('a.id_nilai,a.semester,a.nilai_huruf,a.nilai_indeks,a.nim as nim_mahasiswa,a.kode_matakuliah,b.id_periode_masuk,c.nama_mahasiswa');
-		$datatables->join("{$this->siakad_riwayatpendidikan} b", 'a.nim = b.nim','LEFT JOIN');
-		$datatables->join("{$this->siakad_mahasiswa} c",'b.id_mahasiswa = c.id_mahasiswa','LEFT JOIN');
-
 		echo $datatables->draw();
+		exit();
 		// Automatically return json
 	}
 	public function showdataserverside(){
@@ -54,13 +56,14 @@ class Nilai extends BaseController
 			"dataType": "json",
 		    "type": "POST",
 		    "columns": [
-		          { "data": "id_nilai" },
-		          { "data": "semester" },
-		          { "data": "nim_mahasiswa" },
-		          { "data": "nama_mahasiswa" },
-				  { "data": "kode_matakuliah" },
-				  { "data": "nilai_huruf" },
-				  { "data": "nilai_indeks" },
+		          { "data": "id_semester" },
+		          { "data": "id_semester" },
+		          { "data": "kode_matakuliah" },
+		          { "data": "nama_matakuliah" },
+		          { "data": "nama_kelas_kuliah" },
+				  { "data": "sks_matakuliah" },
+				  { "data": "jumpeserta" },
+				  { "data": "jumpesertanilai" },
 		       ],
 			"order": [[ 1, "desc" ]]
 		});
@@ -74,7 +77,7 @@ class Nilai extends BaseController
 		} );
 		</script>
 	<table id="myTable" class="table table-striped table-bordered table-hover">
-      <thead><tr><th>No</th><th>Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Nama Matakuliah</th><th>Nilai Indeks</th><th>Nilai Huruf</th></tr></thead>
+      <thead><tr><th>No</th><th>Semester</th><th>Kode MK</th><th>Nama Matakuliah</th><th>Nama Kelas</th><th>Bobot MK(sks)</th><th>Peserta Kelas</th><th>Peserta Sudah dinilai</th></tr></thead>
       <tbody>
       </tbody>
     </table>
@@ -238,20 +241,16 @@ class Nilai extends BaseController
 		if(!$data_nilai_feeder){
 			$ret["messages"] = "Tidak ada data PDDIKTI";
 		}else{
-			$jum=0;
+			$jumin=0;$jumup=0;
 			foreach($data_nilai_feeder as $key=>$val){
-				//cek data dulu
-				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
-				//print_r($matakuliah->kode_matakuliah);
-				//exit();
+				
 				//cek data dulu
 				$arraywhere = ['nim' => $val->nim, 'id_matkul_ws' => $val->id_matkul, 'id_kelas_ws' => $val->id_kelas,'id_periode_ws'=>$val->id_periode];
 				$builder = $this->db->table($this->siakad_nilai);
 				$builder->where($arraywhere);				
 				$cekdata = $builder->countAllResults();
 				
-				if($cekdata == 0){// jika data belum ada
-					$datain = array("nim"=>$val->nim,
+				$datain = array("nim"=>$val->nim,
 									"kodept"=>$val->kode_perguruan_tinggi,									
 									"semester"=>$val->id_periode,
 									"kelas"=>$val->nama_kelas_kuliah,
@@ -263,35 +262,44 @@ class Nilai extends BaseController
 									"id_registrasi_mahasiswa"=>$val->id_registrasi_mahasiswa,
 									"date_created"=>date("Y-m-d H:i:s")
 									);
+				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul,false,$profile->kodept);
+				if($matakuliah){					
 					$datain["kode_matakuliah"]=$matakuliah->kode_matakuliah;
-					$kelas_kuliah = $this->msiakad_kelas->getdata(false,$val->id_kelas);
-					if($kelas_kuliah){
-						$datain["id_kelas"]=$kelas_kuliah->id_kelas;
-					}						
-					$mahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,$val->kode_perguruan_tinggi,false,$val->nim);
+					$datain["id_matkul"]=$matakuliah->id_matakuliah;
+				}
+				$kelas_kuliah = $this->msiakad_kelas->getdata(false,$val->id_kelas);
+				if($kelas_kuliah){
+					$datain["id_kelas"]=$kelas_kuliah->id_kelas;
+				}						
+				$mahasiswa = $this->msiakad_riwayatpendidikan->getdata(false,false,$val->kode_perguruan_tinggi,false,$val->nim);
+				
+				if($mahasiswa){
+					$datain["id_riwayatpendidikan"]=$mahasiswa->id_riwayatpendidikan;
 					
-					if($mahasiswa){
-						$datain["id_riwayatpendidikan"]=$mahasiswa->id_riwayatpendidikan;
-						
-						$prodi = $this->msiakad_prodi->getdata(false,$mahasiswa->id_prodi_ws,$profile->kodept,false);
-						if($prodi){				
-							$datain["kode_prodi"]=$prodi->kode_prodi;
-							$datain["id_prodi"]=$prodi->id_prodi;
-						}
-					}						
-					
-					
+					$prodi = $this->msiakad_prodi->getdata(false,$mahasiswa->id_prodi_ws,$profile->kodept,false);
+					if($prodi){				
+						$datain["kode_prodi"]=$prodi->kode_prodi;
+						$datain["id_prodi"]=$prodi->id_prodi;
+					}
+				}
+				
+				if($cekdata == 0){// jika data belum ada				
 					$query = $this->db->table($this->siakad_nilai)->insert($datain);
 					if($query){
-						$jum++;
+						$jumin++;
+					}
+				}else{
+					$query = $this->db->table($this->siakad_nilai)->where($arraywhere)->update($datain);
+					if($query){
+						$jumup++;
 					}
 				}
 			}
-			if($jum > 0){
-				$ret["messages"] = "{$jum} data berhasil dimasukan";
+			if(($jumin+$jumup) > 0){
+				$ret["messages"] = "{$jumin} data berhasil dimasukan, {$jumup} data berhasil diupdate";
 				$ret["success"] = true;
 			}else{
-				$ret["messages"] = "tidak ada data yang dimasukan";
+				$ret["messages"] = "tidak ada data yang dimasukan atau diupdate.";
 			}
 		}		
 		echo json_encode($ret);		

@@ -9,6 +9,9 @@ class Msiakad_nilai extends Model
 	protected $siakad_nilai = 'siakad_nilai';
 	protected $siakad_mahasiswa = 'siakad_mahasiswa';
 	protected $siakad_riwayatpendidikan = 'siakad_riwayatpendidikan';
+	protected $siakad_prodi = "siakad_prodi";
+	protected $ref_getjenjangpendidikan = 'ref_getjenjangpendidikan';
+	
 	protected $feeder_nilai = 'feeder_nilai';
 	
     public function getdata($id_nilai=false,$nim=false,$kode_matakuliah=false,$semester=false,$id_kelas=false,$kodept=false)
@@ -17,7 +20,9 @@ class Msiakad_nilai extends Model
 		$builder = $this->db->table("{$this->siakad_nilai} a");
 		$builder->join("{$this->siakad_riwayatpendidikan} b","a.nim = b.nim","left");
 		$builder->join("{$this->siakad_mahasiswa} c","b.id_mahasiswa = c.id_mahasiswa","left");
-		$builder->select("a.*,b.id_periode_masuk,c.nama_mahasiswa");
+		$builder->join("{$this->siakad_prodi} d","b.id_prodi = d.id_prodi","left");
+		$builder->join("{$this->ref_getjenjangpendidikan} e","d.id_jenjang = e.id_jenjang_didik","left");
+		$builder->select("a.*,b.id_periode_masuk,c.nama_mahasiswa,d.nama_prodi,e.nama_jenjang_didik");
 		if($kodept){
 			$builder->where("a.kodept",$kodept);
 		}
