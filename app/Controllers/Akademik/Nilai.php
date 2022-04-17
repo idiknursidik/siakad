@@ -35,11 +35,10 @@ class Nilai extends BaseController
 		
 		$datatables = new Datatables;	
 		$datatables->table("{$this->siakad_kelas} a");		
-		$datatables->select("a.id_semester,a.nama_kelas_kuliah,b.kode_matakuliah,b.nama_matakuliah,b.sks_matakuliah,(SELECT COUNT(c.nim) FROM `siakad_nilai` c WHERE c.id_kelas = a.id_kelas GROUP BY c.id_kelas) as jumpeserta,(SELECT COUNT(d.nim) FROM `siakad_nilai` d WHERE (d.id_kelas = a.id_kelas AND BIT_LENGTH(d.nilai_huruf) > 0) GROUP BY d.id_kelas) as jumpesertanilai ");		
+		$datatables->select("a.id_semester,a.id_kelas,a.nama_kelas_kuliah,b.kode_matakuliah,b.nama_matakuliah,b.sks_matakuliah,(SELECT COUNT(c.nim) FROM `siakad_nilai` c WHERE c.id_kelas = a.id_kelas GROUP BY c.id_kelas) as jumpeserta,(SELECT COUNT(d.nim) FROM `siakad_nilai` d WHERE (d.id_kelas = a.id_kelas AND BIT_LENGTH(d.nilai_huruf) > 0) GROUP BY d.id_kelas) as jumpesertanilai ");		
 		$datatables->join("{$this->siakad_matakuliah} b", 'a.id_matakuliah = b.id_matakuliah','LEFT JOIN');
 		
 		echo $datatables->draw();
-		exit();
 		// Automatically return json
 	}
 	public function showdataserverside(){
@@ -58,7 +57,10 @@ class Nilai extends BaseController
 		    "columns": [
 		          { "data": "id_semester" },
 		          { "data": "id_semester" },
-		          { "data": "kode_matakuliah" },
+		          { "data": "kode_matakuliah", "name": "kode_matakuliah",
+					fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+						$(nTd).html("<a href='<?php echo base_url();?>/akademik/nilai/peserta/"+oData.id_kelas+"'>"+oData.kode_matakuliah+"</a>");
+					}},
 		          { "data": "nama_matakuliah" },
 		          { "data": "nama_kelas_kuliah" },
 				  { "data": "sks_matakuliah" },
@@ -83,27 +85,70 @@ class Nilai extends BaseController
     </table>
 	<?php
 	}
-	public function listdata()
-	{
-		?>
-		<script>
-		  $(function () {
-			$('#datatable').DataTable({
-			  "paging": true,
-			  "lengthChange": true,
-			  "searching": true,
-			  "ordering": true,
-			  "info": true,
-			  "autoWidth": false,
-			  "responsive": true,
-			});
-		  });
-		</script>
-		<?php
+	public function peserta($id_kelas=false){
 		$profile 	= $this->msiakad_setting->getdata(); 
-		$data 		= $this->msiakad_nilai->getdata();
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		$data = [
+			'title' => 'Data Akademik',
+			'judul' => 'Nilai Perkuliahan',
+			'mn_akademik' => true,
+			'mn_akademik_perkuliahan' => true,
+			'mn_akademik_kelas'=>true,
+			'id_kelas'=>$id_kelas
+			
+		];
+		return view('akademik/nilai_peserta',$data);
+	}
+	public function listpeserta($id_kelas=false)
+	{
+		$profile 	= $this->msiakad_setting->getdata(); 
+		if(!$id_kelas){
+			echo "error ID kelas"; exit();
+		}
+		$datakelas = $this->msiakad_kelas->getdata($id_kelas);
+		echo "Prodi : {$datakelas->nama_prodi} - {$datakelas->nama_jenjang_didik}<br>"; 
+		echo "Semester : {$datakelas->id_semester}<br>"; 
+		echo "Matakuliah : {$datakelas->kode_mata_kuliah} - {$datakelas->nama_matakuliah} [$datakelas->nama_kurikulum]<br>";
+		echo "Kelas : {$datakelas->nama_kelas_kuliah}";
+		echo "<hr>";
+		echo "<h4 class='text-primary'>Dosen Penganjar</h4>";
+		$datapengajar = $this->msiakad_dosenmengajar->getdata(false,false,$profile->kodept,$id_kelas);
+		echo "<table class='table'>";
+		echo "<thead><tr><th>No</th><th>NIDN</th><th>Nama</th><th>Bobot (sks)</th><th>Rencana Pertemuan</th><th>Realisasi Pertemuan</th><th>Jenis Evaluasi</th></tr></thead>";
+		echo "<tbody>";
+		if(!$datapengajar){
+			echo "<tr><td colspan='7'>Belum ada dosen pengajar</td></tr>";
+		}else{
+			$no=0;
+			foreach($datapengajar as $key=>$val){
+				$no++;
+				echo "<tr>";
+				echo "<td>{$no}</td>";
+				echo "<td>{$val->nidn}</td>";
+				echo "<td>{$val->nama_dosen}</td>";
+				echo "<td>{$val->sks_substansi_total}</td>";
+				echo "<td>{$val->rencana_tatap_muka}</td>";
+				echo "<td>{$val->realisasi_tatap_muka}</td>";
+				echo "<td>{$val->id_jenis_evaluasi}</td>";
+				echo "</tr>";
+			}
+		}
+		echo "</tbody>";
+		echo "</table>";
+		echo "<hr>";
+		$data = $this->msiakad_nilai->getdata(false,false,false,false,$id_kelas,$profile->kodept);
+		//print_r($data);
+		echo "<h4 class='text-primary'>Peserta kelas</h4>";
+		echo "<form method='post' action=''>";
+		echo "<div class='float-right d-inline'>";
+		echo "<button type='submit' class='btn btn-primary'>Simpan</button>";
+		echo " <a class='btn btn-info' href='".base_url()."/akademik/nilai'>Daftar</a>";
+		echo "<br><span>Nilai Angka 0 - 100 [ Bobot Nilai ]</span>";
+		echo "</div>";
 		echo "<table class='table' id='datatable'>";
-		echo "<thead><tr><th>No</th><th>Semester</th><th>NIM</th><th>Kode MK</th><th>Nama MK</th><th>Nilai Huruf</th><th>Nilai Indeks</th><th>Aksi</th></tr></thead>";
+		echo "<thead><tr><th>No</th><th>Nim</th><th>Nama</th><th>Jurusan</th><th>Angkatan</th><th width='8%'>Angka</th><th width='8%'>Huruf</th></tr></thead>";
 		echo "<tbody>";
 		if(!$data){
 			echo "<tr><td colspan='7'>no data</td></tr>";
@@ -111,35 +156,23 @@ class Nilai extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi);
-				if($prodi){				
-					$jenjang = $this->mreferensi->GetJenjangPendidikan($prodi->id_jenjang);
-					if($jenjang){
-						$namaprodi = $prodi->nama_prodi."".$jenjang->nama_jenjang_didik;
-					}else{
-						$namaprodi = $prodi->nama_prodi;
-					}
-				}else{
-					$namaprodi = "-";
-				}
-				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
+				//$prodi = $this->msiakad_prodi->getdata($val->id_prodi);				
+				//$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
+				
 				echo "<tr>";
 				echo "<td>{$no}</td>";
-				echo "<td>{$val->semester}</td>";
 				echo "<td>{$val->nim}</td>";
-				echo "<td>{$val->kode_matakuliah}</td>";
-				echo "<td>{$matakuliah->nama_matakuliah}</td>";
-				echo "<td>{$val->nilai_huruf}</td>";
-				echo "<td>{$val->nilai_indeks}</td>";
-				echo "<td>";
-					echo "<a href='#modalku' data-toggle='modal' class='modalButton' data-src='".base_url()."/akademik/nilai/edit/{$val->id_nilai}' title='Edit data nilai'>edit</a>";
-					echo " - <a>hapus</a>";
-				echo "</td>";
+				echo "<td>{$val->nama_mahasiswa}</td>";
+				echo "<td>{$val->nama_prodi} {$val->nama_jenjang_didik}</td>";
+				echo "<td>".substr($val->id_periode_masuk,0,4)."</td>";
+				echo "<td><input type='text' class='form-control' name='angka' value='{$val->nilai_indeks}'></td>";
+				echo "<td><input type='text' class='form-control' name='huruf' value='{$val->nilai_huruf}'></td>";
 				echo "</tr>";
 			}
 		}
 		echo "</tbody>";
 		echo "</table>";
+		echo "</form>";
 	}
 	public function tambah(){
 		echo "Tambah dari excel";
