@@ -11,7 +11,7 @@
  Target Server Version : 100417
  File Encoding         : 65001
 
- Date: 13/04/2022 15:37:25
+ Date: 18/04/2022 09:09:29
 */
 
 SET NAMES utf8mb4;
@@ -193,7 +193,8 @@ CREATE TABLE `feeder_kelas`  (
   `kapasitas` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `tanggal_tutup_daftar` date NULL DEFAULT NULL,
   `prodi_penyelenggara` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `perguruan_tinggi_penyelenggara` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL
+  `perguruan_tinggi_penyelenggara` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `apa_untuk_pditt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -643,7 +644,7 @@ CREATE TABLE `siakad_dosenmengajar`  (
   `date_updated` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id_aktivitas_mengajar`) USING BTREE,
   UNIQUE INDEX `nkel`(`nidn`, `id_kelas_kuliah_ws`, `id_aktivitas_mengajar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1394 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1397 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for siakad_dosenwali
@@ -685,7 +686,7 @@ CREATE TABLE `siakad_kelas`  (
   `date_update` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id_kelas`) USING BTREE,
   UNIQUE INDEX `id_kelas_kuliah_ws`(`id_kelas_kuliah_ws`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8309 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9150 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for siakad_kurikulum
@@ -979,7 +980,7 @@ CREATE TABLE `siakad_nilai`  (
   `date_update` datetime NULL DEFAULT NULL,
   `date_created` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id_nilai`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24004 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 24033 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for siakad_perkuliahan
