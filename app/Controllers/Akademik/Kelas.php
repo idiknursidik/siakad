@@ -86,16 +86,14 @@ class Kelas extends BaseController
 			$no=0;
 			foreach($data as $key=>$val){
 				$no++;
-				$prodi = $this->msiakad_prodi->getdata($val->id_prodi,false,false,false);				
-				$matakuliah = $this->msiakad_matakuliah->getdata(false,$val->id_matkul_ws);
-				$pesertakuliah = $this->msiakad_nilai->getdata(false,false,false,false,$val->id_kelas);
+				$pesertakuliah = $this->msiakad_nilai->getdata(false,false,false,false,$val->id_kelas,$profile->kodept);
 				$jumlahpeserta = ($pesertakuliah)?count($pesertakuliah):0;
 				echo "<tr>";
 				echo "<td>{$no}</td>";
 				echo "<td><a href='".base_url()."/akademik/kelas/peserta/{$val->id_kelas}'>{$val->kode_mata_kuliah}</a></td>";
-				echo "<td>{$matakuliah->nama_matakuliah}</td>";
+				echo "<td>{$val->nama_matakuliah}</td>";
 				echo "<td>{$val->nama_kelas_kuliah}</td>";
-				echo "<td>{$prodi->nama_prodi}-{$prodi->nama_jenjang_didik}</td>";
+				echo "<td>{$val->nama_prodi}-{$val->nama_jenjang_didik}</td>";
 				echo "<td>{$val->id_semester}</td>";
 				echo "<td>{$jumlahpeserta}</td>";				
 				echo "<td>";
@@ -302,8 +300,7 @@ class Kelas extends BaseController
 		</script>
 		<?php
 		
-		$data	= $this->msiakad_kelas->getdata($id,false,false,$profile->kodept);
-		
+		$data	= $this->msiakad_kelas->getdata($id,false,false,$profile->kodept);		
 		$profile 	= $this->msiakad_setting->getdata(); 		
 		$jenjang_pendidikan = $this->mreferensi->GetJenjangPendidikan();		
 		$prodi = $this->msiakad_prodi->getdata(false,false,$profile->kodept);
@@ -327,7 +324,7 @@ class Kelas extends BaseController
 			if($kurikulummatakuliah){
 				foreach($kurikulummatakuliah as $key=>$val){
 					echo "<option value='{$val->id_kurikulummatakuliah}'";
-					if($data->id_kurikulummatakuliah == $val->id_kurikulummatakuliah) echo " selected='selected'";
+					if($data->id_matakuliah == $val->id_matakuliah) echo " selected='selected'";
 					echo ">{$val->kode_mata_kuliah}-{$val->nama_matakuliah} - Kurikulum: {$val->nama_kurikulum}</option>";
 				}
 			}
@@ -472,7 +469,7 @@ class Kelas extends BaseController
 			$jumupdate=0;
 			$juminsert=0;
 			foreach($data_kelas_feeder as $key=>$val){
-				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept,false);
+				$prodi = $this->msiakad_prodi->getdata(false,$val->id_prodi,$profile->kodept);
 				$kodeprodi	= ($prodi)?$prodi->kode_prodi:'';
 				$id_prodi	= ($prodi)?$prodi->id_prodi:'';
 					

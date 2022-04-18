@@ -45,7 +45,7 @@ class Msiakad_kurikulummatakuliah extends Model
 		$query = $builder->get();
 		if($query->getRowArray() > 0){
 			$data = $query->getResult();
-			if($id_kurikulummatakuliah || ($id_kurikulum_ws && $id_prodi_ws && $id_matkul_ws && $id_semester) || ($id_prodi_ws && $id_matkul_ws && $id_semester)){
+			if($id_kurikulummatakuliah || ($id_prodi_ws && $id_matkul_ws && $id_semester)){
 				$ret = $data[0]; 
 			}else{
 				$ret = $data;
